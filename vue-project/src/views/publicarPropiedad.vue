@@ -1,9 +1,7 @@
 <template>
   <header>
     <div class="logo-section">
-      <a @click="navigateTo('/principal')">
-        <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60">
-      </a>
+      <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60">
     </div>
     <nav>
       <ul>
@@ -15,6 +13,7 @@
   <div class="info-propiedad">
     <h2>Publica tu Propiedad</h2>
     <form @submit.prevent="registroProp">
+      <!-- Campos del formulario -->
       <div class="form-group">
         <label for="calle">Calle</label>
         <input type="text" id="calle" v-model="calle" placeholder="Ingrese la calle" required>
@@ -30,7 +29,7 @@
       <div class="form-group">
         <label for="tipo_publicacion">Tipo de Publicación</label>
         <select id="tipo_publicacion" v-model="tipo_publicacion" required>
-          <option value="" disabled selected>Seleccione el tipo</option>
+          <option value="" disabled>Seleccione el tipo</option>
           <option value="vender">Vender</option>
           <option value="arrendar">Arrendar</option>
         </select>
@@ -38,14 +37,14 @@
       <div class="form-group">
         <label for="tipo_propiedad">Tipo de Propiedad</label>
         <select id="tipo_propiedad" v-model="tipo_propiedad" required>
-          <option value="" disabled selected>Seleccione el tipo</option>
+          <option value="" disabled>Seleccione el tipo</option>
           <option value="casa">Casa</option>
           <option value="departamento">Departamento</option>
         </select>
       </div>
       <div class="form-group">
         <label for="tamano">Tamaño de la Vivienda (m²)</label>
-        <input type="number" id="tamano" v-model="tamano" placeholder="Ingrese el tamaño en m²" required>
+        <input type="number" id="tamano" v-model="tamano" placeholder="Ingrese el tamaño en m²" required min="1">
       </div>
       <div class="form-group">
         <label for="valor">Valor (UF)</label>
@@ -53,15 +52,15 @@
       </div>
       <div class="form-group">
         <label for="banos">Cantidad de Baños</label>
-        <input type="number" id="banos" v-model="banos" placeholder="Ingrese la cantidad de baños" required>
+        <input type="number" id="banos" v-model="banos" placeholder="Ingrese la cantidad de baños" required min="1">
       </div>
       <div class="form-group">
         <label for="dormitorios">Cantidad de Dormitorios</label>
-        <input type="number" id="dormitorios" v-model="dormitorios" placeholder="Ingrese la cantidad de dormitorios" required>
+        <input type="number" id="dormitorios" v-model="dormitorios" placeholder="Ingrese la cantidad de dormitorios" required min="1">
       </div>
       <div class="form-group">
         <label for="imagen">Imagen</label>
-        <input type="file" id="imagen" class="file-input" required>
+        <input type="file" id="imagen" class="file-input" @change="onImageSelected" required>
       </div>
       <div class="form-group">
         <label for="descripcion">Descripción</label>
@@ -101,32 +100,52 @@ export default {
     const telefono = ref('')
     const email = ref('')
     const message = ref('')
+    const imagen = ref(null)
     const router = useRouter()
 
-    const registroProp = async () => {
-      try {
-        const response = await axios.post('http://localhost:8080/api/propiedades', {
-          calle: calle.value,
-          comuna: comuna.value,
-          region: region.value,
-          tipo_publicacion: tipo_publicacion.value,
-          tipo_propiedad: tipo_propiedad.value,
-          tamano: tamano.value,
-          valor: valor.value,
-          banos: banos.value,
-          dormitorios: dormitorios.value,
-          descripcion: descripcion.value,
-          telefono: telefono.value,
-          email: email.value
-        })
-        if (response.data) {
-          message.value = 'Propiedad publicada con éxito.'
-          router.push('/principal')
-        }
-      } catch (error) {
-        message.value = 'Error al publicar la propiedad.'
-      }
+    const onImageSelected = (event) => {
+      imagen.value = event.target.files[0]
     }
+
+    const registroProp = async () => {
+  try {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      alert('Debes iniciar sesión para publicar una propiedad');
+      router.push('/login');
+      return;
+    }
+
+    const propertyData = {
+      calle: calle.value,
+      comuna: comuna.value,
+      region: region.value,
+      tipo_publicacion: tipo_publicacion.value,
+      tipo_propiedad: tipo_propiedad.value,
+      tamano: tamano.value,
+      valor: valor.value,
+      banos: banos.value,
+      dormitorios: dormitorios.value,
+      descripcion: descripcion.value,
+      telefono: telefono.value,
+      email: email.value,
+    };
+
+    const response = await axios.post(`http://localhost:8080/users/saveProperty/${userId}`, propertyData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.data) {
+      message.value = 'Propiedad publicada con éxito.';
+      router.push('/principal');
+    }
+  } catch (error) {
+    console.error('Error al publicar la propiedad:', error);
+    message.value = 'Error al publicar la propiedad. Por favor, inténtelo de nuevo.';
+  }
+};
 
     const navigateTo = (route) => {
       router.push(route)
@@ -146,11 +165,13 @@ export default {
       telefono,
       email,
       message,
+      imagen,
       registroProp,
-      navigateTo
+      navigateTo,
+      onImageSelected
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -182,7 +203,6 @@ nav ul li a {
   color: white;
   text-decoration: none;
   font-size: 18px;
-  padding: 10px 15px;
 }
 
 nav ul li a:hover {

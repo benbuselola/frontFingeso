@@ -2,7 +2,7 @@
   <div id="app">
     <header>
       <div class="logo-section">
-        <img src="../components/images/logo.jpeg" alt="Nombre de la pagina" height="60" @click="navigateTo('/principal')">
+        <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60" @click="navigateTo('/principal')">
       </div>
       <nav>
         <ul>
@@ -15,17 +15,17 @@
           <li>
             <a @click="navigateTo('/soporte')">Ayuda</a>
           </li>
-          <div class = "botonesPPL">
-          <li v-if="isAuthenticated">
-            <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
-          </li>
-          <li v-if="isAuthenticated">
-            <button class="profile-button" @click="navigateTo('/perfil')">Mi Perfil</button>
-          </li>
-          <li v-if="isAuthenticated">
-            <button class="logout-button" @click="logout">Cerrar sesión</button>
-          </li>
-        </div>
+          <div class="botonesPPL">
+            <li v-if="isAuthenticated">
+              <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
+            </li>
+            <li v-if="isAuthenticated">
+              <button class="profile-button" @click="navigateTo('/perfil')">Mi Perfil</button>
+            </li>
+            <li v-if="isAuthenticated">
+              <button class="logout-button" @click="logout">Cerrar sesión</button>
+            </li>
+          </div>
         </ul>
       </nav>
     </header>
@@ -46,7 +46,7 @@
     </main>
 
     <footer>
-      
+      <!-- Contenido del footer -->
     </footer>
   </div>
 </template>
@@ -113,6 +113,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* Estilos anteriores... */
+</style>
+
 
 <style scoped>
 
