@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="propiedades">
-          <Propiedad v-for="n in 4" :key="n"/>
+          <Propiedad v-for="propiedad in propiedades" :key="propiedad.id" :propiedad="propiedad"/>
         </div>
       </div>
     </main>
@@ -55,7 +55,9 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 import Propiedad from '../components/propiedad.vue';
 
 export default {
@@ -65,23 +67,33 @@ export default {
   },
   setup() {
     const router = useRouter();
-    const isAuthenticated = true; // Update based on actual auth logic
+    const isAuthenticated = true; // Actualiza esto basado en la lógica de autenticación real
+    const propiedades = ref([]);
+    const filtros = ['Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5', 'Filtro 6', 'Filtro 7'];
 
     const navigateTo = (route) => {
       router.push(route);
     };
 
-    const filtros = ['Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5', 'Filtro 6', 'Filtro 7'];
-
     const toggleFilter = (filtro) => {
-      // Add logic to handle filter toggling
+      // Añade la lógica para manejar el cambio de filtros
     };
+
+    onMounted(async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/users/propiedades');
+    propiedades.value = response.data;
+  } catch (error) {
+    console.error('Error fetching properties:', error.response ? error.response.data : error.message);
+  }
+});
 
     return {
       navigateTo,
       isAuthenticated,
       filtros,
-      toggleFilter
+      toggleFilter,
+      propiedades
     };
   }
 }
