@@ -1,19 +1,19 @@
 <template>
   <header>
     <div class="logo-section">
-      <a @click="navigateTo('/principal')">
+      <a @click="navegarA('/principal')">
         <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60">
       </a>
     </div>
     <nav>
       <ul>
-        <li><a @click="navigateTo('/principal')">Inicio</a></li>
-        <li><a @click="navigateTo('/soporte')">Ayuda</a></li>
+        <li><a @click="navegarA('/principal')">Inicio</a></li>
+        <li><a @click="navegarA('/soporte')">Ayuda</a></li>
       </ul>
     </nav>
   </header>
   <div class="login-container">
-    <form @submit.prevent="login">
+    <form @submit.prevent="iniciarSesion">
       <h2>Iniciar sesión</h2>
       <div>
         <label for="correo">Correo del usuario:</label>
@@ -24,14 +24,13 @@
         <input v-model="password" id="password" type="password" required>
       </div>
       <div class="botonesLogReg">
-      <button class="botonLog"type="submit">Ingresar</button>
-      <p v-if="message">{{ message }}</p>
-      <button class="botonReg" @click="goToRegister">Registrarse</button>
+        <button class="botonLog" type="submit">Ingresar</button>
+        <button class="botonReg" @click="irARegistro">Registrarse</button>
       </div>
+      <p v-if="mensaje">{{ mensaje }}</p>
     </form>
   </div>
 </template>
-
 
 <script>
 import { ref } from 'vue'
@@ -39,43 +38,43 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 
 export default {
-  setup() {
+  setup(props, { emit }) {
     const correo = ref('')
     const password = ref('')
-    const message = ref('')
+    const mensaje = ref('')
     const router = useRouter()
 
-    const goToRegister = () => {
+    const navegarA = (ruta) => {
+      router.push(ruta)
+    }
+
+    const irARegistro = () => {
       router.push('/registro')
     }
 
-    const navigateTo = (route) => {
-      router.push(route)
+    const iniciarSesion = async () => {
+  try {
+    const response = await axios.get(`http://localhost:8080/users/login/${encodeURIComponent(correo.value)}/${encodeURIComponent(password.value)}`)
+    if (response.data) {
+      mensaje.value = 'El usuario se encuentra registrado.'
+      router.push('/principal')
+    } else {
+      mensaje.value = 'Usuario no encontrado o credenciales incorrectas.'
     }
+  } catch (error) {
+    console.error('Error al verificar el usuario:', error)
+    mensaje.value = 'Error al intentar iniciar sesión. Por favor, intente de nuevo.'
+  }
+}
 
-    const login = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/buscar/${correo.value}/${password.value}`)
-        if (response.data) {
-          message.value = 'El usuario se encuentra registrado.'
-          // Redirigir al usuario a la página principal
-          router.push('/principal')
-        } else {
-          message.value = 'Usuario no encontrado o credenciales incorrectas.'
-        }
-      } catch (error) {
-        console.error('Error al verificar el usuario:', error)
-        message.value = 'Error al intentar iniciar sesión. Por favor, intente de nuevo.'
-      }
-    }
 
     return {
       correo,
       password,
-      message,
-      login,
-      goToRegister,
-      navigateTo
+      mensaje,
+      iniciarSesion,
+      irARegistro,
+      navegarA
     }
   }
 }

@@ -8,7 +8,6 @@
       <nav>
         <ul>
           <li><a @click="navigateTo('/principal')">Inicio</a></li>
-          <li><a @click="navigateTo('/soporte')">Ayuda</a></li>
         </ul>
       </nav>
     </header>

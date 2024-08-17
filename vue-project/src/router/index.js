@@ -33,7 +33,7 @@ const routes = [
     name: 'registro',
     component: registro,
   },
-  {
+    {
     path: '/perfil',
     name: 'perfil',
     component: perfil,

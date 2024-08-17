@@ -83,7 +83,7 @@ export default {
         } else {
           const isValidRut = await axios.get(`http://localhost:8080/users/validateRut/${formData.value.rut}`)
           if (isValidRut.data) {
-            await axios.post('http://localhost:8080/users', formData.value)
+            await axios.post('http://localhost:8080/users/register', formData.value)
             message.value = 'Registro exitoso.'
             router.push('/principal')
           } else {
