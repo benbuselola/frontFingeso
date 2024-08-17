@@ -6,48 +6,56 @@
       </div>
       <nav>
         <ul>
-          <li><a @click="navigateTo('/registro')">Registrate</a></li>
-          <li><a @click="navigateTo('/login')">Ingresa</a></li>
-          <li><a @click="navigateTo('/soporte')">Ayuda</a></li>
-          <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
+          <li v-if="!isAuthenticated">
+            <a @click="navigateTo('/registro')">Regístrate</a>
+          </li>
+          <li v-if="!isAuthenticated">
+            <a @click="navigateTo('/login')">Ingresa</a>
+          </li>
+          <li>
+            <a @click="navigateTo('/soporte')">Ayuda</a>
+          </li>
+          <li v-if="isAuthenticated">
+            <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
+          </li>
+          <li v-if="isAuthenticated">
+            <button class="profile-button" @click="navigateTo('/perfil')">Mi Perfil</button>
+          </li>
         </ul>
       </nav>
     </header>
-    <router-view></router-view>
-    <div class="contenido">
-      <div class="filtros">
-        <h1>Lista de filtros</h1>
-        <p class="flitro" onclick="toggleFilter(this)">Filtro 1</p>
-        <p class="flitro" onclick="toggleFilter(this)">Filtro 2</p>
-        <p class="flitro" onclick="toggleFilter(this)">Filtro 3</p>
-        <p class="flitro" onclick="toggleFilter(this)">Filtro 4</p>
-        <p class="flitro" onclick="toggleFilter(this)">Filtro 5</p>
-        <p class="flitro" onclick="toggleFilter(this)">Filtro 6</p>
-        <p class="flitro" onclick="toggleFilter(this)">Filtro 7</p>
+    
+    <main>
+      <router-view></router-view>
+      <div class="contenido">
+        <div class="filtros">
+          <h2>Filtros</h2>
+          <div class="filtro" v-for="filtro in filtros" :key="filtro" @click="toggleFilter(filtro)">
+            {{ filtro }}
+          </div>
+        </div>
+        <div class="propiedades">
+          <Propiedad v-for="n in 4" :key="n"/>
+        </div>
       </div>
-      <div class="propiedades"> 
-        <Propiedad></Propiedad>
-        <Propiedad></Propiedad>
-        <Propiedad></Propiedad>
-        <Propiedad></Propiedad>
+    </main>
+
+    <footer>
+      <div class="info">
+        <div class="tituloinfo">Título</div>
+        <div class="links-container">
+          <a href="#" class="link link1">Link 1</a>
+          <a href="#" class="link link2">Link 2</a>
+          <a href="#" class="link link3">Link 3</a>
+        </div>
       </div>
-    </div>
+      <img class="imgfinal" src="../components/images/logo.jpeg" alt="Imagen universidad usach">
+    </footer>
   </div>
-  <footer>
-    <div class="info">
-      <div class="tituloinfo">Título</div>
-      <div class="links-container">
-        <a href="#" class="link link1">Link 1</a>
-        <a href="#" class="link link2">Link 2</a>
-        <a href="#" class="link link3">Link 3</a>
-      </div>
-    </div>    
-    <img class="imgfinal" src="../components/images/logo.jpeg" alt="Imagen universidad usach">
-  </footer>
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
 import Propiedad from '../components/propiedad.vue';
 
 export default {
@@ -56,31 +64,42 @@ export default {
     Propiedad
   },
   setup() {
-    const router = useRouter()
+    const router = useRouter();
+    const isAuthenticated = true; // Update based on actual auth logic
 
     const navigateTo = (route) => {
-      router.push(route)
-    }
+      router.push(route);
+    };
+
+    const filtros = ['Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5', 'Filtro 6', 'Filtro 7'];
+
+    const toggleFilter = (filtro) => {
+      // Add logic to handle filter toggling
+    };
 
     return {
-      navigateTo
-    }
+      navigateTo,
+      isAuthenticated,
+      filtros,
+      toggleFilter
+    };
   }
 }
-
 </script>
 
 <style scoped>
+/* Header Styles */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 15px;
+  padding: 15px 30px;
   background-color: #4CAF50;
   color: white;
 }
+
 header .logo-section img {
-  border-radius: 40px;
+  border-radius: 50px;
 }
 
 nav ul {
@@ -92,7 +111,7 @@ nav ul {
 }
 
 nav ul li {
-  margin-right: 20px;
+  margin-left: 20px;
 }
 
 nav ul li a {
@@ -104,135 +123,117 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
+
+nav ul li a, .publish-button, .profile-button {
+  color: white;
+  text-decoration: none;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.publish-button {
+  background-color: #3483fa;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.profile-button {
+  background-color: #007BFF;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+nav ul li a:hover, .publish-button:hover, .profile-button:hover {
+  text-decoration: underline;
+}
+
+/* Main Content Styles */
+main {
+  padding: 20px;
+}
+
 .contenido {
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-around;
   margin-top: 20px;
 }
+
 .filtros {
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 200px;
-    margin: 20px auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 200px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
 }
 
-.filtros h1 {
-    font-size: 18px;
-    margin-bottom: 10px;
+.filtros h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
-.filter {
-    padding: 5px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: background-color 0.3s, border 0.3s;
+.filtro {
+  padding: 5px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.3s, border 0.3s;
 }
 
-.filter:hover {
-    background-color: #f0f0f0;
+.filtro:hover {
+  background-color: #f0f0f0;
 }
 
-.filter.selected {
-    background-color: #d0e6f6;
-    border: 1px solid #007bff;
+.filtro.selected {
+  background-color: #d0e6f6;
+  border: 1px solid #007bff;
 }
 
 .propiedades {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
+  gap: 15px;
   margin: 20px 0;
 }
 
-.propiedades > * {
-  margin: 0 10px; 
-}
-
+/* Footer Styles */
 footer {
   display: flex;
-  justify-content: space-around;
-  background-color: gainsboro;
-}
-
-footer img {
-  height: 160px;
-  width: 120px;
-  place-self: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ccc;
 }
 
 .info {
   display: flex;
   flex-direction: column;
-  height: 200px; 
+  align-items: center;
 }
 
 .tituloinfo {
-  flex: 1 1 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  color: black;
-  font-weight: 300px;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
 .links-container {
-  flex: 1 1 100px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 20px;
+  gap: 10px;
 }
 
 .link {
-  display: flex;
-  justify-content: space-between;
   text-decoration: none;
-  font-weight: 500;
-  color: black;
-  font-size: 20px;
+  color: #007BFF;
+  font-size: 18px;
 }
 
-.logo-section {
-  display: flex;
-  align-items: center;
-}
-
-nav ul {
-  display: flex;
-  align-items: center;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-nav ul li {
-  font-size: 20px;
-  margin-right: 15px;
-  font-weight: bold;
-}
-
-nav ul li a {
-  text-decoration: none;
-  color: #333;
-  cursor: pointer;
-}
-
-nav ul li a:hover {
+.link:hover {
   text-decoration: underline;
 }
 
-.publish-button {
-  background-color: #3483fa;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.imgfinal{
+.imgfinal {
   border-radius: 10px;
   height: 100px;
   width: 200px;
