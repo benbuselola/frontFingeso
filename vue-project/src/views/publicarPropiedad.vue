@@ -1,7 +1,9 @@
 <template>
   <header>
     <div class="logo-section">
-      <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60">
+      <a @click="navigateTo('/principal')">
+        <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60">
+      </a>
     </div>
     <nav>
       <ul>
@@ -180,6 +182,7 @@ nav ul li a {
   color: white;
   text-decoration: none;
   font-size: 18px;
+  padding: 10px 15px;
 }
 
 nav ul li a:hover {

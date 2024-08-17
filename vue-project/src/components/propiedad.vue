@@ -3,9 +3,9 @@
       <a :href="'/propiedadPerfil/' + propiedad.id" target="_blank">
         <img class="imgprop" :src="propiedad.imagenUrl" alt="Imagen de la propiedad">
       </a>
-      <p>{{ propiedad.nombre }}</p>
-      <p>${{ propiedad.precio }}</p>
-      <p>{{ propiedad.descripcion }}</p>
+      <p>{{ propiedad.tipo }}</p>
+      <p>${{ propiedad.value }}</p>
+      <p>{{ propiedad.description }}</p>
     </div>
   </template>
   

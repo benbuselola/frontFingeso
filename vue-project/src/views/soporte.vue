@@ -106,6 +106,7 @@ nav ul li a {
   color: white;
   text-decoration: none;
   font-size: 18px;
+  padding: 10px 15px;
 }
 
 nav ul li a:hover {

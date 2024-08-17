@@ -15,6 +15,7 @@
           <li>
             <a @click="navigateTo('/soporte')">Ayuda</a>
           </li>
+          <div class = "botonesPPL">
           <li v-if="isAuthenticated">
             <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
           </li>
@@ -24,6 +25,7 @@
           <li v-if="isAuthenticated">
             <button class="logout-button" @click="logout">Cerrar sesión</button>
           </li>
+        </div>
         </ul>
       </nav>
     </header>
@@ -44,7 +46,7 @@
     </main>
 
     <footer>
-      <!-- Footer content remains the same -->
+      
     </footer>
   </div>
 </template>
@@ -113,12 +115,12 @@ export default {
 </script>
 
 <style scoped>
-/* Header Styles */
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
+  padding: 5px 15px;
   background-color: #4CAF50;
   color: white;
 }
@@ -154,14 +156,17 @@ nav ul li a, .publish-button, .profile-button {
   text-decoration: none;
   background: none;
   border: none;
+  padding: 10px 15px;
   font-size: 18px;
   cursor: pointer;
+  
 }
 
 .publish-button {
   background-color: #3483fa;
   padding: 10px 15px;
   border-radius: 5px;
+  
 }
 
 .profile-button {
@@ -274,5 +279,11 @@ footer {
 
 .logout-button:hover {
   background-color: #c82333;
+}
+.botonesPPL {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
 }
 </style>
