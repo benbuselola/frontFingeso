@@ -14,8 +14,9 @@
     <h2>Publica tu Propiedad</h2>
     <form @submit.prevent="registroProp">
       <div class="form-group">
-        <label for="comunas">Comunas</label>
-        <ComunasSelector v-model="comunas" required/>
+        <label for="comuna">Comuna</label>
+        <!-- Componente de selector de comunas -->
+        <ComunasSelector v-model="comuna" required />
       </div>
       <div class="form-group">
         <label for="region">Región</label>
@@ -75,29 +76,30 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import ComunasSelector from '../components/comunas.vue'
+import axios from 'axios';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import ComunasSelector from '../components/comunas.vue';
 
 export default {
   components: {
-    ComunasSelector
+    ComunasSelector,
   },
   setup() {
-    const comunas = ref([])
-    const region = ref('')
-    const tipo_publicacion = ref('')
-    const tipo_propiedad = ref('')
-    const tamano = ref('')
-    const valor = ref('')
-    const banos = ref('')
-    const dormitorios = ref('')
-    const descripcion = ref('')
-    const telefono = ref('')
-    const email = ref('')
-    const message = ref('')
-    const router = useRouter()
+    // Variables de estado con valores iniciales
+    const comuna = ref(''); // Comuna es tipo string
+    const region = ref('');
+    const tipo_publicacion = ref('');
+    const tipo_propiedad = ref('');
+    const tamano = ref('');
+    const valor = ref('');
+    const banos = ref('');
+    const dormitorios = ref('');
+    const descripcion = ref('');
+    const telefono = ref('');
+    const email = ref('');
+    const message = ref('');
+    const router = useRouter();
 
     const registroProp = async () => {
       try {
@@ -108,8 +110,9 @@ export default {
           return;
         }
 
+        // Creación del objeto con los datos de la propiedad
         const propertyData = {
-          comunas: comunas.value,
+          comuna: comuna.value,
           region: region.value,
           tipo_publicacion: tipo_publicacion.value,
           tipo_propiedad: tipo_propiedad.value,
@@ -122,11 +125,8 @@ export default {
           email: email.value,
         };
 
-        const response = await axios.post(`http://localhost:8080/users/saveProperty/${userId}`, propertyData, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        // Envío de los datos al servidor
+        const response = await axios.post(`http://localhost:8080/users/saveProperty/${userId}`, propertyData);
 
         if (response.data) {
           message.value = 'Propiedad publicada con éxito.';
@@ -139,11 +139,11 @@ export default {
     };
 
     const navigateTo = (route) => {
-      router.push(route)
-    }
+      router.push(route);
+    };
 
     return {
-      comunas,
+      comuna,
       region,
       tipo_publicacion,
       tipo_propiedad,
@@ -156,11 +156,14 @@ export default {
       email,
       message,
       registroProp,
-      navigateTo
-    }
-  }
-}
+      navigateTo,
+    };
+  },
+};
 </script>
+
+
+
 
 <style scoped>
 header {

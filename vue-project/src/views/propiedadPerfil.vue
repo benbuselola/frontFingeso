@@ -1,63 +1,60 @@
 <template>
-  <header class="header">
-    <div class="logo-section">
+  <div>
+    <header class="header">
+      <div class="logo-section">
         <img src="../components/images/image.png" alt="Nombre de la página" height="60">
-    </div>
-    <nav class="nav">
-      <ul class="nav-list">
-        <li><router-link to="/principal" class="nav-link">Inicio</router-link></li>
-        <li><router-link to="/soporte" class="nav-link">Ayuda</router-link></li>
-        <li><button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button></li>
-      </ul>
-    </nav>
-  </header>
+      </div>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><router-link to="/principal" class="nav-link">Inicio</router-link></li>
+          <li><router-link to="/soporte" class="nav-link">Ayuda</router-link></li>
+          <li><button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button></li>
+        </ul>
+      </nav>
+    </header>
 
-  <div class="user-info" v-if="property">
-    <div class="user-photo"> 
-      <img :src="imagen" alt="Imagen de perfil" class="user-image">
+    <div class="user-info" v-if="property">
+      <div class="user-photo">
+        <img :src="imagen" alt="Imagen de propiedad" class="user-image">
+      </div>
+      <div class="user-details">
+        <div class="comunaProp">
+          <p>Comuna: </p>
+          <h1>{{ property.comuna }}</h1>
+        </div>
+        <div class="tipoProp">
+          <p>Tipo de propiedad: </p>
+          <h1>{{ property.tipo_propiedad }}</h1>
+        </div>
+        <div class="m2Prop">
+          <p>Metros cuadrados: </p>
+          <h1>{{ property.tamano }} M²</h1>
+        </div>
+        <div class="dormProp">
+          <p>Dormitorios: </p>
+          <h1>{{ property.dormitorios }} Dormitorios</h1>
+        </div>
+        <div class="banioProp">
+          <p>Baños: </p>
+          <h1>{{ property.banos }} Baños</h1>
+        </div>
+        <div class="precioProp">
+          <p>Precio: </p>
+          <h1>{{ property.valor }} UF</h1>
+        </div>
+        <div class="descipProp">
+          <p>Descripción: </p>
+          <h1>{{ property.descripcion }}</h1>
+        </div>
+        <a :href="'mailto:' + property.email">
+          <button class="contact-seller-button">Contactar vendedor!</button>
+        </a>
+      </div>
     </div>
-    <div class="user-details">
-      <div class="nombreProp">
-        <p>Nombre: </p>
-        <h1>{{ property.nombre }}</h1>
-      </div>
-      <div class="direcProp">
-        <p>Dirección: </p>
-        <h1>{{ property.direccion }}</h1>
-      </div>
-      <div class="comunaProp">
-        <p>Comuna: </p>
-        <h1>{{ property.comuna }}</h1>
-      </div>
-      <div class="tipoProp">
-        <p>Tipo de propiedad: </p>
-        <h1>{{ property.tipo_propiedad }}</h1>
-      </div>
-      <div class="m2Prop">
-        <p>Metros cuadrados: </p>
-        <h1>{{ property.metros_cuadrados }} M²</h1>
-      </div>
-      <div class="dormProp">
-        <p>Dormitorios: </p>
-        <h1>{{ property.dormitorios }} Dormitorios</h1>
-      </div>
-      <div class="banioProp">
-        <p>Baños: </p>
-        <h1>{{ property.banios }} Baños</h1>
-      </div>
-      <div class="precioProp">
-        <p>Precio: </p>
-        <h1>{{ property.precio }} UF</h1>
-      </div>
-      
-      <a :href="'mailto:' + property.email">
-        <button class="contact-seller-button">Contactar vendedor!</button>
-      </a>
-    </div>
-  </div>
 
-  <div class="property-list">
-    <!-- Aquí puedes mostrar otras propiedades relacionadas si lo deseas -->
+    <div class="property-list">
+      <!-- Aquí puedes mostrar otras propiedades relacionadas si lo deseas -->
+    </div>
   </div>
 </template>
 
@@ -70,12 +67,6 @@ import pordefectoDepartamento from "../components/images/departamento.jpeg";
 
 export default {
   name: 'Propiedad',
-  props: {
-    propiedad: {
-      type: Object,
-      required: true
-    }
-  },
   setup() {
     const router = useRouter();
     const property = ref(null);
@@ -86,20 +77,22 @@ export default {
     };
 
     const fetchPropertyData = async () => {
-      const propertyId = localStorage.getItem('propiedadId');
+      const propertyId = localStorage.getItem('selectedPropertyId');
       if (propertyId) {
         try {
+          // Aquí puedes usar también el ID del usuario si lo necesitas
+          // const userId = localStorage.getItem('userId');
+          // Realiza una llamada a la API con el ID de la propiedad
           const response = await axios.get(`http://localhost:8080/users/obtainProperties/${propertyId}`);
           property.value = response.data;
 
           // Asignar imagen predeterminada en función del tipo de propiedad
-          if(property.value.tipo_propiedad.toLowerCase() === 'casa') {
+          if (property.value.tipo_propiedad.toLowerCase() === 'casa') {
             imagen.value = pordefectoCasa;
-          } else if(property.value.tipo_propiedad.toLowerCase() === 'departamento') {
+          } else if (property.value.tipo_propiedad.toLowerCase() === 'departamento') {
             imagen.value = pordefectoDepartamento;
           } else {
-            // Imagen por defecto si el tipo no es reconocido
-            imagen.value = pordefectoCasa;
+            imagen.value = pordefectoCasa; // Imagen por defecto si el tipo no es reconocido
           }
         } catch (error) {
           console.error('Error fetching property data:', error);
@@ -114,13 +107,14 @@ export default {
     return {
       navigateTo,
       property,
-      imagen  // Retornar la variable imagen
+      imagen
     };
   }
 };
 </script>
 
 <style scoped>
+/* Estilos del componente */
 header {
   display: flex;
   justify-content: space-between;
@@ -135,7 +129,6 @@ header .logo-section img {
   height: 60px;
   border-radius: 10px;
 }
-
 
 nav ul {
   display: flex;
@@ -189,7 +182,7 @@ nav ul li a:hover {
   height: 300px;
   border-radius: 30px;
 }
-.nombreProp, .direcProp, .comunaProp, .tipoProp, .m2Prop, .dormProp, .banioProp, .precioProp {
+.nombreProp, .direcProp, .comunaProp, .tipoProp, .m2Prop, .dormProp, .banioProp, .precioProp,.descipProp {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -200,7 +193,7 @@ nav ul li a:hover {
   flex-direction: column;
   text-align: center;
 }
-p{
+p {
   font-size: 22px;
   margin: 10px 0;
   color: #555;

@@ -115,11 +115,6 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos anteriores... */
-</style>
-
-
-<style scoped>
 
 header {
   display: flex;
@@ -170,24 +165,18 @@ nav ul li a, .publish-button, .profile-button {
   
 }
 
-.publish-button {
+.publish-button,.profile-button {
   background-color: #3483fa;
   padding: 10px 15px;
   border-radius: 5px;
   
 }
 
-.profile-button {
-  background-color: #007BFF;
-  padding: 10px 15px;
-  border-radius: 5px;
-}
 
 nav ul li a:hover, .publish-button:hover, .profile-button:hover {
   text-decoration: underline;
 }
 
-/* Main Content Styles */
 main {
   padding: 20px;
 }
@@ -201,8 +190,9 @@ main {
 .filtros {
   border: 1px solid #ccc;
   padding: 10px;
-  width: 400px;
+  width: 500px;
   max-width: 600px;
+  max-height: 600px;
   background-color: #f9f9f9;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -237,13 +227,6 @@ main {
   margin: 20px 0;
 }
 
-footer {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: #f1f1f1;
-  border-top: 1px solid #ccc;
-}
 
 .info {
   display: flex;
@@ -270,12 +253,6 @@ footer {
 
 .link:hover {
   text-decoration: underline;
-}
-
-.imgfinal {
-  border-radius: 10px;
-  height: 100px;
-  width: 200px;
 }
 
 .logout-button {

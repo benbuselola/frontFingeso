@@ -1,27 +1,30 @@
 <template>
-    <div class="form-group">
-      <select id="comunas" v-model="selectedComuna">
+  <div class="form-group">
+    <label for="comunas">Comunas</label>
+    <select id="comunas" v-model="selectedComuna">
+      <option value="" disabled>Seleccione una comuna</option>
+      <slot>
         <option v-for="comuna in comunas" :key="comuna" :value="comuna">
           {{ comuna }}
         </option>
-      </select>
-    </div>
-  </template>
-  
-  <script>
-  import { ref, computed } from 'vue';
-  
-  export default {
-    name: 'ComunaSelector',
-    props: {
-      modelValue: {
-        type: String,
-        default: ''
-      }
+      </slot>
+    </select>
+  </div>
+</template>
+
+<script>
+import { ref, watch } from 'vue';
+
+export default {
+  name: 'ComunasSelector',
+  props: {
+    modelValue: {
+      type: String,
+      default: ''
     },
-    emits: ['update:modelValue'],
-    setup(props, { emit }) {
-      const comunas = [
+    comunasList: {
+      type: Array,
+      default: () => [
         "Colina", "Lampa", "Til Til", "Pirque", "Puente Alto", "San José de Maipo", 
         "Buin", "Calera de Tango", "Paine", "San Bernardo", "Alhué", "Curacaví", 
         "María Pinto", "Melipilla", "San Pedro", "Cerrillos", "Cerro Navia", 
@@ -32,37 +35,45 @@
         "Quilicura", "Quinta Normal", "Recoleta", "Renca", "San Miguel", "San Joaquín", 
         "San Ramón", "Santiago", "Vitacura", "El Monte", "Isla de Maipo", 
         "Padre Hurtado", "Peñaflor", "Talagante"
-      ];
-  
-      const selectedComuna = computed({
-        get: () => props.modelValue,
-        set: (value) => emit('update:modelValue', value)
-      });
-  
-      return {
-        comunas,
-        selectedComuna
-      };
+      ]
     }
+  },
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const selectedComuna = ref(props.modelValue);
+
+    watch(selectedComuna, (newValue) => {
+      emit('update:modelValue', newValue);
+    });
+
+    watch(() => props.modelValue, (newValue) => {
+      selectedComuna.value = newValue;
+    });
+
+    return {
+      comunas: props.comunasList,
+      selectedComuna
+    };
   }
-  </script>
-  
-  <style scoped>
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .form-group select {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-  }
-  </style>
+}
+</script>
+
+<style scoped>
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+}
+</style>

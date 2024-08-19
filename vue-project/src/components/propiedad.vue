@@ -1,8 +1,6 @@
 <template>
-  <div class="prop">
-    <router-link :to="`/propiedadPerfil`">
-      <img class="imgprop" :src="imagenPropiedad" alt="Imagen de la propiedad">
-    </router-link>
+  <div class="prop" @click="guardarIdYRedirigir">
+    <img class="imgprop" :src="imagenPropiedad" alt="Imagen de la propiedad">
     <p>{{ propiedad.tipo_propiedad }}</p>
     <p class="precio">{{ propiedad.valor + "(UF)" }}</p>
     <p>{{ propiedad.comuna }}</p>
@@ -12,6 +10,7 @@
 
 <script>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import pordefectoCasa from "../components/images/casa.jpeg";
 import pordefectoDepartamento from "../components/images/departamento.jpeg";
 
@@ -24,25 +23,33 @@ export default {
     }
   },
   setup(props) {
+    const router = useRouter();
+
     const imagenPropiedad = computed(() => {
       if (props.propiedad.tipo_propiedad.toLowerCase() === 'casa') {
         return pordefectoCasa;
       } else if (props.propiedad.tipo_propiedad.toLowerCase() === 'departamento') {
         return pordefectoDepartamento;
       } else {
-        // Imagen por defecto si el tipo no es reconocido
-        return pordefectoCasa;
+        return pordefectoCasa; // Imagen por defecto si el tipo no es reconocido
       }
     });
 
+    const guardarIdYRedirigir = () => {
+      localStorage.setItem('selectedPropertyId', props.propiedad.id);
+      router.push('/propiedadPerfil');
+    };
+
     return {
-      imagenPropiedad
+      imagenPropiedad,
+      guardarIdYRedirigir
     };
   }
 }
 </script>
 
 <style scoped>
+/* Estilos del componente */
 .prop {
   display: flex;
   flex-direction: column;
