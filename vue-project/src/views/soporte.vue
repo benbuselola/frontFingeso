@@ -2,7 +2,7 @@
     <header>
       <div class="logo-section">
         <a @click="navigateTo('/principal')">
-        <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60">
+        <img src="../components/images/image.png" alt="Nombre de la página" height="60">
       </a>
       </div>
       <nav>
@@ -29,7 +29,7 @@
           <label for="descripcion">Descripción</label>
           <textarea id="descripcion" v-model="descripcion" placeholder="Describa la solicitud" required></textarea>
         </div>
-        <button type="submit" class="submit-button">Enviar</button>
+        <button @click="navigateTo('/principal')" type="submit" class="submit-button">Enviar Solicitud</button>
         <p v-if="message" class="message">{{ message }}</p>
       </form>
     </div>
@@ -87,8 +87,12 @@ header {
   color: white;
 }
 header .logo-section img {
-  border-radius: 40px;
+  cursor: pointer;
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
 }
+
 
 nav ul {
   display: flex;

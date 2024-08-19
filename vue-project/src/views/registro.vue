@@ -2,7 +2,7 @@
   <header>
     <div class="logo-section">
       <a @click="navigateTo('/principal')">
-        <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60">
+        <img src="../components/images/image.png" alt="Nombre de la página" height="60">
       </a>
     </div>
     <nav>
@@ -117,8 +117,12 @@ header {
   color: white;
 }
 header .logo-section img {
-  border-radius: 40px;
+  cursor: pointer;
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
 }
+
 
 nav ul {
   display: flex;

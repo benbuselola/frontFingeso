@@ -1,12 +1,11 @@
 <template>
   <header class="header">
     <div class="logo-section">
-      <a @click="navigateTo('/principal')">
-        <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60">
-      </a>
+        <img src="../components/images/image.png" alt="Nombre de la página" height="60">
     </div>
     <nav class="nav">
       <ul class="nav-list">
+        <li><a @click="navigateTo('/principal')" class="nav-link">Inicio</a></li>
         <li><a @click="navigateTo('/soporte')" class="nav-link">Ayuda</a></li>
         <li><button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button></li>
       </ul>
@@ -33,7 +32,7 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
 import Propiedad from '../components/propiedad.vue';
 
 export default {
@@ -42,17 +41,18 @@ export default {
     Propiedad
   },
   setup() {
-    const router = useRouter()
+    const router = useRouter();
 
     const navigateTo = (route) => {
-      router.push(route)
-    }
-
+      router.push(route);
+    };
+    
     return {
-      navigateTo
-    }
+      navigateTo,
+    };
   }
 }
+
 </script>
 
 <style scoped>
@@ -66,8 +66,12 @@ header {
 }
 
 header .logo-section img {
-  border-radius: 50px;
+  cursor: pointer;
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
 }
+
 
 nav ul {
   display: flex;

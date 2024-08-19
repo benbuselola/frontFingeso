@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="logo-section">
-      <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60">
+      <img src="../components/images/image.png" alt="Nombre de la página" height="60">
     </div>
     <nav>
       <ul>
@@ -13,18 +13,16 @@
   <div class="info-propiedad">
     <h2>Publica tu Propiedad</h2>
     <form @submit.prevent="registroProp">
-      <!-- Campos del formulario -->
       <div class="form-group">
-        <label for="calle">Calle</label>
-        <input type="text" id="calle" v-model="calle" placeholder="Ingrese la calle" required>
-      </div>
-      <div class="form-group">
-        <label for="comuna">Comuna</label>
-        <input type="text" id="comuna" v-model="comuna" placeholder="Ingrese la comuna" required>
+        <label for="comunas">Comunas</label>
+        <ComunasSelector v-model="comunas" required/>
       </div>
       <div class="form-group">
         <label for="region">Región</label>
-        <input type="text" id="region" v-model="region" placeholder="Ingrese la región" required>
+        <select id="region" v-model="region" required>
+          <option value="" disabled>Seleccione la región</option>
+          <option value="metropolitana">Metropolitana</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="tipo_publicacion">Tipo de Publicación</label>
@@ -59,10 +57,6 @@
         <input type="number" id="dormitorios" v-model="dormitorios" placeholder="Ingrese la cantidad de dormitorios" required min="1">
       </div>
       <div class="form-group">
-        <label for="imagen">Imagen</label>
-        <input type="file" id="imagen" class="file-input" @change="onImageSelected" required>
-      </div>
-      <div class="form-group">
         <label for="descripcion">Descripción</label>
         <textarea id="descripcion" v-model="descripcion" placeholder="Describa la propiedad" required></textarea>
       </div>
@@ -84,11 +78,14 @@
 import axios from 'axios'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import ComunasSelector from '../components/comunas.vue'
 
 export default {
+  components: {
+    ComunasSelector
+  },
   setup() {
-    const calle = ref('')
-    const comuna = ref('')
+    const comunas = ref([])
     const region = ref('')
     const tipo_publicacion = ref('')
     const tipo_propiedad = ref('')
@@ -100,60 +97,53 @@ export default {
     const telefono = ref('')
     const email = ref('')
     const message = ref('')
-    const imagen = ref(null)
     const router = useRouter()
 
-    const onImageSelected = (event) => {
-      imagen.value = event.target.files[0]
-    }
-
     const registroProp = async () => {
-  try {
-    const userId = localStorage.getItem('userId');
-    if (!userId) {
-      alert('Debes iniciar sesión para publicar una propiedad');
-      router.push('/login');
-      return;
-    }
+      try {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+          alert('Debes iniciar sesión para publicar una propiedad');
+          router.push('/login');
+          return;
+        }
 
-    const propertyData = {
-      calle: calle.value,
-      comuna: comuna.value,
-      region: region.value,
-      tipo_publicacion: tipo_publicacion.value,
-      tipo_propiedad: tipo_propiedad.value,
-      tamano: tamano.value,
-      valor: valor.value,
-      banos: banos.value,
-      dormitorios: dormitorios.value,
-      descripcion: descripcion.value,
-      telefono: telefono.value,
-      email: email.value,
+        const propertyData = {
+          comunas: comunas.value,
+          region: region.value,
+          tipo_publicacion: tipo_publicacion.value,
+          tipo_propiedad: tipo_propiedad.value,
+          tamano: tamano.value,
+          valor: valor.value,
+          banos: banos.value,
+          dormitorios: dormitorios.value,
+          descripcion: descripcion.value,
+          telefono: telefono.value,
+          email: email.value,
+        };
+
+        const response = await axios.post(`http://localhost:8080/users/saveProperty/${userId}`, propertyData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.data) {
+          message.value = 'Propiedad publicada con éxito.';
+          router.push('/principal');
+        }
+      } catch (error) {
+        console.error('Error al publicar la propiedad:', error);
+        message.value = 'Error al publicar la propiedad. Por favor, inténtelo de nuevo.';
+      }
     };
-
-    const response = await axios.post(`http://localhost:8080/users/saveProperty/${userId}`, propertyData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (response.data) {
-      message.value = 'Propiedad publicada con éxito.';
-      router.push('/principal');
-    }
-  } catch (error) {
-    console.error('Error al publicar la propiedad:', error);
-    message.value = 'Error al publicar la propiedad. Por favor, inténtelo de nuevo.';
-  }
-};
 
     const navigateTo = (route) => {
       router.push(route)
     }
 
     return {
-      calle,
-      comuna,
+      comunas,
       region,
       tipo_publicacion,
       tipo_propiedad,
@@ -165,10 +155,8 @@ export default {
       telefono,
       email,
       message,
-      imagen,
       registroProp,
-      navigateTo,
-      onImageSelected
+      navigateTo
     }
   }
 }
@@ -184,8 +172,12 @@ header {
   color: white;
 }
 header .logo-section img {
-  border-radius: 40px;
+  cursor: pointer;
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
 }
+
 
 nav ul {
   display: flex;

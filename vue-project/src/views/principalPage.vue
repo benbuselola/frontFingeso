@@ -2,7 +2,7 @@
   <div id="app">
     <header>
       <div class="logo-section">
-        <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60" @click="navigateTo('/principal')">
+        <img src="../components/images/image.png" alt="Nombre de la página" height="60" @click="navigateTo('/principalPage')">
       </div>
       <nav>
         <ul>
@@ -131,7 +131,10 @@ header {
 }
 
 header .logo-section img {
-  border-radius: 50px;
+  cursor: pointer;
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
 }
 
 nav ul {
@@ -198,9 +201,11 @@ main {
 .filtros {
   border: 1px solid #ccc;
   padding: 10px;
-  width: 200px;
+  width: 400px;
+  max-width: 600px;
   background-color: #f9f9f9;
   border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .filtros h2 {
