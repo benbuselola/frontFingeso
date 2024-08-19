@@ -5,63 +5,119 @@
     </div>
     <nav class="nav">
       <ul class="nav-list">
-        <li><a @click="navigateTo('/principal')" class="nav-link">Inicio</a></li>
-        <li><a @click="navigateTo('/soporte')" class="nav-link">Ayuda</a></li>
+        <li><router-link to="/principal" class="nav-link">Inicio</router-link></li>
+        <li><router-link to="/soporte" class="nav-link">Ayuda</router-link></li>
         <li><button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button></li>
       </ul>
     </nav>
   </header>
 
-  <div class="user-info">
+  <div class="user-info" v-if="property">
     <div class="user-photo"> 
-      <img src="../components/images/logo.jpeg" alt="Imagen de perfil" class="user-image">
+      <img :src="imagen" alt="Imagen de perfil" class="user-image">
     </div>
     <div class="user-details">
-      <h1>Nombre</h1>
-      <h1>Dirección</h1>
-      <h1>Comuna</h1>
-      <h1>Tipo</h1>
-      <h1>M²</h1>
-      <h1>Dormitorios</h1>
-      <h1>Baños</h1>
-      <h1>Precio</h1>
-      <a href="mailto:benjamin.bustamante@usach.cl">
-      <button class="contact-seller-button">Contactar vendedor!</button>
-     </a>
+      <div class="nombreProp">
+        <p>Nombre: </p>
+        <h1>{{ property.nombre }}</h1>
+      </div>
+      <div class="direcProp">
+        <p>Dirección: </p>
+        <h1>{{ property.direccion }}</h1>
+      </div>
+      <div class="comunaProp">
+        <p>Comuna: </p>
+        <h1>{{ property.comuna }}</h1>
+      </div>
+      <div class="tipoProp">
+        <p>Tipo de propiedad: </p>
+        <h1>{{ property.tipo_propiedad }}</h1>
+      </div>
+      <div class="m2Prop">
+        <p>Metros cuadrados: </p>
+        <h1>{{ property.metros_cuadrados }} M²</h1>
+      </div>
+      <div class="dormProp">
+        <p>Dormitorios: </p>
+        <h1>{{ property.dormitorios }} Dormitorios</h1>
+      </div>
+      <div class="banioProp">
+        <p>Baños: </p>
+        <h1>{{ property.banios }} Baños</h1>
+      </div>
+      <div class="precioProp">
+        <p>Precio: </p>
+        <h1>{{ property.precio }} UF</h1>
+      </div>
+      
+      <a :href="'mailto:' + property.email">
+        <button class="contact-seller-button">Contactar vendedor!</button>
+      </a>
     </div>
   </div>
 
   <div class="property-list">
-    <Propiedad />
-    <Propiedad />
-    <Propiedad />
-    <Propiedad />
+    <!-- Aquí puedes mostrar otras propiedades relacionadas si lo deseas -->
   </div>
 </template>
 
-
 <script>
-import { useRouter } from 'vue-router'
-import Propiedad from '../components/propiedad.vue';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import pordefectoCasa from "../components/images/casa.jpeg";
+import pordefectoDepartamento from "../components/images/departamento.jpeg";
 
 export default {
-  name: 'App',
-  components: {
-    Propiedad
+  name: 'Propiedad',
+  props: {
+    propiedad: {
+      type: Object,
+      required: true
+    }
   },
   setup() {
-    const router = useRouter()
+    const router = useRouter();
+    const property = ref(null);
+    const imagen = ref('');  // Variable para almacenar la imagen por defecto
 
     const navigateTo = (route) => {
-      router.push(route)
-    }
-    
-    return {
-      navigateTo
-    }
-  }
-}
+      router.push(route);
+    };
 
+    const fetchPropertyData = async () => {
+      const propertyId = localStorage.getItem('propiedadId');
+      if (propertyId) {
+        try {
+          const response = await axios.get(`http://localhost:8080/users/obtainProperties/${propertyId}`);
+          property.value = response.data;
+
+          // Asignar imagen predeterminada en función del tipo de propiedad
+          if(property.value.tipo_propiedad.toLowerCase() === 'casa') {
+            imagen.value = pordefectoCasa;
+          } else if(property.value.tipo_propiedad.toLowerCase() === 'departamento') {
+            imagen.value = pordefectoDepartamento;
+          } else {
+            // Imagen por defecto si el tipo no es reconocido
+            imagen.value = pordefectoCasa;
+          }
+        } catch (error) {
+          console.error('Error fetching property data:', error);
+        }
+      }
+    };
+
+    onMounted(() => {
+      fetchPropertyData();
+    });
+
+    return {
+      navigateTo,
+      property,
+      imagen  // Retornar la variable imagen
+    };
+  }
+};
 </script>
 
 <style scoped>
@@ -129,21 +185,31 @@ nav ul li a:hover {
 }
 
 .user-image {
-  width: 600px;
-  height: 400px;
+  width: 400px;
+  height: 300px;
   border-radius: 30px;
 }
-
+.nombreProp, .direcProp, .comunaProp, .tipoProp, .m2Prop, .dormProp, .banioProp, .precioProp {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: start;
+}
 .user-details {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  text-align: center;
 }
-
-.user-details h1 {
+p{
   font-size: 22px;
   margin: 10px 0;
   color: #555;
+}
+.user-details h1 {
+  font-size: 22px;
+  margin: 10px 0;
+  font-weight: 800;
+  margin-left: 10px;
 }
 
 .contact-seller-button {

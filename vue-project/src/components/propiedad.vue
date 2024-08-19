@@ -1,8 +1,8 @@
 <template>
   <div class="prop">
-    <a :href="'/propiedadPerfil/' + propiedad.id" target="_blank">
+    <router-link :to="`/propiedadPerfil`">
       <img class="imgprop" :src="imagenPropiedad" alt="Imagen de la propiedad">
-    </a>
+    </router-link>
     <p>{{ propiedad.tipo_propiedad }}</p>
     <p class="precio">{{ propiedad.valor + "(UF)" }}</p>
     <p>{{ propiedad.comuna }}</p>
