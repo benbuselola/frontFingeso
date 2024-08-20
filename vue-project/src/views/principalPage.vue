@@ -89,14 +89,16 @@ export default {
     };
 
     onMounted(async () => {
-      checkAuth();
-      try {
-        const response = await axios.get('http://localhost:8080/property/obtainAll');
-        propiedades.value = response.data;
-      } catch (error) {
-        console.error('Error fetching properties:', error.response ? error.response.data : error.message);
-      }
-    });
+    checkAuth();
+    try {
+      const response = await axios.get('http://localhost:8080/property/obtainAll');
+      propiedades.value = response.data;
+      console.log(response.data);  // Verifica los datos recibidos en la consola
+    } catch (error) {
+      console.error('Error fetching properties:', error.response ? error.response.data : error.message);
+    }
+  });
+
 
     watch(() => router.currentRoute.value, () => {
       checkAuth();
