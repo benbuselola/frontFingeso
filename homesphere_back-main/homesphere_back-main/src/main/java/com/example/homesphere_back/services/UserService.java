@@ -19,6 +19,7 @@ public class UserService {
     public Users findByRut(String rut){return userRepository.findByRut(rut);}
     public Users findByNumber(String number){return userRepository.findByNumber(number);}
     public Users findByEmailAndPassword(String email, String password){return userRepository.findByEmailAndPassword(email, password);}
+    public List<Users> obtainAll() {return userRepository.obtainAll();}
 
     public Users findById(Long id){return userRepository.findById(id).get();}
 

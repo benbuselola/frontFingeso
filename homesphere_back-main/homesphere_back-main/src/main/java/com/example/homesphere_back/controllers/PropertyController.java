@@ -34,12 +34,12 @@ public class PropertyController {
     }
 
     @GetMapping("/findByBath/{bathrooms}")
-    public ResponseEntity<?> findByBathroom(@PathVariable String bathrooms){
+    public ResponseEntity<?> findByBathroom(@PathVariable Integer bathrooms){
         return ResponseEntity.ok().body(propertyService.findByBathrooms(bathrooms));
     }
 
     @GetMapping("/findByBed/{bedrooms}")
-    public ResponseEntity<?> findByBedrooms(@PathVariable String bedrooms){
+    public ResponseEntity<?> findByBedrooms(@PathVariable Integer bedrooms){
         return ResponseEntity.ok().body(propertyService.findByBedrooms(bedrooms));
     }
 
@@ -55,35 +55,35 @@ public class PropertyController {
 
     @GetMapping("/findByComunaAndBathrooms/{comuna}/{bathrooms}")
     public ResponseEntity<?> findByComunaAndBathrooms(@PathVariable String comuna,
-                                                      @PathVariable String bathrooms){
+                                                      @PathVariable Integer bathrooms){
         return ResponseEntity.ok().body(propertyService.findByComunaAndBathrooms(comuna, bathrooms));
     }
 
     @GetMapping("/findByComunaAndBedrooms/{comuna}/{bedrooms}")
     public ResponseEntity<?> findByComunaAndBedrooms(@PathVariable String comuna,
-                                                     @PathVariable String bedrooms){
+                                                     @PathVariable Integer bedrooms){
         return ResponseEntity.ok().body(propertyService.findByComunaAndBedrooms(comuna, bedrooms));
     }
 
     @GetMapping("/findByBedroomsAndBathrooms/{bedrooms}/{bathrooms}")
     public ResponseEntity<?> findByBedroomsAndBathrooms(@PathVariable String bedrooms,
                                                         @PathVariable String bathrooms){
-        return ResponseEntity.ok().body(propertyService.findByBedroomsAndBathrooms(bedrooms, bathrooms));
+        return ResponseEntity.ok().body(propertyService.findByHabitacionesAndBanos(bedrooms, bathrooms));
     }
 
     @GetMapping("/findByAll/{comuna}/{bathrooms}/{bedrooms}")
     public ResponseEntity<?> findByComunaAndBathroomsAndBedrooms(@PathVariable String comuna,
-                                                                 @PathVariable String bathrooms,
-                                                                 @PathVariable String bedrooms){
-        return ResponseEntity.ok().body(propertyService.findByComunaAndBathroomsAndBedrooms(comuna,
+                                                                 @PathVariable Integer bathrooms,
+                                                                 @PathVariable Integer bedrooms){
+        return ResponseEntity.ok().body(propertyService.findByComunaAndHabitacionesAndBanos(comuna,
                 bathrooms,
                 bedrooms));
     }
 
     @GetMapping("/findByAllByAsc/{comuna}/{bathrooms}/{bedrooms}")
     public ResponseEntity<?> findByAllFiltersAsc(@PathVariable String comuna,
-                                                 @PathVariable String bathrooms,
-                                                 @PathVariable String bedrooms){
+                                                 @PathVariable Integer bathrooms,
+                                                 @PathVariable Integer bedrooms){
         return ResponseEntity.ok().body(propertyService.findByAllFiltersAsc(comuna,
                 bathrooms,
                 bedrooms));
@@ -91,8 +91,8 @@ public class PropertyController {
 
     @GetMapping("/findByAllFiltersDes/{comuna}/{bathrooms}/{bedrooms}")
     public ResponseEntity<?> findByAllFiltersDes(@PathVariable String comuna,
-                                                 @PathVariable String bathrooms,
-                                                 @PathVariable String bedrooms){
+                                                 @PathVariable Integer bathrooms,
+                                                 @PathVariable Integer bedrooms){
         return ResponseEntity.ok().body(propertyService.findByAllFiltersDes(comuna,
                 bathrooms,
                 bedrooms));

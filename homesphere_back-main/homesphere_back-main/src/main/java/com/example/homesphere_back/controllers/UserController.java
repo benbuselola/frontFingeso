@@ -25,6 +25,11 @@ public class UserController {
         return ResponseEntity.ok(isSaved);
     }
 
+    @GetMapping("/obtainAll")
+    public ResponseEntity<?> obtainAll(){
+        return ResponseEntity.ok().body(userService.obtainAll());
+    }
+
     @GetMapping("/validateRut/{rut}")
     public ResponseEntity<Boolean> validateRut(@PathVariable String rut){
         return ResponseEntity.ok().body(userService.validateRut(rut));

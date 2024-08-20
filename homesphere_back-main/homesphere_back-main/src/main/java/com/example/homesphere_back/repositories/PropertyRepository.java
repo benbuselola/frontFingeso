@@ -21,31 +21,31 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     List<Property> orderDes();
 
     List<Property> findByComuna(String comuna);
-    List<Property> findByBathrooms(String bathrooms);
-    List<Property> findByBedrooms(String bedrooms);
+    List<Property> findByBanos(Integer bathrooms);
+    List<Property> findByDormitorios(Integer bedrooms);
 
 
     @Query("SELECT p FROM Property p WHERE p.comuna = :comuna AND p.banos = :bathrooms")
-    List<Property> findByComunaAndBathrooms(String comuna, String bathrooms);
+    List<Property> findByComunaAndBanos(String comuna, Integer bathrooms);
 
     @Query("SELECT p FROM Property p WHERE p.comuna = :comuna AND p.dormitorios = :bedrooms")
-    List<Property> findByComunaAndBedrooms(String comuna, String bedrooms);
+    List<Property> findByComunaAndDormitorios(String comuna, Integer bedrooms);
 
     @Query("SELECT p FROM Property p WHERE p.dormitorios = :bedrooms AND p.banos = :bathrooms")
-    List<Property> findByBedroomsAndBathrooms(String bedrooms, String bathrooms);
+    List<Property> findByDormitoriosAndBanos(String bedrooms, String bathrooms);
 
     @Query("SELECT p FROM Property p WHERE p.comuna = :comuna AND p.dormitorios = :bedrooms AND p.banos = :bathrooms AND p.dormitorios = :bedrooms")
-    List<Property> findByComunaAndBathroomsAndBedrooms(String comuna,
-                                                       String bathrooms,
-                                                       String bedrooms);
+    List<Property> findByComunaAndDormitoriosAndBanos(String comuna,
+                                                       Integer bathrooms,
+                                                       Integer bedrooms);
 
     @Query("SELECT p FROM Property p WHERE p.comuna = :comuna AND p.banos = :bathrooms AND p.dormitorios = :bedrooms ORDER BY p.valor ASC")
     List<Property> findByAllFiltersAsc(String comuna,
-                                       String bathrooms,
-                                       String bedrooms);
+                                       Integer bathrooms,
+                                       Integer bedrooms);
 
     @Query("SELECT p FROM Property p WHERE p.comuna = :comuna AND p.banos = :bathrooms AND p.dormitorios = :bedrooms ORDER BY p.valor DESC")
     List<Property> findByAllFiltersDes(String comuna,
-                                       String bathrooms,
-                                       String bedrooms);
+                                       Integer bathrooms,
+                                       Integer bedrooms);
 }

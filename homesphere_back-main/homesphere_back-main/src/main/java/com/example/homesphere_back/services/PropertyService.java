@@ -22,34 +22,34 @@ public class PropertyService {
     public List<Property> orderAsc(){return propertyRepository.orderAsc();}
     public List<Property> orderDes(){return propertyRepository.orderDes();}
     public List<Property> findByComuna(String comuna){return propertyRepository.findByComuna(comuna);}
-    public List<Property> findByBathrooms(String bathrooms){return propertyRepository.findByBathrooms(bathrooms);}
-    public List<Property> findByBedrooms(String bedrooms){return propertyRepository.findByBedrooms(bedrooms);}
+    public List<Property> findByBathrooms(Integer bathrooms){return propertyRepository.findByBanos(bathrooms);}
+    public List<Property> findByBedrooms(Integer bedrooms){return propertyRepository.findByDormitorios(bedrooms);}
 
-    public List<Property> findByComunaAndBathrooms(String comuna, String bathrooms){
-        return propertyRepository.findByComunaAndBathrooms(comuna, bathrooms);}
+    public List<Property> findByComunaAndBathrooms(String comuna, Integer bathrooms){
+        return propertyRepository.findByComunaAndBanos(comuna, bathrooms);}
 
-    public List<Property> findByComunaAndBedrooms(String comuna, String bedrooms){
-        return propertyRepository.findByComunaAndBedrooms(comuna, bedrooms);
+    public List<Property> findByComunaAndBedrooms(String comuna, Integer bedrooms){
+        return propertyRepository.findByComunaAndDormitorios(comuna, bedrooms);
     }
 
-    public List<Property> findByBedroomsAndBathrooms(String bedrooms, String bathrooms){
-        return propertyRepository.findByBedroomsAndBathrooms(bedrooms, bathrooms);
+    public List<Property> findByHabitacionesAndBanos(String bedrooms, String bathrooms){
+        return propertyRepository.findByDormitoriosAndBanos(bedrooms, bathrooms);
     }
-    public List<Property> findByComunaAndBathroomsAndBedrooms(String comuna,
-                                                              String bathrooms,
-                                                              String bedrooms){
-        return propertyRepository.findByComunaAndBathroomsAndBedrooms(comuna, bathrooms, bedrooms);
+    public List<Property> findByComunaAndHabitacionesAndBanos(String comuna,
+                                                              Integer bathrooms,
+                                                              Integer bedrooms){
+        return propertyRepository.findByComunaAndDormitoriosAndBanos(comuna, bathrooms, bedrooms);
     }
 
     public List<Property> findByAllFiltersAsc(String comuna,
-                                              String bathrooms,
-                                              String bedrooms){
+                                              Integer bathrooms,
+                                              Integer bedrooms){
         return propertyRepository.findByAllFiltersAsc(comuna, bathrooms, bedrooms);
     }
 
     public List<Property> findByAllFiltersDes(String comuna,
-                                              String bathrooms,
-                                              String bedrooms){
+                                              Integer bathrooms,
+                                              Integer bedrooms){
         return propertyRepository.findByAllFiltersDes(comuna, bathrooms, bedrooms);
     }
 }
