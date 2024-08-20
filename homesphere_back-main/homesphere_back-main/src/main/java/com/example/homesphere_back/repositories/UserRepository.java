@@ -18,7 +18,9 @@ public interface UserRepository extends JpaRepository<Users, Long> {
     // implementacion findByEmailAndPassword, encontrar usuario por correo y contraseña
     Users findByEmailAndPassword(String email, String password);
 
-    //implementaqcion obtainAll, listar todos los usuarios
+    // implementacion obtainAll, listar todos los usuarios
+    @Query("SELECT u FROM Users u")
+    List<Users> obtainAll();
 
 }
 

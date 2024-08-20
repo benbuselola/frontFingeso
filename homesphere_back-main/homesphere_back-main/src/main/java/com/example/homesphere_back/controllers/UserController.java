@@ -1,11 +1,10 @@
 package com.example.homesphere_back.controllers;
 
-import com.example.homesphere_back.models.Properties;
+import com.example.homesphere_back.models.Property;
 import com.example.homesphere_back.models.Users;
 import com.example.homesphere_back.services.PropertyService;
 import com.example.homesphere_back.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +19,11 @@ public class UserController {
     @Autowired
     private PropertyService properService;
 
-
-    // para obtener datos requestBody-> JSON con datos o requestParam -> cada dato como parametro
-    // post-> enviar informacion y get -> obtener
-
     @PostMapping("/register")
     public ResponseEntity<Boolean> register(@RequestBody Users user) {
         boolean isSaved = userService.saveUser(user);
         return ResponseEntity.ok(isSaved);
     }
-
 
     @GetMapping("/validateRut/{rut}")
     public ResponseEntity<Boolean> validateRut(@PathVariable String rut){
@@ -46,20 +40,21 @@ public class UserController {
     public ResponseEntity<Users> findByEmail(@PathVariable String email){
         return ResponseEntity.ok().body(userService.findByEmail(email));
     }
-    //------------------- Propiedades -------------------
 
     @PostMapping("/saveProperty/{id}")
-    public ResponseEntity<Boolean> saveProperty(@RequestBody Properties property, @PathVariable Long id) {
+    public ResponseEntity<Boolean> saveProperty(@RequestBody Property property, @PathVariable Long id) {
         Users user = userService.findById(id);
-        Properties propertySaved = properService.saveProperty(property);
+        Property propertySaved = properService.saveProperty(property);
         user.getProperties().add(propertySaved);
         userService.saveUser(user);
         return ResponseEntity.ok().body(true);
     }
 
-
-    //---------------------------------------------------
-
+    @PostMapping("/addToFavorites")
+    public ResponseEntity<Boolean> addToFavorites(@RequestBody Property property, @PathVariable Long id){
+        boolean isSaved = userService.addToFavorites(property, id);
+        return ResponseEntity.ok().body(isSaved);
+    }
 
     @GetMapping("/buscarID/{email}")
     public ResponseEntity<Long> buscarID(@PathVariable String email){
@@ -89,7 +84,7 @@ public class UserController {
     @GetMapping("/getPropertiesbyUser/{id}")
     public ResponseEntity<?> getPropertiesbyUser(@PathVariable Long id){
         Users user = userService.findById(id);
-        List<Properties> properties = user.getProperties();
+        List<Property> properties = user.getProperties();
         return ResponseEntity.ok().body(properties);
     }
 }

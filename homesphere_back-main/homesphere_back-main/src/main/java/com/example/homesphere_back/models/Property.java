@@ -3,14 +3,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "Properties")
+@Table(name = "Property")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Getter
 @Setter
 
-public class Properties {
+public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)

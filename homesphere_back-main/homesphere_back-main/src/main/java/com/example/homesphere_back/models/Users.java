@@ -47,5 +47,9 @@ public class Users {
 
     @OneToMany
     @JoinColumn(name = "id_user")
-    private List<Properties> properties;
+    private List<Property> properties;
+
+    @OneToMany
+    @JoinColumn(name = "favorites")
+    private List<Property> favoriteProps;
 }

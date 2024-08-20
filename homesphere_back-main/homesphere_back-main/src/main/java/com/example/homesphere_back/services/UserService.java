@@ -1,6 +1,6 @@
 package com.example.homesphere_back.services;
 
-import com.example.homesphere_back.models.Properties;
+import com.example.homesphere_back.models.Property;
 import com.example.homesphere_back.models.Users;
 import com.example.homesphere_back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +12,40 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MailService mailService;
+
     public Users findByEmail(String email){return userRepository.findByEmail(email);}
     public Users findByRut(String rut){return userRepository.findByRut(rut);}
     public Users findByNumber(String number){return userRepository.findByNumber(number);}
     public Users findByEmailAndPassword(String email, String password){return userRepository.findByEmailAndPassword(email, password);}
 
     public Users findById(Long id){return userRepository.findById(id).get();}
+
     public boolean saveUser(Users user){
+        if (((findByEmail(user.getEmail())) == null) &&
+                ((findByRut(user.getRut())) == null) &&
+                ((findByNumber(user.getNumber())) == null)){
+
+            String userName = user.getFirstName();
+            String subject = "Bienvenido/a :)" + userName;
+            String body = "Es un gusto tenerte con nosotros, te ayudaremos a completar tu sueño de " +
+                    "propiedad propia.";
+            mailService.sendEmail(user.getEmail(), subject, body);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addToFavorites(Property property, Long id){
+        Users user = userRepository.findById(id).get();
+        Property propertySaved = property;
+        user.getFavoriteProps().add(propertySaved);
         userRepository.save(user);
         return true;
     }
+
 
     public boolean validateRut(String rut){
         // largo del rut
@@ -81,8 +105,6 @@ public class UserService {
         return false;
     }
 
-
-
     public boolean login(String email, String password){
         // si encuentra un usuario con esos datos retorna true
         if (userRepository.findByEmailAndPassword(email, password) != null){
@@ -95,7 +117,6 @@ public class UserService {
         Users user = userRepository.findByEmail(email);
         return user.getId();
     }
-
 
     public boolean updateEmail(Long id, String email){
         Users user = userRepository.findById(id).get();
@@ -118,8 +139,9 @@ public class UserService {
         return true;
     }
 
-    public List<Properties> getPropertiesbyUser(Long id){
+    public List<Property> getPropertiesbyUser(Long id){
         Users user = userRepository.findById(id).get();
         return user.getProperties();
     }
+
 }
