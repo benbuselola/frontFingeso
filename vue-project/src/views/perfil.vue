@@ -1,58 +1,111 @@
 <template>
-  <header class="header">
-    <div class="logo-section">
-        <img src="../components/images/image.png" alt="Nombre de la página" height="60">
-    </div>
-    <nav class="nav">
-      <ul class="nav-list">
-        <li><a @click="navigateTo('/principal')" class="nav-link">Inicio</a></li>
-        <li><a @click="navigateTo('/soporte')" class="nav-link">Ayuda</a></li>
-        <li><button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button></li>
-      </ul>
-    </nav>
-  </header>
+  <div>
+    <header class="header">
+      <div class="logo-section">
+        <a @click="navigateTo('/principal')">
+          <img src="../components/images/image.png" alt="Nombre de la página" height="60">
+        </a>
+      </div>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a @click="navigateTo('/soporte')" class="nav-link">Ayuda</a></li>
+          <li><button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button></li>
+        </ul>
+      </nav>
+    </header>
 
-  <div class="user-info">
-    <div class="user-photo"> 
-      <img class="user-image" src="../components/images/logo.jpeg" alt="Imagen de perfil">
+    <div class="user-info">
+      <div class="user-photo"> 
+        <img class="user-image" src="../components/images/descarga.png" alt="Imagen de perfil">
+      </div>
+      <div class="user-details">
+        <div class="userName">
+          <p>Nombre completo:</p>
+          <h1>{{ userFullName }}</h1>
+        </div>
+        <div class="userMail">
+          <p>Correo electrónico:</p>
+          <h1>{{ userEmail }}</h1>
+        </div>
+        <div class="userPhone">
+          <p>Teléfono:</p>
+          <h1>{{ userPhone }}</h1>
+        </div>
+        
+        <ul>
+          <li><button class="update-email" @click="navigateTo('/actualizaCorreo')">Actualiza tu correo</button></li>
+          <li><button class="update-password" @click="navigateTo('/actualizaContrasena')">Cambia tu contraseña</button></li>
+          <li><button class="update-number" @click="navigateTo('/cambiarNumero')">Actualiza tu número</button></li>
+        </ul>
+      </div>
     </div>
-    <div class="user-details">
-      <h1>Benjamin Andres Bustamante Elola</h1>
-      <h2>Correo electronico</h2>
-      <h3>Telefono</h3>
-    </div>
-  </div>
 
-  <div class="property-list">
-    <Propiedad />
-    <Propiedad />
-    <Propiedad />
-    <Propiedad />
+    <div class="property-list">
+      <Propiedad
+        v-for="property in properties"
+        :key="property.id"
+        :propiedad="property" 
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 import Propiedad from '../components/propiedad.vue';
 
 export default {
-  name: 'App',
+  name: 'PropertyList',
   components: {
     Propiedad
   },
   setup() {
-    const router = useRouter();
+    const router = useRouter()
+    const userFullName = ref('')
+    const userEmail = ref('')
+    const userPhone = ref('')
+    const properties = ref([])
 
     const navigateTo = (route) => {
-      router.push(route);
-    };
-    
+      router.push(route)
+    }
+
+    const fetchUserData = async () => {
+      const userId = localStorage.getItem('usuario')
+      if (userId) {
+        try {
+          const userResponse = await axios.get(`http://localhost:8080/users/findbyID/${userId}`)
+          const userData = userResponse.data
+          userFullName.value = `${userData.firstName} ${userData.secondName} ${userData.lastName} ${userData.secondLastName}`
+          userEmail.value = userData.email
+          userPhone.value = userData.number
+
+          // Obtener propiedades del usuario
+          const propertiesResponse = await axios.get(`http://localhost:8080/users/getPropertiesbyUser/${userId}`)
+          properties.value = propertiesResponse.data
+        } catch (error) {
+          console.error('Error al obtener la información del usuario:', error)
+        }
+      } else {
+        console.error('No se encontró el ID de usuario en el localStorage')
+      }
+    }
+
+    onMounted(() => {
+      fetchUserData()
+    })
+
     return {
       navigateTo,
-    };
+      userFullName,
+      userEmail,
+      userPhone,
+      properties
+    }
   }
 }
-
 </script>
 
 <style scoped>
@@ -66,12 +119,10 @@ header {
 }
 
 header .logo-section img {
-  cursor: pointer;
   width: 100px;
   height: 60px;
   border-radius: 10px;
 }
-
 
 nav ul {
   display: flex;
@@ -103,6 +154,13 @@ nav ul li a:hover {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+}
+
+.user-details h1 {
+  font-size: 22px;
+  margin: 10px 0;
+  font-weight: 800;
+  margin-left: 10px;
 }
 
 .user-info {
@@ -152,5 +210,16 @@ nav ul li a:hover {
   margin: 10px;
   flex-basis: calc(25% - 20px);
   box-sizing: border-box;
+}
+
+.update-email, .update-password, .update-number {
+  background-color: #3483fa;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px 0;
 }
 </style>

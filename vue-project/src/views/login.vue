@@ -57,7 +57,8 @@ export default {
         const response = await axios.get(`http://localhost:8080/users/login/${encodeURIComponent(correo.value)}/${encodeURIComponent(password.value)}`)
         if (response.data) {
           mensaje.value = 'El usuario se encuentra registrado.'
-          localStorage.setItem('usuarioCorreo', correo.value)
+          const idResponse = await axios.get(`http://localhost:8080/users/buscarID/${encodeURIComponent(correo.value)}`)
+          localStorage.setItem('usuario', idResponse.data)
           router.push('/principal')
         } else {
           mensaje.value = 'Usuario no encontrado o credenciales incorrectas.'

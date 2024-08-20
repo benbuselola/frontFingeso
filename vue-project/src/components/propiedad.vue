@@ -1,10 +1,13 @@
 <template>
-  <div class="prop" @click="guardarIdYRedirigir">
+  <div v-if="propiedad" class="prop" @click="guardarIdYRedirigir">
     <img class="imgprop" :src="imagenPropiedad" alt="Imagen de la propiedad">
-    <p>{{ propiedad.tipo_propiedad }}</p>
-    <p class="precio">{{ propiedad.valor + "(UF)" }}</p>
-    <p>{{ propiedad.comuna }}</p>
-    <p>{{ propiedad.descripcion }}</p>
+    <p>{{ propiedad.tipo_propiedad || 'Tipo desconocido' }}</p>
+    <p class="precio">{{ propiedad.valor ? propiedad.valor + " (UF)" : 'Valor no disponible' }}</p>
+    <p>{{ propiedad.comuna || 'Comuna no especificada' }}</p>
+    <p>{{ propiedad.descripcion || 'Descripción no disponible' }}</p>
+  </div>
+  <div v-else>
+    <p>No hay información de la propiedad disponible.</p>
   </div>
 </template>
 
@@ -19,25 +22,30 @@ export default {
   props: {
     propiedad: {
       type: Object,
-      required: true
+      default: () => ({})
     }
   },
   setup(props) {
     const router = useRouter();
 
     const imagenPropiedad = computed(() => {
-      if (props.propiedad.tipo_propiedad.toLowerCase() === 'casa') {
-        return pordefectoCasa;
-      } else if (props.propiedad.tipo_propiedad.toLowerCase() === 'departamento') {
-        return pordefectoDepartamento;
-      } else {
-        return pordefectoCasa; // Imagen por defecto si el tipo no es reconocido
+      if (props.propiedad.tipo_propiedad) {
+        if (props.propiedad.tipo_propiedad.toLowerCase() === 'casa') {
+          return pordefectoCasa;
+        } else if (props.propiedad.tipo_propiedad.toLowerCase() === 'departamento') {
+          return pordefectoDepartamento;
+        }
       }
+      return pordefectoCasa; // Imagen por defecto si el tipo no es reconocido
     });
 
     const guardarIdYRedirigir = () => {
-      localStorage.setItem('selectedPropertyId', props.propiedad.id);
-      router.push('/propiedadPerfil');
+      if (props.propiedad && props.propiedad.id) {
+        localStorage.setItem('selectedPropertyId', props.propiedad.id);
+        router.push('/propiedadPerfil');
+      } else {
+        console.error('ID de propiedad no disponible');
+      }
     };
 
     return {

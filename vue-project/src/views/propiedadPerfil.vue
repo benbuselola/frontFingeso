@@ -83,7 +83,7 @@ export default {
           // Aquí puedes usar también el ID del usuario si lo necesitas
           // const userId = localStorage.getItem('userId');
           // Realiza una llamada a la API con el ID de la propiedad
-          const response = await axios.get(`http://localhost:8080/users/obtainProperties/${propertyId}`);
+          const response = await axios.get(`http://localhost:8080/property/obtainProperty/${propertyId}`);
           property.value = response.data;
 
           // Asignar imagen predeterminada en función del tipo de propiedad

@@ -7,6 +7,10 @@ import PublicarPropiedad from '../views/publicarPropiedad.vue'
 import perfil from '../views/perfil.vue'
 import propiedadPerfil from '../views/propiedadPerfil.vue'
 import soporte from '../views/soporte.vue'
+import actualizaCorreo from '../views/actualizarCorreo.vue'
+import actualizaContrasena from '../views/cambiarContrasena.vue'
+import cambiarNumero from '../views/actualizarNumero.vue'
+
 const routes = [
   {
     path: '/',
@@ -21,6 +25,21 @@ const routes = [
     path: '/principal',
     name: 'principal',
     component: PrincipalPage,
+  },
+  {
+    path: '/actualizaCorreo',
+    name: 'actualizaCorreo',
+    component: actualizaCorreo,
+  },
+  {
+    path: '/actualizaContrasena',
+    name: 'actualizaContrasena',
+    component: actualizaContrasena,
+  },
+  {
+    path: '/cambiarNumero',
+    name: 'cambiarNumero',
+    component: cambiarNumero,
   },
   {
     path: '/soporte',
