@@ -31,27 +31,23 @@
           <p>Teléfono:</p>
           <h1>{{ userPhone }}</h1>
         </div>
-        
-        <ul>
-          <li><button class="update-email" @click="navigateTo('/actualizaCorreo')">Actualiza tu correo</button></li>
-          <li><button class="update-password" @click="navigateTo('/actualizaContrasena')">Cambia tu contraseña</button></li>
-          <li><button class="update-number" @click="navigateTo('/cambiarNumero')">Actualiza tu número</button></li>
-        </ul>
+        <div class="userUpdateButtons">
+          <button class="update-email" @click="navigateTo('/actualizaCorreo')">Actualiza tu correo</button>
+          <button class="update-password" @click="navigateTo('/actualizaContrasena')">Cambia tu contraseña</button>
+          <button class="update-number" @click="navigateTo('/cambiarNumero')">Actualiza tu número</button>
+        </div>
+
       </div>
     </div>
 
     <div class="property-list">
-      <Propiedad
-        v-for="property in properties"
-        :key="property.id"
-        :propiedad="property" 
-      />
+      <Propiedad v-for="propiedad in properties" :key="propiedad.id" :propiedad="propiedad" />
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import Propiedad from '../components/propiedad.vue';
@@ -68,34 +64,43 @@ export default {
     const userPhone = ref('')
     const properties = ref([])
 
+    onMounted(async () => {
+      checkAuth();
+      try {
+        const userId = localStorage.getItem('usuario');
+        const response = await axios.get(`http://localhost:8080/users/findbyID/${userId}`);
+        const userData = response.data;
+
+        userFullName.value = `${userData.firstName} ${userData.secondName} ${userData.lastName} ${userData.secondLastName}`;
+        userEmail.value = userData.email;
+        userPhone.value = userData.number;
+
+        // Obtener propiedades del usuario
+        const propertiesResponse = await axios.get(`http://localhost:8080/users/getPropertiesbyUser/${userId}`);
+        
+        console.log('Respuesta de propiedades:', propertiesResponse.data); // Verifica aquí la respuesta
+
+        properties.value = propertiesResponse.data;
+        
+      } catch (error) {
+        console.error('Error al obtener la información del usuario:', error);
+      }
+    });
+
+    watch(() => router.currentRoute.value, () => {
+      checkAuth()
+    })
+
+  const checkAuth = () => {
+    const userId = localStorage.getItem('usuario')
+    if (!userId) {
+      router.push('/login')
+    }
+  }
+
     const navigateTo = (route) => {
       router.push(route)
     }
-
-    const fetchUserData = async () => {
-      const userId = localStorage.getItem('usuario')
-      if (userId) {
-        try {
-          const userResponse = await axios.get(`http://localhost:8080/users/findbyID/${userId}`)
-          const userData = userResponse.data
-          userFullName.value = `${userData.firstName} ${userData.secondName} ${userData.lastName} ${userData.secondLastName}`
-          userEmail.value = userData.email
-          userPhone.value = userData.number
-
-          // Obtener propiedades del usuario
-          const propertiesResponse = await axios.get(`http://localhost:8080/users/getPropertiesbyUser/${userId}`)
-          properties.value = propertiesResponse.data
-        } catch (error) {
-          console.error('Error al obtener la información del usuario:', error)
-        }
-      } else {
-        console.error('No se encontró el ID de usuario en el localStorage')
-      }
-    }
-
-    onMounted(() => {
-      fetchUserData()
-    })
 
     return {
       navigateTo,
@@ -113,17 +118,17 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
+  padding: 5px 15px;
   background-color: #4CAF50;
   color: white;
 }
 
 header .logo-section img {
+  cursor: pointer;
   width: 100px;
   height: 60px;
   border-radius: 10px;
 }
-
 nav ul {
   display: flex;
   align-items: center;
@@ -182,8 +187,8 @@ nav ul li a:hover {
 .user-image {
   width: 600px;
   height: 400px;
-  border-radius: 30px;
-}
+  border-radius: 70%;
+  border: 2px solid #3483fa;}
 
 .user-details {
   display: flex;
@@ -191,12 +196,15 @@ nav ul li a:hover {
   justify-content: center;
 }
 
-.user-details h1,
-.user-details h2,
-.user-details h3 {
+.user-details h1{
   font-size: 22px;
   margin: 10px 0;
-  color: #555;
+  color: black;
+  font-weight: bolder;
+}
+.userUpdateButtons{
+  display: flex;
+  flex-direction: column;
 }
 
 .property-list {
@@ -211,10 +219,24 @@ nav ul li a:hover {
   flex-basis: calc(25% - 20px);
   box-sizing: border-box;
 }
+.userUpdateButtons{
+  list-style-type: none;
+}
 
-.update-email, .update-password, .update-number {
+.update-email, .update-number {
+  
   background-color: #3483fa;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px 0;
+}
+.update-password{
+  background-color: beige;
+  color: #3483fa;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;

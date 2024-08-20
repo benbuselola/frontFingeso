@@ -195,7 +195,7 @@ main {
 .filtros {
   border: 1px solid #ccc;
   padding: 10px;
-  width: 500px;
+  width: 400px;
   max-width: 600px;
   max-height: 600px;
   background-color: #f9f9f9;

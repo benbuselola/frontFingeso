@@ -101,7 +101,7 @@ export default {
 
     const registroProp = async () => {
       try {
-        const userId = localStorage.getItem('userId');
+        const userId = localStorage.getItem('usuario');
         if (!userId) {
           alert('Debes iniciar sesión para publicar una propiedad');
           router.push('/login');

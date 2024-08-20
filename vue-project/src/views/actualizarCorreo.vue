@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="logo-section">
-      <img src="../components/images/logo.jpeg" alt="Nombre de la página" height="60">
+      <img src="../components/images/image.png" alt="Nombre de la página" height="60">
     </div>
     <nav>
       <ul>
@@ -95,7 +95,9 @@ header {
   color: white;
 }
 header .logo-section img {
-  border-radius: 40px;
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
 }
 
 nav ul {
@@ -147,6 +149,7 @@ h2 {
 }
 
 .form-group input {
+  margin-top: 10px;
   width: 100%;
   padding: 10px;
   font-size: 16px;
@@ -176,4 +179,5 @@ h2 {
   color: #4CAF50;
   font-weight: bold;
 }
+
 </style>

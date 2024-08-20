@@ -101,7 +101,9 @@ header {
   color: white;
 }
 header .logo-section img {
-  border-radius: 40px;
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
 }
 
 nav ul {
@@ -136,6 +138,12 @@ nav ul li a:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  
+}
 .submit-button {
   width: 100%;
   padding: 12px;
@@ -147,7 +155,13 @@ nav ul li a:hover {
   cursor: pointer;
   margin-top: 20px;
 }
-
+input{
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+}
 .submit-button:hover {
   background-color: #45a049;
 }

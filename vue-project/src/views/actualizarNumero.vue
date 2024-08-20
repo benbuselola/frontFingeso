@@ -94,7 +94,9 @@ header {
   color: white;
 }
 header .logo-section img {
-  border-radius: 40px;
+  width: 100px;
+  height: 60px;
+  border-radius: 10px;
 }
 
 nav ul {
@@ -135,6 +137,7 @@ nav ul li a:hover {
 }
 
 .form-group input {
+  margin-top: 10px;
   width: 100%;
   padding: 10px;
   font-size: 16px;
