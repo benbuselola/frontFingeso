@@ -91,7 +91,7 @@ export default {
     onMounted(async () => {
       checkAuth();
       try {
-        const response = await axios.get('http://localhost:8080/users/propiedades');
+        const response = await axios.get('http://localhost:8080/property/obtainAll');
         propiedades.value = response.data;
       } catch (error) {
         console.error('Error fetching properties:', error.response ? error.response.data : error.message);

@@ -15,7 +15,6 @@
     <form @submit.prevent="registroProp">
       <div class="form-group">
         <label for="comuna">Comuna</label>
-        <!-- Componente de selector de comunas -->
         <ComunasSelector v-model="comuna" required />
       </div>
       <div class="form-group">
@@ -26,44 +25,44 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="tipo_publicacion">Tipo de Publicación</label>
-        <select id="tipo_publicacion" v-model="tipo_publicacion" required>
+        <label for="format">Tipo de Publicación</label>
+        <select id="format" v-model="format" required>
           <option value="" disabled>Seleccione el tipo</option>
           <option value="vender">Vender</option>
           <option value="arrendar">Arrendar</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="tipo_propiedad">Tipo de Propiedad</label>
-        <select id="tipo_propiedad" v-model="tipo_propiedad" required>
+        <label for="kind">Tipo de Propiedad</label>
+        <select id="kind" v-model="kind" required>
           <option value="" disabled>Seleccione el tipo</option>
           <option value="casa">Casa</option>
           <option value="departamento">Departamento</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="tamano">Tamaño de la Vivienda (m²)</label>
-        <input type="number" id="tamano" v-model="tamano" placeholder="Ingrese el tamaño en m²" required min="1">
+        <label for="size">Tamaño de la Vivienda (m²)</label>
+        <input type="number" id="size" v-model="size" placeholder="Ingrese el tamaño en m²" required min="1">
       </div>
       <div class="form-group">
-        <label for="valor">Valor (UF)</label>
-        <input type="number" id="valor" v-model="valor" placeholder="Ingrese el valor en UF" required>
+        <label for="value">Valor (UF)</label>
+        <input type="text" id="value" v-model="value" placeholder="Ingrese el valor en UF" required>
       </div>
       <div class="form-group">
-        <label for="banos">Cantidad de Baños</label>
-        <input type="number" id="banos" v-model="banos" placeholder="Ingrese la cantidad de baños" required min="1">
+        <label for="bathrooms">Cantidad de Baños</label>
+        <input type="numtetber" id="bathrooms" v-model="bathrooms" placeholder="Ingrese la cantidad de baños" required min="1">
       </div>
       <div class="form-group">
-        <label for="dormitorios">Cantidad de Dormitorios</label>
-        <input type="number" id="dormitorios" v-model="dormitorios" placeholder="Ingrese la cantidad de dormitorios" required min="1">
+        <label for="bedrooms">Cantidad de Dormitorios</label>
+        <input type="text" id="bedrooms" v-model="bedrooms" placeholder="Ingrese la cantidad de dormitorios" required min="1">
       </div>
       <div class="form-group">
-        <label for="descripcion">Descripción</label>
-        <textarea id="descripcion" v-model="descripcion" placeholder="Describa la propiedad" required></textarea>
+        <label for="description">Descripción</label>
+        <textarea id="description" v-model="description" placeholder="Describa la propiedad" required></textarea>
       </div>
       <div class="form-group">
-        <label for="telefono">Teléfono</label>
-        <input type="tel" id="telefono" v-model="telefono" placeholder="Ingrese su número de teléfono" required>
+        <label for="number">Teléfono</label>
+        <input type="text" id="number" v-model="number" placeholder="Ingrese su número de teléfono" required>
       </div>
       <div class="form-group">
         <label for="email">Correo Electrónico</label>
@@ -86,47 +85,44 @@ export default {
     ComunasSelector,
   },
   setup() {
-    // Variables de estado con valores iniciales
-    const comuna = ref(''); // Comuna es tipo string
+    const comuna = ref('');
     const region = ref('');
-    const tipo_publicacion = ref('');
-    const tipo_propiedad = ref('');
-    const tamano = ref('');
-    const valor = ref('');
-    const banos = ref('');
-    const dormitorios = ref('');
-    const descripcion = ref('');
-    const telefono = ref('');
+    const format = ref('');
+    const kind = ref('');
+    const size = ref('');
+    const value = ref('');
+    const bathrooms = ref('');
+    const bedrooms = ref('');
+    const description = ref('');
+    const number = ref('');
     const email = ref('');
     const message = ref('');
     const router = useRouter();
 
     const registroProp = async () => {
       try {
-        const userId = localStorage.getItem('userId');
-        if (!userId) {
+        const userCorreo = localStorage.getItem('usuarioCorreo');
+        if (!userCorreo) {
           alert('Debes iniciar sesión para publicar una propiedad');
           router.push('/login');
           return;
         }
 
-        // Creación del objeto con los datos de la propiedad
         const propertyData = {
           comuna: comuna.value,
           region: region.value,
-          tipo_publicacion: tipo_publicacion.value,
-          tipo_propiedad: tipo_propiedad.value,
-          tamano: tamano.value,
-          valor: valor.value,
-          banos: banos.value,
-          dormitorios: dormitorios.value,
-          descripcion: descripcion.value,
-          telefono: telefono.value,
+          format: format.value,
+          kind: kind.value,
+          size: size.value,
+          value: value.value,
+          bathrooms: bathrooms.value,
+          bedrooms: bedrooms.value,
+          description: description.value,
+          number: number.value,
           email: email.value,
         };
 
-        // Envío de los datos al servidor
-        const response = await axios.post(`http://localhost:8080/users/saveProperty/${userId}`, propertyData);
+        const response = await axios.post(`http://localhost:8080/users/uploadProp/${userCorreo}`, propertyData);
 
         if (response.data) {
           message.value = 'Propiedad publicada con éxito.';
@@ -145,14 +141,14 @@ export default {
     return {
       comuna,
       region,
-      tipo_publicacion,
-      tipo_propiedad,
-      tamano,
-      valor,
-      banos,
-      dormitorios,
-      descripcion,
-      telefono,
+      format,
+      kind,
+      size,
+      value,
+      bathrooms,
+      bedrooms,
+      description,
+      number,
       email,
       message,
       registroProp,
