@@ -50,15 +50,13 @@ public class UserController {
     public ResponseEntity<Boolean> saveProperty(@RequestBody Property property, @PathVariable Long id) {
         Users user = userService.findById(id);
         properService.saveProperty(property);
-        user.getProperties().add(property);
+
+        List<Property> properties = user.getProperties();
+        properties.add(property);
+        user.setProperties(properties);
+
         userService.saveUser(user);
         return ResponseEntity.ok().body(true);
-    }
-
-    @PostMapping("/addToFavorites")
-    public ResponseEntity<Boolean> addToFavorites(@RequestBody Property property, @PathVariable Long id){
-        boolean isSaved = userService.addToFavorites(property, id);
-        return ResponseEntity.ok().body(isSaved);
     }
 
     @GetMapping("/buscarID/{email}")
@@ -88,8 +86,6 @@ public class UserController {
 
     @GetMapping("/getPropertiesbyUser/{id}")
     public ResponseEntity<?> getPropertiesbyUser(@PathVariable Long id){
-        Users user = userService.findById(id);
-        List<Property> properties = user.getProperties();
-        return ResponseEntity.ok().body(properties);
+        return ResponseEntity.ok().body(userService.getPropertiesByUser(id));
     }
 }

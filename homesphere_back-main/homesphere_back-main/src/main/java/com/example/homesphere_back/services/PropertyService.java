@@ -17,6 +17,7 @@ public class PropertyService {
         propertyRepository.save(property);
         return true;
     }
+
     public Optional<Property> findById(Long id){return propertyRepository.findById(id);}
     public List<Property> obtainAll(){return propertyRepository.obtainAll();}
     public List<Property> orderAsc(){return propertyRepository.orderAsc();}

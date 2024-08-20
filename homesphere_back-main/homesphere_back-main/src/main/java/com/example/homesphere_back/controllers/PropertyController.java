@@ -12,7 +12,7 @@ public class PropertyController {
     @Autowired
     private PropertyService propertyService;
 
-    @PostMapping("/create")
+    @PostMapping("/saveProperty")
     public ResponseEntity<Boolean> create(@RequestBody Property property) {
         boolean isSaved = propertyService.saveProperty(property);
         return ResponseEntity.ok(isSaved);

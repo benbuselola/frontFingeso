@@ -38,18 +38,10 @@ public class Users {
     // de cada usuario.
     private String password;
 
-    // Atributo relacionado a las propiedades
-    // favoritas del usuario.
-    private String listIdPropFavorites;
-
     // ¿cómo vemos los administradores?
     // falta agenda, notificaciones, reseñas, pagos
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user")
     private List<Property> properties;
-
-    @OneToMany
-    @JoinColumn(name = "favorites")
-    private List<Property> favoriteProps;
 }

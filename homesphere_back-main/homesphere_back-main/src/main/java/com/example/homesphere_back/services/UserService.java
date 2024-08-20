@@ -39,15 +39,6 @@ public class UserService {
         return false;
     }
 
-    public boolean addToFavorites(Property property, Long id){
-        Users user = userRepository.findById(id).get();
-        Property propertySaved = property;
-        user.getFavoriteProps().add(propertySaved);
-        userRepository.save(user);
-        return true;
-    }
-
-
     public boolean validateRut(String rut){
         // largo del rut
         int largo = rut.length();
@@ -140,9 +131,8 @@ public class UserService {
         return true;
     }
 
-    public List<Property> getPropertiesbyUser(Long id){
+    public List<Property> getPropertiesByUser(Long id){
         Users user = userRepository.findById(id).get();
         return user.getProperties();
     }
-
 }
