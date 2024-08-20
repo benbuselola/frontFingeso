@@ -13,8 +13,8 @@ public class PropertyService {
     @Autowired
     PropertyRepository propertyRepository;
 
-    public boolean savePropertie(Property propertie){
-        propertyRepository.save(propertie);
+    public boolean saveProperty(Property property){
+        propertyRepository.save(property);
         return true;
     }
     public Optional<Property> findById(Long id){return propertyRepository.findById(id);}

@@ -44,8 +44,8 @@ public class UserController {
     @PostMapping("/saveProperty/{id}")
     public ResponseEntity<Boolean> saveProperty(@RequestBody Property property, @PathVariable Long id) {
         Users user = userService.findById(id);
-        Property propertySaved = properService.saveProperty(property);
-        user.getProperties().add(propertySaved);
+        properService.saveProperty(property);
+        user.getProperties().add(property);
         userService.saveUser(user);
         return ResponseEntity.ok().body(true);
     }

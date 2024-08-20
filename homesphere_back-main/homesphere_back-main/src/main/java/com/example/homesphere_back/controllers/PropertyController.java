@@ -14,7 +14,7 @@ public class PropertyController {
 
     @PostMapping("/create")
     public ResponseEntity<Boolean> create(@RequestBody Property property) {
-        boolean isSaved = propertyService.savePropertie(property);
+        boolean isSaved = propertyService.saveProperty(property);
         return ResponseEntity.ok(isSaved);
     }
 
