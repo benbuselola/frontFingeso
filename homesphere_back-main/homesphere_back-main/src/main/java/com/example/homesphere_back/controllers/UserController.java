@@ -2,21 +2,16 @@ package com.example.homesphere_back.controllers;
 
 import com.example.homesphere_back.models.Property;
 import com.example.homesphere_back.models.Users;
-import com.example.homesphere_back.services.PropertyService;
 import com.example.homesphere_back.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private PropertyService properService;
 
     @PostMapping("/register")
     public ResponseEntity<Boolean> register(@RequestBody Users user) {
@@ -27,6 +22,12 @@ public class UserController {
     @GetMapping("/obtainAll")
     public ResponseEntity<?> obtainAll(){
         return ResponseEntity.ok().body(userService.obtainAll());
+    }
+
+    @PostMapping("/saveProperty/{id}")
+    public ResponseEntity<Boolean> saveProperty(@RequestBody Property property, @PathVariable Long id) {
+        boolean isSaved = userService.saveProperty(property, id);
+        return ResponseEntity.ok().body(isSaved);
     }
 
     @GetMapping("/validateRut/{rut}")
@@ -45,26 +46,13 @@ public class UserController {
         return ResponseEntity.ok().body(userService.findByEmail(email));
     }
 
-    @PostMapping("/saveProperty/{id}")
-    public ResponseEntity<Boolean> saveProperty(@RequestBody Property property, @PathVariable Long id) {
-        Users user = userService.findById(id);
-        properService.saveProperty(property);
-
-        List<Property> properties = user.getProperties();
-        properties.add(property);
-        user.setProperties(properties);
-
-        userService.saveUser(user);
-        return ResponseEntity.ok().body(true);
-    }
-
-    @GetMapping("/buscarID/{email}")
-    public ResponseEntity<Long> buscarID(@PathVariable String email){
+    @GetMapping("/findById/{email}")
+    public ResponseEntity<Long> findById(@PathVariable String email){
         return ResponseEntity.ok().body(userService.findByEmail(email).getId());
     }
 
     @GetMapping("/findbyID/{id}")
-    public ResponseEntity<Users> findbyID(@PathVariable Long id){
+    public ResponseEntity<?> findbyID(@PathVariable Long id){
         return ResponseEntity.ok().body(userService.findById(id));
     }
 

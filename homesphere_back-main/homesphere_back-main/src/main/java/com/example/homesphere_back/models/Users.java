@@ -38,9 +38,6 @@ public class Users {
     // de cada usuario.
     private String password;
 
-    // ¿cómo vemos los administradores?
-    // falta agenda, notificaciones, reseñas, pagos
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user")
     private List<Property> properties;

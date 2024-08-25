@@ -6,6 +6,7 @@ import com.example.homesphere_back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -18,10 +19,9 @@ public class UserService {
     public Users findByEmail(String email){return userRepository.findByEmail(email);}
     public Users findByRut(String rut){return userRepository.findByRut(rut);}
     public Users findByNumber(String number){return userRepository.findByNumber(number);}
-    public Users findByEmailAndPassword(String email, String password){return userRepository.findByEmailAndPassword(email, password);}
     public List<Users> obtainAll() {return userRepository.obtainAll();}
 
-    public Users findById(Long id){return userRepository.findById(id).get();}
+    public Optional<Users> findById(Long id){return userRepository.findById(id);}
 
     public boolean saveUser(Users user){
         if (((findByEmail(user.getEmail())) == null) &&
@@ -37,6 +37,38 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public boolean saveProperty(Property prop, Long id){
+        Optional<Users> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()){
+            Users user = optionalUser.get();
+
+            List<Property> properties = user.getProperties();
+            properties.add(prop);
+
+            user.setProperties(properties);
+            userRepository.save(user);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public List<Property> getPropertiesByUser(Long id){
+        Optional<Users> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()){
+            Users user = optionalUser.get();
+            return user.getProperties();
+        }else {
+            return null;
+        }
+    }
+
+    public boolean login(String email, String password){
+        return userRepository.findByEmailAndPassword(email, password) != null;
     }
 
     public boolean validateRut(String rut){
@@ -97,42 +129,42 @@ public class UserService {
         return false;
     }
 
-    public boolean login(String email, String password){
-        // si encuentra un usuario con esos datos retorna true
-        if (userRepository.findByEmailAndPassword(email, password) != null){
-            return true;
-        }
-        return false;
-    }
-
-    public Long getIdByEmail(String email){
-        Users user = userRepository.findByEmail(email);
-        return user.getId();
-    }
-
     public boolean updateEmail(Long id, String email){
-        Users user = userRepository.findById(id).get();
-        user.setEmail(email);
-        userRepository.save(user);
-        return true;
+        Optional<Users> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()){
+            Users user = optionalUser.get();
+            user.setEmail(email);
+            userRepository.save(user);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public boolean updateNumber(Long id, String number){
-        Users user = userRepository.findById(id).get();
-        user.setNumber(number);
-        userRepository.save(user);
-        return true;
+        Optional<Users> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()){
+            Users user = optionalUser.get();
+            user.setNumber(number);
+            userRepository.save(user);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public boolean updatePassword(Long id, String password){
-        Users user = userRepository.findById(id).get();
-        user.setPassword(password);
-        userRepository.save(user);
-        return true;
-    }
+        Optional<Users> optionalUser = userRepository.findById(id);
 
-    public List<Property> getPropertiesByUser(Long id){
-        Users user = userRepository.findById(id).get();
-        return user.getProperties();
+        if (optionalUser.isPresent()){
+            Users user = optionalUser.get();
+            user.setPassword(password);
+            userRepository.save(user);
+            return true;
+        }else {
+            return false;
+        }
     }
 }

@@ -16,15 +16,15 @@ public class Property {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    private String comuna;
+    private String neighboorhood;
     private String region;
-    private String tipo_publicacion;
-    private String tipo_propiedad;
-    private int tamano;
-    private double valor;
-    private int banos;
-    private int dormitorios;
-    private String descripcion;
-    private String telefono;
+    private String publicationType;
+    private String propertyType;
+    private int size;
+    private double value;
+    private int bathrooms;
+    private int bedrooms;
+    private String description;
+    private String number;
     private String email;
 }

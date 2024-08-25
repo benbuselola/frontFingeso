@@ -1,10 +1,10 @@
 <template>
   <div v-if="propiedad" class="prop" @click="guardarIdYRedirigir">
     <img class="imgprop" :src="imagenPropiedad" alt="Imagen de la propiedad">
-    <p>{{ propiedad.tipo_propiedad || 'Tipo desconocido' }}</p>
-    <p class="precio">{{ propiedad.valor ? propiedad.valor + " (UF)" : 'Valor no disponible' }}</p>
-    <p>{{ propiedad.comuna || 'Comuna no especificada' }}</p>
-    <p>{{ propiedad.descripcion || 'Descripción no disponible' }}</p>
+    <p>{{ propiedad.propertyType || 'Tipo desconocido' }}</p>
+    <p class="precio">{{ propiedad.value ? propiedad.value + " (UF)" : 'Valor no disponible' }}</p>
+    <p>{{ propiedad.neighboorhood || 'Comuna no especificada' }}</p>
+    <p>{{ propiedad.description || 'Descripción no disponible' }}</p>
   </div>
   <div v-else>
     <p>No hay información de la propiedad disponible.</p>
@@ -29,10 +29,10 @@ export default {
     const router = useRouter();
 
     const imagenPropiedad = computed(() => {
-      if (props.propiedad.tipo_propiedad) {
-        if (props.propiedad.tipo_propiedad.toLowerCase() === 'casa') {
+      if (props.propiedad.propertyType) {
+        if (props.propiedad.propertyType.toLowerCase() === 'casa') {
           return pordefectoCasa;
-        } else if (props.propiedad.tipo_propiedad.toLowerCase() === 'departamento') {
+        } else if (props.propiedad.propertyType.toLowerCase() === 'departamento') {
           return pordefectoDepartamento;
         }
       }

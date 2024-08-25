@@ -14,7 +14,7 @@
     <h2>Publica tu Propiedad</h2>
     <form @submit.prevent="registroProp">
       <div class="form-group">
-        <ComunasSelector v-model="comuna" required />
+        <ComunasSelector v-model="neighboorhood" required />
       </div>
       <div class="form-group">
         <label for="region">Región</label>
@@ -25,7 +25,7 @@
       </div>
       <div class="form-group">
         <label for="tipo_publicacion">Tipo de Publicación</label>
-        <select id="tipo_publicacion" v-model="tipo_publicacion" required>
+        <select id="tipo_publicacion" v-model="publicationType" required>
           <option value="" disabled>Seleccione el tipo</option>
           <option value="vender">Vender</option>
           <option value="arrendar">Arrendar</option>
@@ -33,7 +33,7 @@
       </div>
       <div class="form-group">
         <label for="tipo_propiedad">Tipo de Propiedad</label>
-        <select id="tipo_propiedad" v-model="tipo_propiedad" required>
+        <select id="tipo_propiedad" v-model="propertyType" required>
           <option value="" disabled>Seleccione el tipo</option>
           <option value="casa">Casa</option>
           <option value="departamento">Departamento</option>
@@ -41,27 +41,27 @@
       </div>
       <div class="form-group">
         <label for="tamano">Tamaño de la Vivienda (m²)</label>
-        <input type="number" id="tamano" v-model="tamano" placeholder="Ingrese el tamaño en m²" required min="1">
+        <input type="number" id="tamano" v-model="size" placeholder="Ingrese el tamaño en m²" required min="1">
       </div>
       <div class="form-group">
         <label for="valor">Valor (UF)</label>
-        <input type="number" id="valor" v-model="valor" placeholder="Ingrese el valor en UF" required>
+        <input type="number" id="valor" v-model="value" placeholder="Ingrese el valor en UF" required>
       </div>
       <div class="form-group">
         <label for="banos">Cantidad de Baños</label>
-        <input type="number" id="banos" v-model="banos" placeholder="Ingrese la cantidad de baños" required min="1">
+        <input type="number" id="banos" v-model="bathrooms" placeholder="Ingrese la cantidad de baños" required min="1">
       </div>
       <div class="form-group">
         <label for="dormitorios">Cantidad de Dormitorios</label>
-        <input type="number" id="dormitorios" v-model="dormitorios" placeholder="Ingrese la cantidad de dormitorios" required min="1">
+        <input type="number" id="dormitorios" v-model="bedrooms" placeholder="Ingrese la cantidad de dormitorios" required min="1">
       </div>
       <div class="form-group">
         <label for="descripcion">Descripción</label>
-        <textarea id="descripcion" v-model="descripcion" placeholder="Describa la propiedad" required></textarea>
+        <textarea id="descripcion" v-model="description" placeholder="Describa la propiedad" required></textarea>
       </div>
       <div class="form-group">
         <label for="telefono">Teléfono</label>
-        <input type="tel" id="telefono" v-model="telefono" placeholder="Ingrese su número de teléfono" required>
+        <input type="tel" id="telefono" v-model="number" placeholder="Ingrese su número de teléfono" required>
       </div>
       <div class="form-group">
         <label for="email">Correo Electrónico</label>
@@ -84,16 +84,16 @@ export default {
     ComunasSelector,
   },
   setup() {
-    const comuna = ref(''); 
+    const neighboorhood = ref(''); 
     const region = ref('');
-    const tipo_publicacion = ref('');
-    const tipo_propiedad = ref('');
-    const tamano = ref('');
-    const valor = ref('');
-    const banos = ref('');
-    const dormitorios = ref('');
-    const descripcion = ref('');
-    const telefono = ref('');
+    const publicationType = ref('');
+    const propertyType = ref('');
+    const size = ref('');
+    const value = ref('');
+    const bathrooms = ref('');
+    const bedrooms = ref('');
+    const description = ref('');
+    const number = ref('');
     const email = ref('');
     const message = ref('');
     const router = useRouter();
@@ -107,16 +107,16 @@ export default {
           return;
         }
         const propertyData = {
-          comuna: comuna.value,
+          neighboorhood: neighboorhood.value,
           region: region.value,
-          tipo_publicacion: tipo_publicacion.value,
-          tipo_propiedad: tipo_propiedad.value,
-          tamano: tamano.value,
-          valor: valor.value,
-          banos: banos.value,
-          dormitorios: dormitorios.value,
-          descripcion: descripcion.value,
-          telefono: telefono.value,
+          publicationType: publicationType.value,
+          propertyType: propertyType.value,
+          size: size.value,
+          value: value.value,
+          bathrooms: bathrooms.value,
+          bedrooms: bedrooms.value,
+          description: description.value,
+          number: number.value,
           email: email.value,
         };
 
@@ -137,16 +137,16 @@ export default {
     };
 
     return {
-      comuna,
+      neighboorhood,
       region,
-      tipo_publicacion,
-      tipo_propiedad,
-      tamano,
-      valor,
-      banos,
-      dormitorios,
-      descripcion,
-      telefono,
+      publicationType,
+      propertyType,
+      size,
+      value,
+      bathrooms,
+      bedrooms,
+      description,
+      number,
       email,
       message,
       registroProp,

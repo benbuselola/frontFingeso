@@ -20,31 +20,31 @@
       <div class="user-details">
         <div class="comunaProp">
           <p>Comuna: </p>
-          <h1>{{ property.comuna }}</h1>
+          <h1>{{ property.neighboorhood }}</h1>
         </div>
         <div class="tipoProp">
           <p>Tipo de propiedad: </p>
-          <h1>{{ property.tipo_propiedad }}</h1>
+          <h1>{{ property.propertyType }}</h1>
         </div>
         <div class="m2Prop">
           <p>Metros cuadrados: </p>
-          <h1>{{ property.tamano }} M²</h1>
+          <h1>{{ property.size }} M²</h1>
         </div>
         <div class="dormProp">
           <p>Dormitorios: </p>
-          <h1>{{ property.dormitorios }} Dormitorios</h1>
+          <h1>{{ property.bedrooms }} Dormitorios</h1>
         </div>
         <div class="banioProp">
           <p>Baños: </p>
-          <h1>{{ property.banos }} Baños</h1>
+          <h1>{{ property.bathrooms }} Baños</h1>
         </div>
         <div class="precioProp">
           <p>Precio: </p>
-          <h1>{{ property.valor }} UF</h1>
+          <h1>{{ property.value }} UF</h1>
         </div>
         <div class="descipProp">
           <p>Descripción: </p>
-          <h1>{{ property.descripcion }}</h1>
+          <h1>{{ property.description }}</h1>
         </div>
         <a :href="'mailto:' + property.email">
           <button class="contact-seller-button">Contactar vendedor!</button>
@@ -83,9 +83,9 @@ export default {
           const response = await axios.get(`http://localhost:8080/property/findById/${propertyId}`);
           property.value = response.data;
 
-          if (property.value.tipo_propiedad.toLowerCase() === 'casa') {
+          if (property.value.propertyType.toLowerCase() === 'casa') {
             imagen.value = pordefectoCasa;
-          } else if (property.value.tipo_propiedad.toLowerCase() === 'departamento') {
+          } else if (property.value.propertyType.toLowerCase() === 'departamento') {
             imagen.value = pordefectoDepartamento;
           } else {
             imagen.value = pordefectoCasa;
