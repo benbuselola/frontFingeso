@@ -3,7 +3,7 @@
     <header class="header">
       <div class="logo-section">
         <a @click="navigateTo('/principal')">
-          <img src="../components/images/image.png" alt="Nombre de la página" height="60">
+          <img src="../components/images/image.png" alt="Nombre de la página" height="60" @click="navigateTologo('/principal')">
         </a>
       </div>
       <nav class="nav">
@@ -36,18 +36,30 @@
           <button class="update-password" @click="navigateTo('/actualizaContrasena')">Cambia tu contraseña</button>
           <button class="update-number" @click="navigateTo('/cambiarNumero')">Actualiza tu número</button>
         </div>
-
       </div>
     </div>
 
-    <div class="property-list">
+    <!-- Botones para mostrar propiedades y me gusta -->
+    <div class="action-buttons">
+      <button class="view-properties" @click="showSection('properties')">Ver propiedades</button>
+      <button class="view-likes" @click="showSection('likes')">Ver me gusta</button>
+    </div>
+
+    <div v-if="currentSection === 'properties'" class="property-list">
       <Propiedad v-for="propiedad in properties" :key="propiedad.id" :propiedad="propiedad" />
+    </div>
+
+    <div v-if="currentSection === 'likes'" class="likes-list">
+      <div v-for="like in likes" :key="like.id" class="like-item">
+        <!-- Mostrar información del "me gusta" -->
+        <p>{{ like.description }}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import Propiedad from '../components/propiedad.vue';
@@ -63,50 +75,63 @@ export default {
     const userEmail = ref('')
     const userPhone = ref('')
     const properties = ref([])
+    const likes = ref([])
+    const currentSection = ref('properties') // Inicialmente se muestra "properties"
 
     onMounted(async () => {
       checkAuth();
       try {
         const userId = localStorage.getItem('usuario');
-        const response = await axios.get(`http://localhost:8080/users/findbyID/${userId}`);
-        const userData = response.data;
+        const userResponse = await axios.get(`http://localhost:8080/users/findbyID/${userId}`);
+        const userData = userResponse.data;
 
         userFullName.value = `${userData.firstName} ${userData.secondName} ${userData.lastName} ${userData.secondLastName}`;
         userEmail.value = userData.email;
         userPhone.value = userData.number;
 
         const propertiesResponse = await axios.get(`http://localhost:8080/users/getPropertiesbyUser/${userId}`);
-        
-        console.log('Respuesta de propiedades:', propertiesResponse.data);
-
         properties.value = propertiesResponse.data;
+
+        const likesResponse = await axios.get(`http://localhost:8080/users/getLikesbyUser/${userId}`);
+        likes.value = likesResponse.data;
         
       } catch (error) {
         console.error('Error al obtener la información del usuario:', error);
       }
     });
 
-    watch(() => router.currentRoute.value, () => {
-      checkAuth()
-    })
-
-  const checkAuth = () => {
-    const userId = localStorage.getItem('usuario')
-    if (!userId) {
-      router.push('/login')
+    const checkAuth = () => {
+      const userId = localStorage.getItem('usuario')
+      if (!userId) {
+        router.push('/login')
+      }
     }
-  }
 
     const navigateTo = (route) => {
+      if(route === '/actualizaCorreo') localStorage.setItem('editionUser', 1)
+      if(route === '/actualizaContrasena') localStorage.setItem('editionUser', 2)
+      if(route === '/cambiarNumero') localStorage.setItem('editionUser', 3)
+      router.push('/actualizaDatosPerfil')
+    }
+
+    const showSection = (section) => {
+      currentSection.value = section;
+    }
+
+    const navigateTologo = (route) => {
       router.push(route)
     }
 
     return {
       navigateTo,
+      showSection,
       userFullName,
       userEmail,
       userPhone,
-      properties
+      properties,
+      likes,
+      currentSection,
+      navigateTologo
     }
   }
 }

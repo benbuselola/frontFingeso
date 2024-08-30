@@ -1,56 +1,71 @@
-
 <template>
   <div id="app">
     <header>
-      <div class="logo-section">
-        <img src="../components/images/image.png" alt="Nombre de la página" height="60" @click="navigateTo('/principalPage')">
+      <div class="header-content">
+        <div class="logo-section">
+          <img src="../components/images/image.png" alt="Nombre de la página" height="60" @click="navigateTo('/principal')">
+        </div>
+        <nav>
+          <ul>
+            <li v-if="!isAuthenticated">
+              <a @click="navigateTo('/registro')">Regístrate</a>
+            </li>
+            <li v-if="!isAuthenticated">
+              <a @click="navigateTo('/login')">Ingresa</a>
+            </li>
+            <li>
+              <a @click="navigateTo('/soporte')">Ayuda</a>
+            </li>
+            <div class="botonesPPL">
+              <li v-if="isAuthenticated">
+                <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
+              </li>
+              <li v-if="isAuthenticated">
+                <button class="profile-button" @click="navigateTo('/perfil')">Mi Perfil</button>
+              </li>
+              <li v-if="isAuthenticated">
+                <button class="logout-button" @click="logout">Cerrar sesión</button>
+              </li>
+            </div>
+          </ul>
+        </nav>
       </div>
-      <nav>
-        <ul>
-          <li v-if="!isAuthenticated">
-            <a @click="navigateTo('/registro')">Regístrate</a>
-          </li>
-          <li v-if="!isAuthenticated">
-            <a @click="navigateTo('/login')">Ingresa</a>
-          </li>
-          <li>
-            <a @click="navigateTo('/soporte')">Ayuda</a>
-          </li>
-          <div class="botonesPPL">
-            <li v-if="isAuthenticated">
-              <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
-            </li>
-            <li v-if="isAuthenticated">
-              <button class="profile-button" @click="navigateTo('/perfil')">Mi Perfil</button>
-            </li>
-            <li v-if="isAuthenticated">
-              <button class="logout-button" @click="logout">Cerrar sesión</button>
-            </li>
-          </div>
-        </ul>
-      </nav>
     </header>
-    
-    <main>
-      <router-view></router-view>
-      <div class="contenido">
-        <div class="filtros">
-          <h2>Filtros</h2>
-          <div class="filtro" v-for="filtro in filtros" :key="filtro" @click="toggleFilter(filtro)">
-            {{ filtro }}
-          </div>
-        </div>
-        <div class="propiedades">
-          <Propiedad
-            v-for="propiedad in propiedades"
-            :key="propiedad.id"
-            :propiedad="propiedad" 
-          />
-        </div>
+
+    <!-- Imagen promocional -->
+    <div class="promo-image">
+      <img src="../components/images/2.png" alt="Promociones inmobiliarias" />
+    </div>
+
+    <!-- Barra de filtros -->
+    <div class="search-filters">
+      <button @click="algo" class="mayorPrecio">Mayor Precio</button>
+      <button @click="algo" class="menorPrecio">Menor Precio</button>
+      <select v-model="saleType" class="filter-select">
+        <option value="venta">Venta</option>
+        <option value="arriendo">Arriendo</option>
+      </select>
+      <select v-model="propertyType" class="filter-select">
+        <option value="departamentos">Departamentos</option>
+        <option value="casas">Casas</option>
+      </select>
+      <input v-model="location" type="text" placeholder="Ingresa comuna o ciudad" class="filter-input" />
+      <button @click="search" class="search-button">Buscar</button>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="contenido">
+      <div class="propiedades">
+        <Propiedad
+          v-for="propiedad in propiedades"
+          :key="propiedad.id"
+          :propiedad="propiedad" 
+        />
       </div>
-    </main>
+    </div>
 
     <footer>
+      <!-- Puedes agregar contenido para el pie de página aquí -->
     </footer>
   </div>
 </template>
@@ -71,13 +86,31 @@ export default {
     
     const isAuthenticated = ref(false);
     const propiedades = ref([]);
-    const filtros = ['Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5', 'Filtro 6', 'Filtro 7'];
+    
+    // Nuevas variables para los filtros
+    const saleType = ref('venta');
+    const propertyType = ref('departamentos');
+    const location = ref('');
+    const projectsOnly = ref(false);
 
     const navigateTo = (route) => {
       router.push(route);
     };
 
-    const toggleFilter = (filtro) => {
+    const search = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/property/search', {
+          params: {
+            saleType: saleType.value,
+            propertyType: propertyType.value,
+            location: location.value,
+            projectsOnly: projectsOnly.value
+          }
+        });
+        propiedades.value = response.data;
+      } catch (error) {
+        console.error('Error during search:', error.response ? error.response.data : error.message);
+      }
     };
 
     const checkAuth = () => {
@@ -91,15 +124,17 @@ export default {
       router.push('/login');
     };
 
-    onMounted(async () => {
+    onMounted(() => {
       checkAuth();
-      try {
-        const response = await axios.get('http://localhost:8080/property/obtainAll');
-        propiedades.value = response.data;
-        console.log('Propiedades obtenidas:', propiedades.value);  
-      } catch (error) {
-        console.error('Error fetching properties:', error.response ? error.response.data : error.message);
-      }
+      // Fetch properties on mount
+      axios.get('http://localhost:8080/property/obtainAll')
+        .then(response => {
+          propiedades.value = response.data;
+          console.log('Propiedades obtenidas:', propiedades.value);  
+        })
+        .catch(error => {
+          console.error('Error fetching properties:', error.response ? error.response.data : error.message);
+        });
     });
 
     watch(() => router.currentRoute.value, () => {
@@ -109,8 +144,11 @@ export default {
     return {
       navigateTo,
       isAuthenticated,
-      filtros,
-      toggleFilter,
+      saleType,
+      propertyType,
+      location,
+      projectsOnly,
+      search,
       propiedades,
       logout
     };
@@ -119,14 +157,23 @@ export default {
 </script>
 
 <style scoped>
-
+/* Estilo del header */
 header {
+  display: flex;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 15px;
-  background-color: #4CAF50;
-  color: white;
+  width: 100%;
+  max-width: 1200px;
 }
 
 header .logo-section img {
@@ -158,123 +205,131 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 
-nav ul li a, .publish-button, .profile-button {
-  color: white;
-  text-decoration: none;
-  background: none;
-  border: none;
-  padding: 10px 15px;
-  font-size: 18px;
-  cursor: pointer;
-  
+.botonesPPL {
+  display: flex;
+  gap: 15px; /* Espacio entre los botones */
 }
 
-.publish-button,.profile-button {
+.publish-button, .profile-button, .logout-button {
   background-color: #3483fa;
-  padding: 10px 15px;
+  color: white;
+  border: none;
+  padding: 10px 20px;
   border-radius: 5px;
-  
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
-
-nav ul li a:hover, .publish-button:hover, .profile-button:hover {
-  text-decoration: underline;
+.publish-button:hover, .profile-button:hover, .logout-button:hover {
+  background-color: #296fc1;
 }
 
-main {
-  padding: 20px;
+.profile-button {
+  background-color: #0011f9;
 }
 
+.profile-button:hover {
+  background-color: #3a2da7;
+}
+
+.logout-button {
+  background-color: #f44336;
+}
+
+.logout-button:hover {
+  background-color: #c62828;
+}
+
+/* Imagen promocional */
+.promo-image {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  margin: 0;
+}
+
+.promo-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Barra de filtros */
+.search-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px 25px;
+  background-color: #f7f7f7;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.filter-select,
+.filter-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.filter-select:hover,
+.filter-input:hover {
+  border-color: #888;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+}
+
+.search-button {
+  background-color: #3483fa;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #296fc1;
+}
+
+.map-search {
+  align-self: center;
+  margin-left: 10px;
+  color: #3483fa;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.map-search:hover {
+  color: #296fc1;
+}
+
+/* Contenido principal */
 .contenido {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   margin-top: 20px;
-}
-
-.filtros {
-  border: 1px solid #ccc;
-  padding: 10px;
-  width: 400px;
-  max-width: 600px;
-  max-height: 600px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.filtros h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.filtro {
-  padding: 5px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: background-color 0.3s, border 0.3s;
-}
-
-.filtro:hover {
-  background-color: #f0f0f0;
-}
-
-.filtro.selected {
-  background-color: #d0e6f6;
-  border: 1px solid #007bff;
 }
 
 .propiedades {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 15px;
-  margin: 20px 0;
-}
-
-
-.info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.tituloinfo {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.links-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.link {
-  text-decoration: none;
-  color: #007BFF;
-  font-size: 18px;
-}
-
-.link:hover {
-  text-decoration: underline;
-}
-
-.logout-button {
-  background-color: #dc3545;
-  padding: 10px 15px;
-  border-radius: 5px;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.logout-button:hover {
-  background-color: #c82333;
-}
-.botonesPPL {
-  display: flex;
-
   justify-content: center;
-  align-items: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 </style>
