@@ -9,7 +9,7 @@ import propiedadPerfil from '../views/propiedadPerfil.vue'
 import soporte from '../views/soporte.vue'
 import actualizaCorreo from '../views/actualizarDatosPerfil.vue'
 import actualizaContrasena from '../views/cambiarContrasena.vue'
-import cambiarNumero from '../views/actualizarNumero.vue'
+import propiedadesAdministracion from '../views/propiedadesAdministracion.vue'
 import ActualizarDatosPerfil from '../views/actualizarDatosPerfil.vue'
 
 const routes = [
@@ -38,9 +38,9 @@ const routes = [
     component: actualizaContrasena,
   },
   {
-    path: '/cambiarNumero',
-    name: 'cambiarNumero',
-    component: cambiarNumero,
+    path: '/propiedadesAdministracion',
+    name: 'propiedadesAdministracion',
+    component: propiedadesAdministracion,
   },
   {
     path: '/soporte',

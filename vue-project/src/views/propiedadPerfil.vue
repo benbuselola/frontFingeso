@@ -8,7 +8,9 @@
         <ul class="nav-list">
           <li><router-link to="/principal" class="nav-link">Inicio</router-link></li>
           <li><router-link to="/soporte" class="nav-link">Ayuda</router-link></li>
-          <li><button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button></li>
+          <li v-if="isAuthenticated">
+            <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
+          </li>
         </ul>
       </nav>
     </header>
@@ -51,15 +53,11 @@
         </a>
       </div>
     </div>
-
-    <div class="property-list">
-      <!-- Aquí puedes mostrar otras propiedades relacionadas si lo deseas -->
-    </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import pordefectoCasa from "../components/images/casa.jpeg";
@@ -70,11 +68,32 @@ export default {
   setup() {
     const router = useRouter();
     const property = ref(null);
-    const imagen = ref(''); 
+    const imagen = ref('');
+    const isAuthenticated = ref(false);
 
     const navigateTo = (route) => {
       router.push(route);
     };
+
+    const checkAuth = () => {
+      const userId = localStorage.getItem('usuario');
+      isAuthenticated.value = !!userId;
+    };
+
+    const logout = () => {
+      localStorage.removeItem('usuario');
+      isAuthenticated.value = false;
+      router.push('/login');
+    };
+
+    onMounted(() => {
+      checkAuth();
+      fetchPropertyData();
+    });
+
+    watch(() => router.currentRoute.value, () => {
+      checkAuth();
+    });
 
     const fetchPropertyData = async () => {
       const propertyId = localStorage.getItem('selectedPropertyId');
@@ -96,13 +115,10 @@ export default {
       }
     };
 
-    onMounted(() => {
-      fetchPropertyData();
-    });
-
     return {
       navigateTo,
       property,
+      isAuthenticated,
       imagen
     };
   }
@@ -111,7 +127,7 @@ export default {
 
 <style scoped>
 /* Estilos del componente */
-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -119,14 +135,15 @@ header {
   background-color: #4CAF50;
   color: white;
 }
-header .logo-section img {
+
+.logo-section img {
   cursor: pointer;
   width: 100px;
   height: 60px;
   border-radius: 10px;
 }
 
-nav ul {
+.nav ul {
   display: flex;
   align-items: center;
   list-style: none;
@@ -134,19 +151,20 @@ nav ul {
   margin: 0;
 }
 
-nav ul li {
+.nav ul li {
   margin-right: 20px;
 }
 
-nav ul li a {
+.nav ul li a {
   color: white;
   text-decoration: none;
   font-size: 18px;
 }
 
-nav ul li a:hover {
+.nav ul li a:hover {
   text-decoration: underline;
 }
+
 .publish-button {
   background-color: #3483fa;
   color: white;
@@ -178,22 +196,26 @@ nav ul li a:hover {
   height: 300px;
   border-radius: 30px;
 }
-.nombreProp, .direcProp, .comunaProp, .tipoProp, .m2Prop, .dormProp, .banioProp, .precioProp,.descipProp {
+
+.comunaProp, .tipoProp, .m2Prop, .dormProp, .banioProp, .precioProp, .descipProp {
   display: flex;
   flex-direction: row;
   justify-content: center;
   text-align: start;
 }
+
 .user-details {
   display: flex;
   flex-direction: column;
   text-align: center;
 }
+
 p {
   font-size: 22px;
   margin: 10px 0;
   color: #555;
 }
+
 .user-details h1 {
   font-size: 22px;
   margin: 10px 0;

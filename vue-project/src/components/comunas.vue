@@ -1,6 +1,5 @@
 <template>
   <div class="form-group">
-    <label for="comunas">Comunas</label>
     <select id="comunas" v-model="selectedComuna">
       <option value="" disabled>Seleccione una comuna</option>
       <slot>

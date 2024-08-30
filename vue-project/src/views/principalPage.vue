@@ -49,7 +49,7 @@
         <option value="departamentos">Departamentos</option>
         <option value="casas">Casas</option>
       </select>
-      <input v-model="location" type="text" placeholder="Ingresa comuna o ciudad" class="filter-input" />
+      <ComunaSelect v-model="location" required class="filter-select comuna-selector"/>
       <button @click="search" class="search-button">Buscar</button>
     </div>
 
@@ -75,23 +75,22 @@ import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import Propiedad from '../components/propiedad.vue';
+import ComunaSelect from '../components/comunas.vue';
 
 export default {
   name: 'App',
   components: {
-    Propiedad
+    Propiedad,
+    ComunaSelect
   },
   setup() {
     const router = useRouter();
-    
     const isAuthenticated = ref(false);
     const propiedades = ref([]);
-    
-    // Nuevas variables para los filtros
     const saleType = ref('venta');
     const propertyType = ref('departamentos');
     const location = ref('');
-    const projectsOnly = ref(false);
+
 
     const navigateTo = (route) => {
       router.push(route);
@@ -104,7 +103,6 @@ export default {
             saleType: saleType.value,
             propertyType: propertyType.value,
             location: location.value,
-            projectsOnly: projectsOnly.value
           }
         });
         propiedades.value = response.data;
@@ -147,7 +145,6 @@ export default {
       saleType,
       propertyType,
       location,
-      projectsOnly,
       search,
       propiedades,
       logout
@@ -283,6 +280,11 @@ nav ul li a:hover {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+.comuna-selector {
+  max-width: 200px; /* Ajusta este valor según tus necesidades */
+  width: 100%; 
+}
+
 .filter-checkbox {
   display: flex;
   align-items: center;
@@ -294,7 +296,7 @@ nav ul li a:hover {
   background-color: #3483fa;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 5px 20px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -302,19 +304,6 @@ nav ul li a:hover {
 
 .search-button:hover {
   background-color: #296fc1;
-}
-
-.map-search {
-  align-self: center;
-  margin-left: 10px;
-  color: #3483fa;
-  text-decoration: none;
-  font-size: 14px;
-  transition: color 0.3s ease;
-}
-
-.map-search:hover {
-  color: #296fc1;
 }
 
 /* Contenido principal */

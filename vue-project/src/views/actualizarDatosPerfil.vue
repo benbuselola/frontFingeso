@@ -86,11 +86,11 @@ export default {
 
     // Función para recuperar editionUser de localStorage
     const loadEditionUser = () => {
+      checkAuth();
       const storedEditionUser = localStorage.getItem('editionUser')
       editionUser.value = storedEditionUser ? parseInt(storedEditionUser, 10) : 1
     }
 
-    // Llamar a la función para cargar editionUser al montar el componente
     onMounted(() => {
       loadEditionUser()
     })
@@ -167,11 +167,19 @@ export default {
       }
     }
 
+    const checkAuth = () => {
+      const userId = localStorage.getItem('usuario')
+      if (!userId) {
+        router.push('/login')
+      }
+    }
+
     const navigateTo = (route) => {
       router.push(route)
     }
 
     return {
+      checkAuth,
       updateEmail,
       updatePassword,
       updateNumber,

@@ -14,6 +14,7 @@
     <h2>Publica tu Propiedad</h2>
     <form @submit.prevent="registroProp">
       <div class="form-group">
+        <label for="comuna">Comuna</label>
         <ComunasSelector v-model="neighboorhood" required />
       </div>
       <div class="form-group">
@@ -97,6 +98,7 @@ export default {
     const email = ref('');
     const message = ref('');
     const router = useRouter();
+
 
     const registroProp = async () => {
       try {
