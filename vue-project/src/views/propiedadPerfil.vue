@@ -23,31 +23,39 @@
         <div class="comunaProp">
           <p>Comuna: </p>
           <h1>{{ property.neighboorhood }}</h1>
+          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarComuna')">Editar</button>
         </div>
         <div class="tipoProp">
           <p>Tipo de propiedad: </p>
           <h1>{{ property.propertyType }}</h1>
+          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarTipo')">Editar</button>
         </div>
         <div class="m2Prop">
           <p>Metros cuadrados: </p>
           <h1>{{ property.size }} M²</h1>
+          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarMetros')">Editar</button>
         </div>
         <div class="dormProp">
           <p>Dormitorios: </p>
           <h1>{{ property.bedrooms }} Dormitorios</h1>
+          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarDormitorios')">Editar</button>
         </div>
         <div class="banioProp">
           <p>Baños: </p>
           <h1>{{ property.bathrooms }} Baños</h1>
+          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarBaños')">Editar</button>
         </div>
         <div class="precioProp">
           <p>Precio: </p>
           <h1>{{ property.value }} UF</h1>
+          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarPrecio')">Editar</button>
         </div>
         <div class="descipProp">
           <p>Descripción: </p>
           <h1>{{ property.description }}</h1>
+          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarDescripcion')">Editar</button>
         </div>
+        <button @click="toggleEditButtons" class="edit-button">Editar Propiedad</button>
         <a :href="'mailto:' + property.email">
           <button class="contact-seller-button">Contactar vendedor!</button>
         </a>
@@ -70,6 +78,11 @@ export default {
     const property = ref(null);
     const imagen = ref('');
     const isAuthenticated = ref(false);
+    const showEditButtons = ref(false); 
+
+    const toggleEditButtons = () => {
+      showEditButtons.value = !showEditButtons.value;
+    };
 
     const navigateTo = (route) => {
       router.push(route);
@@ -115,15 +128,30 @@ export default {
       }
     };
 
+    const navigateToEdit = (edition) => {
+      if (edition === '/actualizarComuna') localStorage.setItem('editionProperty', 1);
+      if (edition === '/actualizarTipo') localStorage.setItem('editionProperty', 2);
+      if (edition === '/actualizarMetros') localStorage.setItem('editionProperty', 3);
+      if (edition === '/actualizarDormitorios') localStorage.setItem('editionProperty', 4);
+      if (edition === '/actualizarBaños') localStorage.setItem('editionProperty', 5);
+      if (edition === '/actualizarPrecio') localStorage.setItem('editionProperty', 6);
+      if (edition === '/actualizarDescripcion') localStorage.setItem('editionProperty', 7);
+      router.push('/actualizaDatosPropiedad');
+    };
+
     return {
       navigateTo,
+      toggleEditButtons,
+      navigateToEdit,
       property,
       isAuthenticated,
-      imagen
+      imagen,
+      showEditButtons
     };
   }
 };
 </script>
+
 
 <style scoped>
 /* Estilos del componente */

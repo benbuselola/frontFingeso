@@ -1,5 +1,6 @@
 <template>
   <div v-if="propiedad" class="prop" @click="guardarIdYRedirigir">
+    <button v-if="acto" @click.stop="likeProperty">Me gusta</button>
     <img class="imgprop" :src="imagenPropiedad" alt="Imagen de la propiedad">
     <p>{{ propiedad.propertyType || 'Tipo desconocido' }}</p>
     <p class="precio">{{ propiedad.value ? propiedad.value + " (UF)" : 'Valor no disponible' }}</p>
@@ -12,7 +13,7 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import pordefectoCasa from "../components/images/casa.jpeg";
 import pordefectoDepartamento from "../components/images/departamento.jpeg";
@@ -27,6 +28,14 @@ export default {
   },
   setup(props) {
     const router = useRouter();
+    const acto = ref(false); // Corregido: Uso de ref en lugar de ref[]
+
+    const verificacion = () => {
+      const usuario = localStorage.getItem('usuario');
+      if (usuario) {
+        acto.value = true; // Actualización del valor de la referencia reactiva
+      }
+    };
 
     const imagenPropiedad = computed(() => {
       if (props.propiedad.propertyType) {
@@ -48,9 +57,24 @@ export default {
       }
     };
 
+    const likeProperty = () => {
+      if (props.propiedad && props.propiedad.id) {
+        // Lógica para marcar la propiedad como favorita
+        console.log('Me gusta la propiedad con ID:', props.propiedad.id);
+      } else {
+        console.error('ID de propiedad no disponible');
+      }
+    };
+
+    onMounted(() => {
+      verificacion(); // Llamada a la función al montar el componente
+    });
+
     return {
       imagenPropiedad,
-      guardarIdYRedirigir
+      guardarIdYRedirigir,
+      likeProperty,
+      acto // Incluye la referencia acto en el objeto de retorno
     };
   }
 }

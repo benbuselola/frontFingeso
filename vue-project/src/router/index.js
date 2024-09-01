@@ -7,8 +7,7 @@ import PublicarPropiedad from '../views/publicarPropiedad.vue'
 import perfil from '../views/perfil.vue'
 import propiedadPerfil from '../views/propiedadPerfil.vue'
 import soporte from '../views/soporte.vue'
-import actualizaCorreo from '../views/actualizarDatosPerfil.vue'
-import actualizaContrasena from '../views/cambiarContrasena.vue'
+import actualizaDatosPropiedad from '../views/actualizarDatosPropiedad.vue'
 import propiedadesAdministracion from '../views/propiedadesAdministracion.vue'
 import ActualizarDatosPerfil from '../views/actualizarDatosPerfil.vue'
 
@@ -33,9 +32,9 @@ const routes = [
     component: ActualizarDatosPerfil,
   },
   {
-    path: '/actualizaContrasena',
-    name: 'actualizaContrasena',
-    component: actualizaContrasena,
+    path: '/actualizaDatosPropiedad',
+    name: 'actualizaDatosPropiedad',
+    component: actualizaDatosPropiedad,
   },
   {
     path: '/propiedadesAdministracion',
