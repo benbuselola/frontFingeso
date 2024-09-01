@@ -24,10 +24,6 @@ public class UserService {
     public Optional<Users> findById(Long id){return userRepository.findById(id);}
 
     public boolean saveUser(Users user){
-        if (((findByEmail(user.getEmail())) == null) &&
-                ((findByRut(user.getRut())) == null) &&
-                ((findByNumber(user.getNumber())) == null)){
-
             String userName = user.getFirstName();
             String subject = "Bienvenido/a :)" + userName;
             String body = "Es un gusto tenerte con nosotros, te ayudaremos a completar tu sueño de " +
@@ -35,8 +31,6 @@ public class UserService {
             mailService.sendEmail(user.getEmail(), subject, body);
             userRepository.save(user);
             return true;
-        }
-        return false;
     }
 
     public boolean saveProperty(Property prop, Long id){

@@ -10,6 +10,7 @@ import soporte from '../views/soporte.vue'
 import actualizaDatosPropiedad from '../views/actualizarDatosPropiedad.vue'
 import propiedadesAdministracion from '../views/propiedadesAdministracion.vue'
 import ActualizarDatosPerfil from '../views/actualizarDatosPerfil.vue'
+import administracion from '../views/administracion.vue'
 
 const routes = [
   {
@@ -66,6 +67,11 @@ const routes = [
     path: '/propiedadPerfil',
     name: 'propiedadPerfil',
     component: propiedadPerfil,
+  },
+  {
+    path: '/administracion',
+    name: 'administracion',
+    component: administracion,
   },
   
 ]
