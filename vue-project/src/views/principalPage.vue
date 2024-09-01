@@ -32,12 +32,10 @@
       </div>
     </header>
 
-    <!-- Imagen promocional -->
     <div class="promo-image">
       <img src="../components/images/2.png" alt="Promociones inmobiliarias" />
     </div>
 
-    <!-- Barra de filtros -->
     <div class="search-filters">
       <button @click="algo" class="mayorPrecio">Mayor Precio</button>
       <button @click="algo" class="menorPrecio">Menor Precio</button>
@@ -52,8 +50,6 @@
       <ComunaSelect v-model="location" required class="filter-select comuna-selector"/>
       <button @click="search" class="search-button">Buscar</button>
     </div>
-
-    <!-- Contenido principal -->
     <div class="contenido">
       <div class="propiedades">
         <Propiedad
@@ -124,7 +120,6 @@ export default {
 
     onMounted(() => {
       checkAuth();
-      // Fetch properties on mount
       axios.get('http://localhost:8080/property/obtainAll')
         .then(response => {
           propiedades.value = response.data;
@@ -154,7 +149,9 @@ export default {
 </script>
 
 <style scoped>
-/* Estilo del header */
+*{
+  font-family: 'Poppins';
+}
 header {
   display: flex;
   justify-content: center;
@@ -204,7 +201,7 @@ nav ul li a:hover {
 
 .botonesPPL {
   display: flex;
-  gap: 15px; /* Espacio entre los botones */
+  gap: 15px; 
 }
 
 .publish-button, .profile-button, .logout-button {
@@ -252,9 +249,10 @@ nav ul li a:hover {
   object-fit: cover;
 }
 
-/* Barra de filtros */
 .search-filters {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 15px;
   padding: 15px 25px;
@@ -279,10 +277,20 @@ nav ul li a:hover {
   border-color: #888;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
-
+.mayorPrecio , .menorPrecio{
+  height: 80px;
+  background-color: #4CA771;
+  color: #013237;
+  border: none; 
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 .comuna-selector {
-  max-width: 200px; /* Ajusta este valor según tus necesidades */
+  max-width: 220px; 
   width: 100%; 
+  
 }
 
 .filter-checkbox {
@@ -293,7 +301,8 @@ nav ul li a:hover {
 }
 
 .search-button {
-  background-color: #3483fa;
+  height: 80px;
+  background-color: #4CA771;
   color: white;
   border: none;
   padding: 5px 20px;
@@ -303,7 +312,7 @@ nav ul li a:hover {
 }
 
 .search-button:hover {
-  background-color: #296fc1;
+  background-color: #4CA771;
 }
 
 /* Contenido principal */

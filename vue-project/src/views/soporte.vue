@@ -78,6 +78,9 @@
   </script>
   
   <style scoped>
+  *{
+  font-family: 'Poppins';
+}
 header {
   display: flex;
   justify-content: space-between;
@@ -136,7 +139,6 @@ nav ul li a:hover {
   .form-group {
     margin-bottom: 20px;
   }
-  z
   .form-group label {
     display: block;
     margin-bottom: 5px;

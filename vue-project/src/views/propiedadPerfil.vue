@@ -154,7 +154,9 @@ export default {
 
 
 <style scoped>
-/* Estilos del componente */
+*{
+  font-family: 'Poppins';
+}
 .header {
   display: flex;
   justify-content: space-between;

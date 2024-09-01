@@ -268,6 +268,9 @@ export default {
 </script>
 
 <style scoped>
+*{
+  font-family: 'Poppins';
+}
 header {
   display: flex;
   justify-content: space-between;

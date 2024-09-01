@@ -8,8 +8,8 @@
       </div>
       <nav class="nav">
         <ul class="nav-list">
-          <li><a @click="navigateTo('/soporte')" class="nav-link">Ayuda</a></li>
-          <li><button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button></li>
+          <a class="help-button" @click="navigateTologo('/soporte')">Ayuda</a>
+          <button class="publish-button" @click="navigateTologo('/publicarPropiedad')">Publica tu propiedad</button>
         </ul>
       </nav>
     </header>
@@ -121,7 +121,6 @@ export default {
     const navigateTologo = (route) => {
       router.push(route)
     }
-
     return {
       navigateTo,
       showSection,
@@ -138,6 +137,9 @@ export default {
 </script>
 
 <style scoped>
+*{
+  font-family: 'Poppins';
+}
 header {
   display: flex;
   justify-content: space-between;
@@ -175,7 +177,7 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 
-.publish-button {
+.publish-button , .help-button{
   background-color: #3483fa;
   color: white;
   border: none;
@@ -183,6 +185,7 @@ nav ul li a:hover {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  margin: 20px
 }
 
 .user-details h1 {
