@@ -50,10 +50,7 @@
     </div>
 
     <div v-if="currentSection === 'likes'" class="likes-list">
-      <div v-for="like in likes" :key="like.id" class="like-item">
-        <!-- Mostrar información del "me gusta" -->
-        <p>{{ like.description }}</p>
-      </div>
+      <Propiedad v-for="like in likes" :key="like.id" :propiedad="like" />
     </div>
   </div>
   <footer class>
@@ -95,7 +92,7 @@ export default {
         const propertiesResponse = await axios.get(`http://localhost:8080/users/getPropertiesbyUser/${userId}`);
         properties.value = propertiesResponse.data;
 
-        const likesResponse = await axios.get(`http://localhost:8080/users/getLikesbyUser/${userId}`);
+        const likesResponse = await axios.get(`http://localhost:8080/users/showLikedProperties/${userId}`);
         likes.value = likesResponse.data;
         
       } catch (error) {

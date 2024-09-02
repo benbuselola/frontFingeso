@@ -5,7 +5,7 @@
     <p class="precio">{{ propiedad.value ? propiedad.value + " (UF)" : 'Valor no disponible' }}</p>
     <p>{{ propiedad.neighboorhood || 'Comuna no especificada' }}</p>
     <p>{{ propiedad.description || 'Descripción no disponible' }}</p>
-    <img class="favorite" :src="imagenFavorito" v-if="acto" @click.stop="likeProperty" alt="Favorito"></img>
+    <img class="favorite" :src="imagenFavorito" v-if="acto" @click.stop="likeProperty" alt="Favorito">
   </div>
   <div v-else>
     <p>No hay información de la propiedad disponible.</p>
@@ -19,6 +19,7 @@ import pordefectoCasa from "../components/images/casa.jpeg";
 import pordefectoDepartamento from "../components/images/departamento.jpeg";
 import fav from "../components/images/fav.png";
 import favClick from "../components/images/favourite.png"; 
+import axios from 'axios';
 
 export default {
   name: 'Propiedad',
@@ -31,12 +32,32 @@ export default {
   setup(props) {
     const router = useRouter();
     const acto = ref(false);
-    const imagenFavorito = ref(fav); 
+    const imagenFavorito = ref(fav);
+    const likedProperties = ref([]);
 
     const verificacion = () => {
       const usuario = localStorage.getItem('usuario');
       if (usuario) {
         acto.value = true;
+        fetchLikedProperties(usuario);
+      }
+    };
+
+    const fetchLikedProperties = async (userId) => {
+      try {
+        const response = await axios.get(`http://localhost:8080/users/showLikedProperties/${userId}`);
+        likedProperties.value = response.data;
+        updateFavoriteStatus();
+      } catch (error) {
+        console.error('Error fetching liked properties:', error);
+      }
+    };
+
+    const updateFavoriteStatus = () => {
+      if (props.propiedad && likedProperties.value.some(prop => prop.id === props.propiedad.id)) {
+        imagenFavorito.value = favClick;
+      } else {
+        imagenFavorito.value = fav;
       }
     };
 
@@ -60,10 +81,27 @@ export default {
       }
     };
 
-    const likeProperty = () => {
+    const likeProperty = async () => {
       if (props.propiedad && props.propiedad.id) {
-        console.log('Me gusta la propiedad con ID:', props.propiedad.id);
-        imagenFavorito.value = imagenFavorito.value === fav ? favClick : fav;
+        const userid = localStorage.getItem('usuario');
+        if (!userid) {
+          console.error('Usuario no autenticado');
+          return;
+        }
+
+        try {
+          if (imagenFavorito.value === fav) {
+            await axios.post(`http://localhost:8080/users/likeProperty/${userid}/${props.propiedad.id}`);
+            imagenFavorito.value = favClick;
+            likedProperties.value.push(props.propiedad);
+          } else {
+            await axios.post(`http://localhost:8080/users/removeLike/${userid}/${props.propiedad.id}`);
+            imagenFavorito.value = fav;
+            likedProperties.value = likedProperties.value.filter(prop => prop.id !== props.propiedad.id);
+          }
+        } catch (error) {
+          console.error('Error al actualizar el estado de "me gusta":', error);
+        }
       } else {
         console.error('ID de propiedad no disponible');
       }
@@ -78,11 +116,12 @@ export default {
       guardarIdYRedirigir,
       likeProperty,
       acto,
-      imagenFavorito  
+      imagenFavorito
     };
   }
 }
 </script>
+
 
 <style scoped>
 .favorite{
