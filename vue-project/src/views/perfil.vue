@@ -2,7 +2,7 @@
   <div>
     <header class="header">
       <div class="logo-section">
-        <a @click="navigateTo('/principal')">
+        <a @click="navigateTologo('/principal')">
           <img src="../components/images/image.png" alt="Nombre de la página" height="60" @click="navigateTologo('/principal')">
         </a>
       </div>
