@@ -83,4 +83,39 @@ public class PropertyController {
     public ResponseEntity<?> findByBedrooms(@PathVariable int bedrooms){
         return ResponseEntity.ok().body(propertyService.findByBedrooms(bedrooms));
     }
+
+    @PutMapping("/updateNeighboorhood/{id}/{neighboorhood}")
+    public ResponseEntity<Boolean> updateNeighboorhood(@PathVariable Long id, @PathVariable String neighboorhood){
+        return ResponseEntity.ok().body(propertyService.updateNeighboorhood(id, neighboorhood));
+    }
+
+    @PutMapping("/updatePropertyType/{id}/{propertyType}")
+    public ResponseEntity<Boolean> updatePropertyType(@PathVariable Long id, @PathVariable String propertyType){
+        return ResponseEntity.ok().body(propertyService.updatePropertyType(id, propertyType));
+    }
+
+    @PutMapping("/updateSize/{id}/{size}")
+    public ResponseEntity<Boolean> updateSize(@PathVariable Long id, @PathVariable int size){
+        return ResponseEntity.ok().body(propertyService.updateSize(id, size));
+    }
+
+    @PutMapping("/updateBedrooms/{id}/{bedrooms}")
+    public ResponseEntity<Boolean> updateBedrooms(@PathVariable Long id, @PathVariable int bedrooms){
+        return ResponseEntity.ok().body(propertyService.updateBedrooms(id, bedrooms));
+    }
+
+    @PutMapping("/updateBathrooms/{id}/{bathrooms}")
+    public ResponseEntity<Boolean> updateBathrooms(@PathVariable Long id, @PathVariable int bathrooms){
+        return ResponseEntity.ok().body(propertyService.updateBathrooms(id, bathrooms));
+    }
+
+    @PutMapping("/updatePrice/{id}/{price}")
+    public ResponseEntity<Boolean> updatePrice(@PathVariable Long id, @PathVariable int price){
+        return ResponseEntity.ok().body(propertyService.updatePrice(id, price));
+    }
+
+    @PutMapping("/updateDescription/{id}/{description}")
+    public ResponseEntity<Boolean> updateDescription(@PathVariable Long id, @PathVariable String description){
+        return ResponseEntity.ok().body(propertyService.updateDescription(id, description));
+    }
 }
