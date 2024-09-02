@@ -2,7 +2,6 @@ package com.example.homesphere_back.controllers;
 
 import com.example.homesphere_back.models.Property;
 import com.example.homesphere_back.services.PropertyService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

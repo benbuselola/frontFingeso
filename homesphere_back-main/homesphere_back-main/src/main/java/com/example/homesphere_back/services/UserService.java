@@ -2,11 +2,12 @@ package com.example.homesphere_back.services;
 
 import com.example.homesphere_back.models.Property;
 import com.example.homesphere_back.models.Users;
+import com.example.homesphere_back.repositories.PropertyRepository;
 import com.example.homesphere_back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 @Service
 public class UserService {
@@ -15,6 +16,9 @@ public class UserService {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private PropertyRepository propertyRepository;
 
     public Users findByEmail(String email){return userRepository.findByEmail(email);}
     public Users findByRut(String rut){return userRepository.findByRut(rut);}
@@ -39,14 +43,84 @@ public class UserService {
         if (optionalUser.isPresent()){
             Users user = optionalUser.get();
 
+            prop.setLikes(0);
+
             List<Property> properties = user.getProperties();
             properties.add(prop);
 
             user.setProperties(properties);
+            user.setLikedProperties("");
             userRepository.save(user);
+
             return true;
         }else {
             return false;
+        }
+    }
+
+    public Boolean likeProperty(Long idProp, Long idUser){
+        Users user = userRepository.findById(idUser).get();
+        String likedProperties = user.getLikedProperties();
+        String stringIdProp = Long.toString(idProp);
+
+        Property prop = propertyRepository.findById(idProp).get();
+
+        if (likedPropertyFlag(idProp, idUser)){
+            return false;
+        } else{
+            if (likedProperties.isEmpty()){
+                likedProperties = likedProperties + stringIdProp;
+                user.setLikedProperties(likedProperties);
+
+                saveUser(user);
+                prop.setLikes(prop.getLikes() + 1);
+                propertyRepository.save(prop);
+            }
+            else{
+                likedProperties = likedProperties + "-" + stringIdProp;
+                user.setLikedProperties(likedProperties);
+
+                saveUser(user);
+                prop.setLikes(prop.getLikes() + 1);
+                propertyRepository.save(prop);
+            }
+        }
+        return true;
+    }
+
+    public Boolean removeLike(Long idProp, Long idUser){
+        Users user = userRepository.findById(idUser).get();
+        String likedProperties = user.getLikedProperties();
+        String stringIdProp = Long.toString(idProp);
+        Property prop = propertyRepository.findById(idProp).get();
+
+        prop.setLikes(prop.getLikes() - 1);
+        propertyRepository.save(prop);
+
+        List<String> propertiesList = new ArrayList<>(Arrays.asList(likedProperties.split("-")));
+        propertiesList.remove(stringIdProp);
+        String newLikedProperties = String.join("-", propertiesList);
+        user.setLikedProperties(newLikedProperties);
+        saveUser(user);
+
+        return true;
+    }
+
+    public Boolean likedPropertyFlag(Long idProp, Long idUser){
+        Users user = userRepository.findById(idUser).get();
+        String likedProperties = user.getLikedProperties();
+        String stringIdProp = Long.toString(idProp);
+
+        if (likedProperties.isEmpty()) {
+            return false;
+        }else{
+            likedProperties.split("-");
+
+            if (likedProperties.contains(stringIdProp)) {
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 
@@ -160,5 +234,23 @@ public class UserService {
         }else {
             return false;
         }
+    }
+
+    public List<Property> showLikedProperties(Long id){
+        Users user = userRepository.findById(id).get();
+        String likedProperties = user.getLikedProperties();
+        List<Property> likedPropsList = new ArrayList<>();
+
+        if (likedProperties.isEmpty()){
+            return null;
+        }else{
+            List<String> propertiesList = new ArrayList<>(Arrays.asList(likedProperties.split("-")));
+
+            for (int i = 0; i < propertiesList.size(); i++) {
+                Property prop = propertyRepository.findById(Long.parseLong(propertiesList.get(i))).orElse(null);
+                likedPropsList.add(prop);
+            }
+        }
+        return likedPropsList;
     }
 }

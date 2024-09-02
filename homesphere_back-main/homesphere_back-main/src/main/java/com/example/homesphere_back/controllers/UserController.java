@@ -26,8 +26,7 @@ public class UserController {
 
     @PostMapping("/saveProperty/{id}")
     public ResponseEntity<Boolean> saveProperty(@RequestBody Property property, @PathVariable Long id) {
-        boolean isSaved = userService.saveProperty(property, id);
-        return ResponseEntity.ok().body(isSaved);
+        return ResponseEntity.ok().body(userService.saveProperty(property, id));
     }
 
     @GetMapping("/validateRut/{rut}")
@@ -74,5 +73,22 @@ public class UserController {
     @GetMapping("/getPropertiesbyUser/{id}")
     public ResponseEntity<?> getPropertiesbyUser(@PathVariable Long id){
         return ResponseEntity.ok().body(userService.getPropertiesByUser(id));
+    }
+
+    @PostMapping("/likeProperty/{idProp}/{idUser}")
+    public ResponseEntity<Boolean> likeProperty(@PathVariable Long idProp,
+                                                @PathVariable Long idUser){
+        return ResponseEntity.ok().body(userService.likeProperty(idProp, idUser));
+    }
+
+    @PostMapping("/removeLike/{idProp}/{idUser}")
+    public ResponseEntity<Boolean> removeLike(@PathVariable Long idProp,
+                                                @PathVariable Long idUser){
+        return ResponseEntity.ok().body(userService.removeLike(idProp, idUser));
+    }
+
+    @GetMapping("/showLikedProperties/{idUser}")
+    public ResponseEntity<?> showLikedProperties(@PathVariable Long idUser){
+        return ResponseEntity.ok().body(userService.showLikedProperties(idUser));
     }
 }

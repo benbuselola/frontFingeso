@@ -27,4 +27,5 @@ public class Property {
     private String description;
     private String number;
     private String email;
+    private int likes;
 }

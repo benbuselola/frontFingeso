@@ -3,7 +3,6 @@ package com.example.homesphere_back.services;
 import com.example.homesphere_back.models.Property;
 import com.example.homesphere_back.repositories.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

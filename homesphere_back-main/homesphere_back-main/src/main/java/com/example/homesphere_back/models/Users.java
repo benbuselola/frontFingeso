@@ -38,6 +38,9 @@ public class Users {
     // de cada usuario.
     private String password;
 
+    // Atributo relacionado a las propiedades que se les ha dado like
+    private String likedProperties;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user")
     private List<Property> properties;
