@@ -23,42 +23,44 @@
         <div class="comunaProp">
           <p>Comuna: </p>
           <h1>{{ property.neighboorhood }}</h1>
-          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarComuna')">Editar</button>
+          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarComuna')"></img>
         </div>
         <div class="tipoProp">
           <p>Tipo de propiedad: </p>
           <h1>{{ property.propertyType }}</h1>
-          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarTipo')">Editar</button>
+          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarTipo')"></img>
         </div>
         <div class="m2Prop">
           <p>Metros cuadrados: </p>
           <h1>{{ property.size }} M²</h1>
-          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarMetros')">Editar</button>
+          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarMetros')"></img>
         </div>
         <div class="dormProp">
           <p>Dormitorios: </p>
           <h1>{{ property.bedrooms }} Dormitorios</h1>
-          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarDormitorios')">Editar</button>
+          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarDormitorios')"></img>
         </div>
         <div class="banioProp">
           <p>Baños: </p>
           <h1>{{ property.bathrooms }} Baños</h1>
-          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarBaños')">Editar</button>
+          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarBaños')"></img>
         </div>
         <div class="precioProp">
           <p>Precio: </p>
           <h1>{{ property.value }} UF</h1>
-          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarPrecio')">Editar</button>
+          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarPrecio')"></img>
         </div>
         <div class="descipProp">
           <p>Descripción: </p>
           <h1>{{ property.description }}</h1>
-          <button v-if="showEditButtons" @click="navigateToEdit('/actualizarDescripcion')">Editar</button>
+          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarDescripcion')"></img>
         </div>
-        <button @click="toggleEditButtons" class="edit-button">Editar Propiedad</button>
-        <a :href="'mailto:' + property.email">
+        <div class="buttonEditContact">
+          <button @click="toggleEditButtons" class="edit-button">Editar Propiedad</button>
+          <a :href="'mailto:' + property.email">
           <button class="contact-seller-button">Contactar vendedor!</button>
         </a>
+      </div>
       </div>
     </div>
   </div>
@@ -230,12 +232,15 @@ export default {
 .comunaProp, .tipoProp, .m2Prop, .dormProp, .banioProp, .precioProp, .descipProp {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  text-align: start;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  margin-bottom: 15px;
 }
 
 .user-details {
   display: flex;
+  text-align: justify;
   flex-direction: column;
   text-align: center;
 }
@@ -253,17 +258,26 @@ p {
   margin-left: 10px;
 }
 
-.contact-seller-button {
-  background-color: #4CAF50;
-  color: white;
+.contact-seller-button,.edit-button {
+  background-color: #4CA771;
+  color: #013237;
   border: none;
-  padding: 10px 15px;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+.contact-seller-button:hover,.edit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+.buttonEditContact{
+  display: flex;
+  gap :10px;
 
+}
 .property-list {
   display: flex;
   justify-content: space-around;
@@ -275,5 +289,10 @@ p {
   margin: 10px;
   flex-basis: calc(25% - 20px);
   box-sizing: border-box;
+}
+.editButton{
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 </style>

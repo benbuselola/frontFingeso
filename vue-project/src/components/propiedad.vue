@@ -1,11 +1,11 @@
 <template>
-  <div v-if="propiedad" class="prop" @click="guardarIdYRedirigir">
-    <button v-if="acto" @click.stop="likeProperty">Me gusta</button>
-    <img class="imgprop" :src="imagenPropiedad" alt="Imagen de la propiedad">
+  <div v-if="propiedad" class="prop">
+    <img @click="guardarIdYRedirigir" class="imgprop" :src="imagenPropiedad" alt="Imagen de la propiedad">
     <p>{{ propiedad.propertyType || 'Tipo desconocido' }}</p>
     <p class="precio">{{ propiedad.value ? propiedad.value + " (UF)" : 'Valor no disponible' }}</p>
     <p>{{ propiedad.neighboorhood || 'Comuna no especificada' }}</p>
     <p>{{ propiedad.description || 'Descripción no disponible' }}</p>
+    <img class="favorite" src="@/components/images/fav.png" v-if="acto" @click.stop="likeProperty" alt=""></img>
   </div>
   <div v-else>
     <p>No hay información de la propiedad disponible.</p>
@@ -74,14 +74,23 @@ export default {
       imagenPropiedad,
       guardarIdYRedirigir,
       likeProperty,
-      acto // Incluye la referencia acto en el objeto de retorno
+      acto 
     };
   }
 }
 </script>
 
 <style scoped>
-/* Estilos del componente */
+.favorite{
+  display: flex;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.favorite:hover{
+  transform: scale(1.1);
+}
 .prop {
   display: flex;
   flex-direction: column;
@@ -107,6 +116,7 @@ export default {
   max-width: 300px;
   border-radius: 10px;
   object-fit: cover;
+  cursor: pointer;
   transition: opacity 0.3s ease-in-out;
 }
 
