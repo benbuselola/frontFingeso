@@ -72,7 +72,7 @@
         <div class="buttonEditContact">
           <button @click="toggleEditButtons" class="edit-button">Editar Propiedad</button>
           <a :href="'mailto:' + property.email">
-          <button class="contact-seller-button">Contactar vendedor!</button>
+          <button class="contact-seller-button">Horarios de visita</button>
         </a>
       </div>
       </div>

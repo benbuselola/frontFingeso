@@ -16,8 +16,8 @@
       <h2>Cambia la comuna de tu propiedad</h2>
       <form @submit.prevent="updateNeighboorhood">
         <div class="form-group">
-          <label for="nueva-comuna">Ingrese la nueva comuna</label>
-          <input type="text" id="nueva-comuna" v-model="comunanueva" placeholder="Nueva Comuna" required>
+          <label>Ingrese la nueva comuna</label>
+          <ComunaSelector v-model="comunanueva" required />
         </div>
         <button type="submit" class="submit-button">Cambiar comuna</button>
         <p v-if="message" class="message">{{ message }}</p>
@@ -31,7 +31,11 @@
       <form @submit.prevent="updatePropertyType">
         <div class="form-group">
           <label for="nuevo-tipo-propiedad">Ingrese el nuevo tipo de propiedad</label>
-          <input type="text" id="nuevo-tipo-propiedad" v-model="tiponuevo" placeholder="Nuevo Tipo de propiedad" required>
+          <select id="nuevo-tipo-propiedad" v-model="tiponuevo" required>
+            <option value="" disabled>Seleccione el tipo</option>
+            <option value="casa">Casa</option>
+            <option value="departamento">Departamento</option>
+          </select>
         </div>
         <button type="submit" class="submit-button">Cambiar tipo de propiedad</button>
         <p v-if="message" class="message">{{ message }}</p>
@@ -111,33 +115,27 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import ComunaSelector from '../components/comunas.vue'
 
 export default {
+  components: {
+    ComunaSelector
+  },
   setup() {
     const router = useRouter()
-    const comunaantigua = ref('')
+    const editionProperty = ref(null)
     const comunanueva = ref('')
-    const tipoantiguo = ref('')
     const tiponuevo = ref('')
-    const tamanoantiguo = ref('')
-    const tamanonuevo = ref('')
-    const dormitoriosantiguos = ref('')
-    const dormitoriosnuevos = ref('')
-    const banosantiguos = ref('')
-    const banosnuevos = ref('')
-    const precioantiguo = ref('')
-    const precionuevo = ref('')
-    const descripcionantigua = ref('')
-    const descripcionnueva = ref('')
     const message = ref('')
-    const editionProperty = ref(0)
+    const tamanonuevo = ref('')
+    const dormitoriosnuevos = ref('')
+    const banosnuevos = ref('')
+    const precionuevo = ref('')
+    const descripcionnueva = ref('')
 
-    onMounted(() => {
-      loadEditionProperty()
-    })
 
     const loadEditionProperty = () => {
       const property = localStorage.getItem('editionProperty')
@@ -151,117 +149,154 @@ export default {
 
     const updateNeighboorhood = async () => {
       try {
-        const response = await axios.put('http://localhost:8080/property/updateNeighboorhood', {
-          comunaantigua: comunaantigua.value,
-          comunanueva: comunanueva.value
-        })
-        message.value = response.data
+        const propertyId = localStorage.getItem('selectedPropertyId')
+        const response = await axios.put(`http://localhost:8080/property/updateNeighboorhood/${propertyId}/${comunanueva.value}`)
+        if (response.data) {
+          message.value = 'Comuna actualizada exitosamente'
+          router.push('/propiedadPerfil')
+        } else {
+          message.value = 'Error al actualizar la comuna'
+        }
       } catch (error) {
         console.error('Error durante la actualización:', error.response ? error.response.data : error.message)
+        message.value = 'Error durante la actualización'
       }
     }
 
     const updatePropertyType = async () => {
       try {
-        const response = await axios.put('http://localhost:8080/property/updatePropertyType', {
-          tipoantiguo: tipoantiguo.value,
-          tiponuevo: tiponuevo.value
-        })
-        message.value = response.data
+        const propertyId = localStorage.getItem('selectedPropertyId')
+        const response = await axios.put(`http://localhost:8080/property/updatePropertyType/${propertyId}/${tiponuevo.value}`)
+        if (response.data) {
+          message.value = 'Tipo de propiedad actualizado exitosamente'
+          router.push('/propiedadPerfil')
+
+        } else {
+          message.value = 'Error al actualizar el tipo de propiedad'
+        }
       } catch (error) {
         console.error('Error durante la actualización:', error.response ? error.response.data : error.message)
+        message.value = 'Error durante la actualización'
       }
     }
 
     const updateSize = async () => {
       try {
-        const response = await axios.put('http://localhost:8080/property/updateSize', {
-          tamanoantiguo: tamanoantiguo.value,
-          tamanonuevo: tamanonuevo.value
-        })
-        message.value = response.data
+        const propertyId = localStorage.getItem('selectedPropertyId')
+        const response = await axios.put(`http://localhost:8080/property/updateSize/${propertyId}/${tamanonuevo.value}`)
+        if (response.data) {
+          message.value = 'Tamaño actualizado exitosamente'
+          router.push('/propiedadPerfil')
+
+        } else {
+          message.value = 'Error al actualizar el tamaño'
+        }
       } catch (error) {
         console.error('Error durante la actualización:', error.response ? error.response.data : error.message)
+        message.value = 'Error durante la actualización'
       }
     }
 
     const updateBedrooms = async () => {
       try {
-        const response = await axios.put('http://localhost:8080/property/updateBedrooms', {
-          dormitoriosantiguos: dormitoriosantiguos.value,
-          dormitoriosnuevos: dormitoriosnuevos.value
-        })
-        message.value = response.data
+        const propertyId = localStorage.getItem('selectedPropertyId')
+        const response = await axios.put(`http://localhost:8080/property/updateBedrooms/${propertyId}/${dormitoriosnuevos.value}`)
+        if (response.data) {
+          message.value = 'Dormitorios actualizados exitosamente'
+          router.push('/propiedadPerfil')
+
+        } else {
+          message.value = 'Error al actualizar los dormitorios'
+        }
       } catch (error) {
         console.error('Error durante la actualización:', error.response ? error.response.data : error.message)
+        message.value = 'Error durante la actualización'
       }
     }
 
     const updateBathrooms = async () => {
       try {
-        const response = await axios.put('http://localhost:8080/property/updateBathrooms', {
-          banosantiguos: banosantiguos.value,
-          banosnuevos: banosnuevos.value
-        })
-        message.value = response.data
+        const propertyId = localStorage.getItem('selectedPropertyId')
+        const response = await axios.put(`http://localhost:8080/property/updateBathrooms/${propertyId}/${banosnuevos.value}`)
+        if (response.data) {
+          message.value = 'Baños actualizados exitosamente'
+          router.push('/propiedadPerfil')
+
+        } else {
+          message.value = 'Error al actualizar los baños'
+        }
       } catch (error) {
         console.error('Error durante la actualización:', error.response ? error.response.data : error.message)
+        message.value = 'Error durante la actualización'
       }
     }
 
     const updatePrice = async () => {
       try {
-        const response = await axios.put('http://localhost:8080/property/updatePrice', {
-          precioantiguo: precioantiguo.value,
-          precionuevo: precionuevo.value
-        })
-        message.value = response.data
+        const propertyId = localStorage.getItem('selectedPropertyId')
+        const response = await axios.put(`http://localhost:8080/property/updatePrice/${propertyId}/${precionuevo.value}`)
+        if (response.data) {
+          message.value = 'Precio actualizado exitosamente'
+          router.push('/propiedadPerfil')
+
+        } else {
+          message.value = 'Error al actualizar el precio'
+        }
       } catch (error) {
         console.error('Error durante la actualización:', error.response ? error.response.data : error.message)
+        message.value = 'Error durante la actualización'
       }
     }
 
     const updateDescription = async () => {
       try {
-        const response = await axios.put('http://localhost:8080/property/updateDescription', {
-          descripcionantigua: descripcionantigua.value,
-          descripcionnueva: descripcionnueva.value
-        })
-        message.value = response.data
+        const propertyId = localStorage.getItem('selectedPropertyId')
+        const response = await axios.put(`http://localhost:8080/property/updateDescription/${propertyId}/${descripcionnueva.value}`)
+        if (response.data) {
+          message.value = 'Descripción actualizada exitosamente'
+          router.push('/propiedadPerfil')
+
+        } else {
+          message.value = 'Error al actualizar la descripción'
+        }
       } catch (error) {
         console.error('Error durante la actualización:', error.response ? error.response.data : error.message)
+        message.value = 'Error durante la actualización'
       }
     }
 
-    const navigateTo = (path) => {
-      router.push(path)
+    const navigateTo = (route) => {
+      router.push(route)
     }
+
+
+
+
+
+    onMounted(() => {
+      loadEditionProperty()
+    })
 
     return {
       editionProperty,
-      comunaantigua,
       comunanueva,
-      tipoantiguo,
       tiponuevo,
-      tamanoantiguo,
-      tamanonuevo,
-      dormitoriosantiguos,
-      dormitoriosnuevos,
-      banosantiguos,
-      banosnuevos,
-      precioantiguo,
-      precionuevo,
-      descripcionantigua,
-      descripcionnueva,
       message,
       updateNeighboorhood,
       updatePropertyType,
+      tamanonuevo,
       updateSize,
+      dormitoriosnuevos,
       updateBedrooms,
+      banosnuevos,
       updateBathrooms,
+      precionuevo,
       updatePrice,
+      descripcionnueva,
       updateDescription,
       navigateTo
+
+
     }
   }
 }
