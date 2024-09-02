@@ -145,32 +145,34 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
-  background-color: #4ca771;
+  background-color: #C0E6BA;
   color: white;
-
+  text-decoration: none
 }
-
 header .logo-section img {
-  cursor: pointer;
-  width: 80px;
+  width: 100px;
   height: 60px;
   border-radius: 10px;
-  
+  text-decoration: none
 }
+
+
 nav ul {
   display: flex;
   align-items: center;
   list-style: none;
   padding: 0;
   margin: 0;
+  text-decoration: none
 }
 
 nav ul li {
   margin-right: 20px;
+  text-decoration: none
 }
 
 nav ul li a {
-  color: black;
+  color: #013237;
   text-decoration: none;
   font-size: 18px;
 }
@@ -178,27 +180,23 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
-
-.publish-button {
-  background-color: #EAF9E7;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-.help-button {
-  background-color: #EAF9E7;
-  color: black;
+.help-button, .publish-button {
+  background-color: #4CA771;
+  color: #013237;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   margin-right: 10px;
-
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+.help-button:hover, .publish-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+
 .user-details h1 {
   font-size: 22px;
   margin: 10px 0;
@@ -282,23 +280,21 @@ nav ul li a:hover {
   font-size: 16px;
   margin: 10px 0;
 }
-
 .action-buttons {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin: 20px 0;
+  justify-content: space-around;
+  margin-top: 20px;
 }
-
 .view-properties, .view-likes {
-  background-color: #4ca771;
-  color: #013237;
+  background-color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
-  margin: 10px 0;
+  font-size: 24px;
+  color: #8e8e8e;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 </style>

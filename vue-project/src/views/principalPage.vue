@@ -7,10 +7,10 @@
         </div>
         <nav>
           <ul>
-            <li v-if="!isAuthenticated">
+            <li class="buttonsNonUser" v-if="!isAuthenticated">
               <a @click="navigateTo('/registro')">Regístrate</a>
             </li>
-            <li v-if="!isAuthenticated">
+            <li class="buttonsNonUser" v-if="!isAuthenticated">
               <a @click="navigateTo('/login')">Ingresa</a>
             </li>
             <li>
@@ -154,10 +154,9 @@ export default {
 }
 header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 15px;
-  background-color: #4ca771;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: #C0E6BA;
   color: white;
 }
 
@@ -170,7 +169,6 @@ header {
 }
 
 header .logo-section img {
-  cursor: pointer;
   width: 100px;
   height: 60px;
   border-radius: 10px;
@@ -182,6 +180,7 @@ nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  text-decoration: none;
 }
 
 nav ul li {
@@ -189,7 +188,6 @@ nav ul li {
 }
 
 nav ul li a {
-  color: white;
   text-decoration: none;
   font-size: 18px;
 }
@@ -197,37 +195,30 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
-
 .botonesPPL {
   display: flex;
-  gap: 15px; 
 }
 
-.publish-button, .profile-button, .logout-button {
-  background-color: #EAF9E7;
-  color: black;
+.buttonsNonUser, .publish-button, .profile-button, .logout-button {
+  background-color: #4CA771;
+  color: #013237;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.publish-button:hover, .profile-button:hover, .logout-button:hover {
-  background-color: #296fc1;
-}
-
-.profile-button {
-  background-color: #EAF9E7;
-}
-
-.profile-button:hover {
-  background-color: #3a2da7;
+.buttonsNonUser:hover, .publish-button:hover, .profile-button:hover, .logout-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 
 .logout-button {
-  background-color: #f44336;
+  background-color: #c62828;
+  color: white;
 }
 
 .logout-button:hover {
@@ -245,7 +236,7 @@ nav ul li a:hover {
   margin-right: 10px;
 }
 
-/* Imagen promocional */
+
 .promo-image {
   width: 100%;
   height: 500px;
@@ -298,6 +289,7 @@ nav ul li a:hover {
   transition: background-color 0.3s ease;
 }
 .comuna-selector {
+  padding-top: 10px;
   max-width: 220px; 
   width: 100%; 
   
@@ -309,7 +301,6 @@ nav ul li a:hover {
   font-size: 14px;
   color: #555;
 }
-
 .search-button {
   height: 80px;
   background-color: #4CA771;
@@ -325,7 +316,6 @@ nav ul li a:hover {
   background-color: #4CA771;
 }
 
-/* Contenido principal */
 .contenido {
   display: flex;
   justify-content: center;

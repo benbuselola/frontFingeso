@@ -5,8 +5,8 @@
     </div>
     <nav>
       <ul>
-        <li><a @click="navigateTo('/principal')">Inicio</a></li>
-        <li><a @click="navigateTo('/soporte')">Ayuda</a></li>
+        <li class="buttonsNonUser"><a @click="navigateTo('/principal')">Inicio</a></li>
+        <li class="buttonsNonUser"><a @click="navigateTo('/soporte')">Ayuda</a></li>
       </ul>
     </nav>
   </header>
@@ -275,36 +275,56 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #4CAF50; /* Color de fondo del header */
+  padding: 5px 15px;
+  background-color: #C0E6BA;
   color: white;
+  text-decoration: none
 }
-
 header .logo-section img {
-  width: 100px; /* Ajustar según sea necesario */
+  width: 100px;
   height: 60px;
   border-radius: 10px;
+  text-decoration: none
 }
+
 
 nav ul {
   display: flex;
+  align-items: center;
   list-style: none;
   padding: 0;
   margin: 0;
+  text-decoration: none
 }
 
 nav ul li {
   margin-right: 20px;
+  text-decoration: none
 }
 
 nav ul li a {
-  color: white;
+  color: #013237;
   text-decoration: none;
   font-size: 18px;
 }
 
 nav ul li a:hover {
   text-decoration: underline;
+}
+.buttonsNonUser {
+  background-color: #4CA771;
+  color: #013237;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.buttonsNonUser:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-container {

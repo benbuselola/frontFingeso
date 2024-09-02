@@ -6,8 +6,8 @@
       </div>
       <nav class="nav">
         <ul class="nav-list">
-          <li><router-link to="/principal" class="nav-link">Inicio</router-link></li>
-          <li><router-link to="/soporte" class="nav-link">Ayuda</router-link></li>
+          <li class="buttonsNonUser"><router-link to="/principal" class="nav-link">Inicio</router-link></li>
+          <li class="buttonsNonUser"><router-link to="/soporte" class="nav-link">Ayuda</router-link></li>
           <li v-if="isAuthenticated">
             <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
           </li>
@@ -23,37 +23,51 @@
         <div class="comunaProp">
           <p>Comuna: </p>
           <h1>{{ property.neighboorhood }}</h1>
+          <transition name="fade">
           <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarComuna')"></img>
+          </transition>
         </div>
         <div class="tipoProp">
           <p>Tipo de propiedad: </p>
           <h1>{{ property.propertyType }}</h1>
+          <transition name="fade">
           <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarTipo')"></img>
+          </transition>
         </div>
         <div class="m2Prop">
           <p>Metros cuadrados: </p>
           <h1>{{ property.size }} M²</h1>
+          <transition name="fade">
           <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarMetros')"></img>
+          </transition>
         </div>
         <div class="dormProp">
           <p>Dormitorios: </p>
           <h1>{{ property.bedrooms }} Dormitorios</h1>
+          <transition name="fade">
           <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarDormitorios')"></img>
+          </transition>
         </div>
         <div class="banioProp">
           <p>Baños: </p>
           <h1>{{ property.bathrooms }} Baños</h1>
+          <transition name="fade">
           <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarBaños')"></img>
+          </transition>
         </div>
         <div class="precioProp">
           <p>Precio: </p>
           <h1>{{ property.value }} UF</h1>
+          <transition name="fade">
           <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarPrecio')"></img>
+          </transition>
         </div>
         <div class="descipProp">
           <p>Descripción: </p>
           <h1>{{ property.description }}</h1>
+          <transition name="fade">
           <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarDescripcion')"></img>
+          </transition>
         </div>
         <div class="buttonEditContact">
           <button @click="toggleEditButtons" class="edit-button">Editar Propiedad</button>
@@ -159,52 +173,60 @@ export default {
 *{
   font-family: 'Poppins';
 }
-.header {
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
-  background-color: #4CAF50;
+  background-color: #C0E6BA;
   color: white;
+  text-decoration: none
 }
-
-.logo-section img {
-  cursor: pointer;
+header .logo-section img {
   width: 100px;
   height: 60px;
   border-radius: 10px;
+  text-decoration: none
 }
 
-.nav ul {
+
+nav ul {
   display: flex;
   align-items: center;
   list-style: none;
   padding: 0;
   margin: 0;
+  text-decoration: none
 }
 
-.nav ul li {
+nav ul li {
   margin-right: 20px;
+  text-decoration: none
 }
 
-.nav ul li a {
-  color: white;
+nav ul li a {
+  color: #013237;
   text-decoration: none;
   font-size: 18px;
 }
 
-.nav ul li a:hover {
+nav ul li a:hover {
   text-decoration: underline;
 }
-
-.publish-button {
-  background-color: #3483fa;
-  color: white;
+.buttonsNonUser,.publish-button {
+  background-color: #4CA771;
+  color: #013237;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.buttonsNonUser:hover,.publish-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 
 .user-info {
@@ -294,5 +316,12 @@ p {
   width: 20px;
   height: 20px;
   cursor: pointer;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.8s, transform 0.8s;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
 }
 </style>
