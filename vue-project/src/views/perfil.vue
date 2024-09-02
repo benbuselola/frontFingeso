@@ -145,15 +145,17 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
-  background-color: #4CAF50;
+  background-color: #4ca771;
   color: white;
+
 }
 
 header .logo-section img {
   cursor: pointer;
-  width: 100px;
+  width: 80px;
   height: 60px;
   border-radius: 10px;
+  
 }
 nav ul {
   display: flex;
@@ -168,7 +170,7 @@ nav ul li {
 }
 
 nav ul li a {
-  color: white;
+  color: black;
   text-decoration: none;
   font-size: 18px;
 }
@@ -177,17 +179,26 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 
-.publish-button , .help-button{
-  background-color: #3483fa;
-  color: white;
+.publish-button {
+  background-color: #EAF9E7;
+  color: black;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  margin: 20px
 }
+.help-button {
+  background-color: #EAF9E7;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
 
+}
 .user-details h1 {
   font-size: 22px;
   margin: 10px 0;
@@ -200,7 +211,7 @@ nav ul li a:hover {
   justify-content: space-evenly;
   margin: 30px 20px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #EAF9E7;
   border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -212,10 +223,10 @@ nav ul li a:hover {
 }
 
 .user-image {
-  width: 600px;
+  width: 400px;
   height: 400px;
   border-radius: 70%;
-  border: 2px solid #3483fa;}
+  border: 2px solid #4CAF50;}
 
 .user-details {
   display: flex;
@@ -252,8 +263,8 @@ nav ul li a:hover {
 
 .update-email, .update-number {
   
-  background-color: #3483fa;
-  color: white;
+  background-color: #4ca771;
+  color: #013237;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -262,8 +273,8 @@ nav ul li a:hover {
   margin: 10px 0;
 }
 .update-password{
-  background-color: beige;
-  color: #3483fa;
+  background-color: #4ca771;
+  color: #013237;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -271,4 +282,23 @@ nav ul li a:hover {
   font-size: 16px;
   margin: 10px 0;
 }
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.view-properties, .view-likes {
+  background-color: #4ca771;
+  color: #013237;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
 </style>

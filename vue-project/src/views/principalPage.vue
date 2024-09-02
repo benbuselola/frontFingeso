@@ -14,7 +14,7 @@
               <a @click="navigateTo('/login')">Ingresa</a>
             </li>
             <li>
-              <a @click="navigateTo('/soporte')">Ayuda</a>
+              <a class = "help-button" @click="navigateTo('/soporte')">Ayuda</a>
             </li>
             <div class="botonesPPL">
               <li v-if="isAuthenticated">
@@ -154,12 +154,11 @@ export default {
 }
 header {
   display: flex;
-  justify-content: center;
-  padding: 10px 20px;
-  background-color: #4CAF50;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+  background-color: #4ca771;
   color: white;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .header-content {
@@ -205,8 +204,8 @@ nav ul li a:hover {
 }
 
 .publish-button, .profile-button, .logout-button {
-  background-color: #3483fa;
-  color: white;
+  background-color: #EAF9E7;
+  color: black;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -220,7 +219,7 @@ nav ul li a:hover {
 }
 
 .profile-button {
-  background-color: #0011f9;
+  background-color: #EAF9E7;
 }
 
 .profile-button:hover {
@@ -233,6 +232,17 @@ nav ul li a:hover {
 
 .logout-button:hover {
   background-color: #c62828;
+}
+
+.help-button {
+  background-color: #EAF9E7;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
 }
 
 /* Imagen promocional */
@@ -256,7 +266,7 @@ nav ul li a:hover {
   flex-wrap: wrap;
   gap: 15px;
   padding: 15px 25px;
-  background-color: #f7f7f7;
+  background-color: #EAF9E7;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   max-width: 800px;
