@@ -5,7 +5,7 @@
     <p class="precio">{{ propiedad.value ? propiedad.value + " (UF)" : 'Valor no disponible' }}</p>
     <p>{{ propiedad.neighboorhood || 'Comuna no especificada' }}</p>
     <p>{{ propiedad.description || 'Descripción no disponible' }}</p>
-    <img class="favorite" src="@/components/images/fav.png" v-if="acto" @click.stop="likeProperty" alt=""></img>
+    <img class="favorite" :src="imagenFavorito" v-if="acto" @click.stop="likeProperty" alt="Favorito"></img>
   </div>
   <div v-else>
     <p>No hay información de la propiedad disponible.</p>
@@ -17,6 +17,8 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import pordefectoCasa from "../components/images/casa.jpeg";
 import pordefectoDepartamento from "../components/images/departamento.jpeg";
+import fav from "../components/images/fav.png";
+import favClick from "../components/images/favourite.png"; 
 
 export default {
   name: 'Propiedad',
@@ -28,12 +30,13 @@ export default {
   },
   setup(props) {
     const router = useRouter();
-    const acto = ref(false); // Corregido: Uso de ref en lugar de ref[]
+    const acto = ref(false);
+    const imagenFavorito = ref(fav); 
 
     const verificacion = () => {
       const usuario = localStorage.getItem('usuario');
       if (usuario) {
-        acto.value = true; // Actualización del valor de la referencia reactiva
+        acto.value = true;
       }
     };
 
@@ -45,7 +48,7 @@ export default {
           return pordefectoDepartamento;
         }
       }
-      return pordefectoCasa; // Imagen por defecto si el tipo no es reconocido
+      return pordefectoCasa;
     });
 
     const guardarIdYRedirigir = () => {
@@ -59,22 +62,23 @@ export default {
 
     const likeProperty = () => {
       if (props.propiedad && props.propiedad.id) {
-        // Lógica para marcar la propiedad como favorita
         console.log('Me gusta la propiedad con ID:', props.propiedad.id);
+        imagenFavorito.value = imagenFavorito.value === fav ? favClick : fav;
       } else {
         console.error('ID de propiedad no disponible');
       }
     };
 
     onMounted(() => {
-      verificacion(); // Llamada a la función al montar el componente
+      verificacion();
     });
 
     return {
       imagenPropiedad,
       guardarIdYRedirigir,
       likeProperty,
-      acto 
+      acto,
+      imagenFavorito  
     };
   }
 }
@@ -85,6 +89,8 @@ export default {
   display: flex;
   height: 30px;
   width: 30px;
+  margin-bottom: 10px;
+  margin-left: 300px;
   cursor: pointer;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
