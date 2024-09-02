@@ -1,11 +1,13 @@
 <template>
     <header>
       <div class="logo-section">
+        <a  @click="navigateTo('/principal')">
         <img src="../components/images/image.png" alt="Nombre de la página" height="60">
+      </a>
       </div>
       <nav>
         <ul>
-          <li class="buttonsNonUser"><a @click="navigateTo('/principal')">Inicio</a></li>
+          <li><a class = "principal-button" @click="navigateTo('/principal')">Inicio</a></li>
         </ul>
       </nav>
     </header>
@@ -31,6 +33,9 @@
         <p v-if="message" class="message">{{ message }}</p>
       </form>
     </div>
+    <footer class>
+      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+    </footer>
   </template>
   
   <script>
@@ -84,7 +89,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
-  background-color: #C0E6BA;
+  background-color: #4ca771;
   color: white;
   text-decoration: none
 }
@@ -95,6 +100,15 @@ header .logo-section img {
   text-decoration: none
 }
 
+.principal-button {
+  background-color: #EAF9E7;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
 nav ul {
   display: flex;
@@ -141,7 +155,7 @@ nav ul li a:hover {
     padding: 40px;
     border: 2px solid #ccc;
     border-radius: 15px;
-    background-color: #f9f9f9;
+    background-color: #EAF9E7;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
@@ -153,6 +167,7 @@ nav ul li a:hover {
   
   .form-group {
     margin-bottom: 20px;
+    
   }
   .form-group label {
     display: block;
@@ -179,7 +194,7 @@ nav ul li a:hover {
   .submit-button {
     width: 100%;
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: #4ca771;
     color: white;
     border: none;
     border-radius: 10px;
@@ -194,8 +209,21 @@ nav ul li a:hover {
   .message {
     margin-top: 20px;
     text-align: center;
-    color: #4CAF50;
+    color: #4ca771;
     font-weight: bold;
   }
-  </style>
+  
+  footer {
+  display: flex;
+  padding: 10px 20px;
+  background-color: #4CA771;
+  color: white;
+}
+
+.copyrigth {
+  font-size: 14px;
+  text-align: left;
+
+}
+</style>
   

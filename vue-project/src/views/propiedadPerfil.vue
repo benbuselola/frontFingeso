@@ -78,6 +78,9 @@
       </div>
     </div>
   </div>
+  <footer class>
+      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+    </footer>
 </template>
 
 <script>
@@ -177,8 +180,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 15px;
-  background-color: #C0E6BA;
+  padding: 15px 20px;
+  background-color: #4ca771;
   color: white;
   text-decoration: none
 }
@@ -214,7 +217,7 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 .buttonsNonUser,.publish-button {
-  background-color: #4CA771;
+  background-color: #EAF9E7;
   color: #013237;
   border: none;
   padding: 10px 20px;
@@ -234,7 +237,7 @@ nav ul li a:hover {
   justify-content: space-evenly;
   margin: 30px 20px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #EAF9E7;
   border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -281,7 +284,7 @@ p {
 }
 
 .contact-seller-button,.edit-button {
-  background-color: #4CA771;
+  background-color: #4ca771;
   color: #013237;
   border: none;
   padding: 10px 20px;
@@ -323,5 +326,17 @@ p {
 .fade-enter-from, .fade-leave-to {
   opacity: 0;
   transform: scale(0.9);
+}
+footer {
+  display: flex;
+  padding: 10px 20px;
+  background-color: #4CA771;
+  color: white;
+}
+
+.copyrigth {
+  font-size: 14px;
+  text-align: left;
+
 }
 </style>

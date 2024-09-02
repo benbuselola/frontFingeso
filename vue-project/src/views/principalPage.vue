@@ -3,15 +3,15 @@
     <header>
       <div class="header-content">
         <div class="logo-section">
-          <img src="../components/images/image.png" alt="Nombre de la página" height="60" @click="navigateTo('/principal')">
+          <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60" @click="navigateTo('/principal')">
         </div>
         <nav>
           <ul>
-            <li class="buttonsNonUser" v-if="!isAuthenticated">
-              <a @click="navigateTo('/registro')">Regístrate</a>
+            <li v-if="!isAuthenticated">
+              <a class = "login-button" @click="navigateTo('/registro')">Regístrate</a>
             </li>
-            <li class="buttonsNonUser" v-if="!isAuthenticated">
-              <a @click="navigateTo('/login')">Ingresa</a>
+            <li v-if="!isAuthenticated">
+              <a class = "register-button" @click="navigateTo('/login')">Ingresa</a>
             </li>
             <li>
               <a class = "help-button" @click="navigateTo('/soporte')">Ayuda</a>
@@ -60,8 +60,8 @@
       </div>
     </div>
 
-    <footer>
-      <!-- Puedes agregar contenido para el pie de página aquí -->
+    <footer class>
+      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
   </div>
 </template>
@@ -156,7 +156,7 @@ header {
   display: flex;
   justify-content: center;
   padding: 10px 20px;
-  background-color: #C0E6BA;
+  background-color: #4CA771;
   color: white;
 }
 
@@ -170,7 +170,7 @@ header {
 
 header .logo-section img {
   width: 100px;
-  height: 60px;
+  height: 80px;
   border-radius: 10px;
 }
 
@@ -200,7 +200,7 @@ nav ul li a:hover {
 }
 
 .buttonsNonUser, .publish-button, .profile-button, .logout-button {
-  background-color: #4CA771;
+  background-color: #EAF9E7;
   color: #013237;
   border: none;
   padding: 10px 20px;
@@ -211,9 +211,16 @@ nav ul li a:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.buttonsNonUser:hover, .publish-button:hover, .profile-button:hover, .logout-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+.publish-button:hover, .profile-button:hover, .logout-button:hover {
+  background-color: #296fc1;
+}
+
+.profile-button {
+  background-color: #EAF9E7;
+}
+
+.profile-button:hover {
+  background-color: #296fc1;
 }
 
 .logout-button {
@@ -234,6 +241,26 @@ nav ul li a:hover {
   cursor: pointer;
   font-size: 16px;
   margin-right: 10px;
+  transition: background-color 0.3s ease
+}
+
+.help-button:hover {
+  background-color: #296fc1;
+}
+
+.login-button, .register-button {
+  background-color: #EAF9E7;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover, .register-button:hover {
+  background-color: #296fc1;
 }
 
 
@@ -303,8 +330,8 @@ nav ul li a:hover {
 }
 .search-button {
   height: 80px;
-  background-color: #4CA771;
-  color: white;
+  background-color: #4ca771;
+  color: black;
   border: none;
   padding: 5px 20px;
   border-radius: 5px;
@@ -313,7 +340,7 @@ nav ul li a:hover {
 }
 
 .search-button:hover {
-  background-color: #4CA771;
+  background-color: #4ca771;
 }
 
 .contenido {
@@ -330,4 +357,18 @@ nav ul li a:hover {
   max-width: 1200px;
   margin: 0 auto;
 }
+
+footer {
+  display: flex;
+  padding: 10px 20px;
+  background-color: #4CA771;
+  color: white;
+}
+
+.copyrigth {
+  font-size: 14px;
+  text-align: left;
+
+}
+
 </style>

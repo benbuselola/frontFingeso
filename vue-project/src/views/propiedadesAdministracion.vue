@@ -5,8 +5,8 @@
     </div>
     <nav>
       <ul>
-        <li><a @click="navigateTo('/principal')">Inicio</a></li>
-        <li><a @click="navigateTo('/soporte')">Ayuda</a></li>
+        <li><a class = "principal-button" @click="navigateTo('/principal')">Inicio</a></li>
+        <li><a class = "support-button" @click="navigateTo('/soporte')">Ayuda</a></li>
       </ul>
     </nav>
   </header>
@@ -41,6 +41,9 @@
       <p>lista de visitantes: {{ selectedProperty.title }}</p>
     </div>
   </section>
+  <footer class>
+      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+    </footer>
 </template>
 
 <script>
@@ -117,8 +120,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #4CAF50;
+  padding: 15px 20px;
+  background-color: #4ca771;
   color: white;
 }
 
@@ -128,6 +131,27 @@ header {
   height: 60px;
   border-radius: 10px;
 }
+
+.principal-button {
+  background-color: #EAF9E7;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.support-button {
+  background-color: #EAF9E7;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 
 nav ul {
   display: flex;
@@ -211,5 +235,17 @@ nav ul li a:hover {
 .Content-section h2 {
   margin-bottom: 20px;
   color: #333;
+}
+footer {
+  display: flex;
+  padding: 10px 20px;
+  background-color: #4CA771;
+  color: white;
+}
+
+.copyrigth {
+  font-size: 14px;
+  text-align: left;
+
 }
 </style>

@@ -6,7 +6,7 @@
         </div>
         <nav>
           <ul>
-            <li><a @click="navigateTo('/principal')">Inicio</a></li>
+            <li><a class = "principal-button" @click="navigateTo('/principal')">Inicio</a></li>
           </ul>
         </nav>
       </header>
@@ -99,6 +99,9 @@
         </section>
       </div>
     </div>
+    <footer class>
+      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+    </footer>
   </template>
   
   <script>
@@ -180,7 +183,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: #4CAF50;
+    background-color: #4ca771;
     color: white;
   }
   
@@ -190,6 +193,17 @@
     height: 60px;
     border-radius: 10px;
   }
+
+  .principal-button {
+  background-color: #EAF9E7;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
   
   nav ul {
     display: flex;
@@ -231,7 +245,7 @@
   }
   
   .user-item {
-    background-color: #fff;
+    background-color: #EAF9E7;
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 8px;
@@ -254,7 +268,7 @@
   }
   
   .btn-view {
-    background-color: #4CAF50;
+    background-color: #4ca771;
     color: white;
   }
   
@@ -283,7 +297,7 @@
   .details-section {
     width: 70%;
     padding: 20px;
-    background-color: #fff;
+    background-color: #EAF9E7;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
@@ -312,5 +326,17 @@
     border-radius: 4px;
     border: 1px solid #ccc;
   }
+  footer {
+  display: flex;
+  padding: 10px 20px;
+  background-color: #4CA771;
+  color: white;
+}
+
+.copyrigth {
+  font-size: 14px;
+  text-align: left;
+
+}
   </style>
   

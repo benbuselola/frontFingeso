@@ -112,6 +112,9 @@
       </form>
     </div>
   </div>
+  <footer class>
+      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+    </footer>
 </template>
 
 <script>
@@ -419,5 +422,17 @@ h2 {
   margin-top: 15px;
   color: red;
   text-align: center;
+}
+footer {
+  display: flex;
+  padding: 10px 20px;
+  background-color: #4CA771;
+  color: white;
+}
+
+.copyrigth {
+  font-size: 14px;
+  text-align: left;
+
 }
 </style>

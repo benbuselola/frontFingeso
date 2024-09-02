@@ -56,6 +56,9 @@
       </div>
     </div>
   </div>
+  <footer class>
+      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+    </footer>
 </template>
 
 <script>
@@ -145,7 +148,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
-  background-color: #C0E6BA;
+  background-color: #4ca771;
   color: white;
   text-decoration: none
 }
@@ -181,7 +184,7 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 .help-button, .publish-button {
-  background-color: #4CA771;
+  background-color: #EAF9E7;
   color: #013237;
   border: none;
   padding: 10px 20px;
@@ -286,15 +289,28 @@ nav ul li a:hover {
   margin-top: 20px;
 }
 .view-properties, .view-likes {
-  background-color: white;
+  background-color: #4ca771;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
   font-size: 24px;
-  color: #8e8e8e;
+  color: black;
+  border-radius: 5px;
   outline: none;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+footer {
+  display: flex;
+  padding: 10px 20px;
+  background-color: #4CA771;
+  color: white;
+}
+
+.copyrigth {
+  font-size: 14px;
+  text-align: left;
+
 }
 </style>
