@@ -2,7 +2,7 @@
     <div class="container">
       <header>
         <div class="logo-section">
-          <img src="../components/images/image.png" alt="Nombre de la página" height="60">
+          <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
         </div>
         <nav>
           <ul>
@@ -99,10 +99,11 @@
         </section>
       </div>
     </div>
-    <footer class>
+
+  <footer>
       <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
-    </footer>
-  </template>
+  </footer>
+</template>
   
   <script>
   import { ref, onMounted } from 'vue';
@@ -187,13 +188,11 @@
     color: white;
   }
   
-  .logo-section img {
-    cursor: pointer;
-    width: 100px;
-    height: 60px;
-    border-radius: 10px;
-  }
-
+  header .logo-section img {
+  width: 100px;
+  height: 80px;
+  border-radius: 10px;
+}
   .principal-button {
   background-color: #EAF9E7;
   color: black;
@@ -326,7 +325,7 @@
     border-radius: 4px;
     border: 1px solid #ccc;
   }
-  footer {
+footer {
   display: flex;
   padding: 10px 20px;
   background-color: #4CA771;

@@ -358,6 +358,10 @@ nav ul li a:hover {
   margin: 0 auto;
 }
 
+.prop{
+  background-color: #EAF9E7;
+}
+
 footer {
   display: flex;
   padding: 10px 20px;

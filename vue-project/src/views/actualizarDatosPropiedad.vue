@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="logo-section">
-      <img src="../components/images/image.png" alt="Nombre de la página" height="60">
+      <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
     </div>
     <nav>
       <ul>
@@ -314,15 +314,14 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
-  background-color: #C0E6BA;
+  background-color: #4ca771;
   color: white;
   text-decoration: none
 }
 header .logo-section img {
   width: 100px;
-  height: 60px;
+  height: 80px;
   border-radius: 10px;
-  text-decoration: none
 }
 
 
@@ -350,7 +349,7 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 .buttonsNonUser {
-  background-color: #4CA771;
+  background-color: #EAF9E7;
   color: #013237;
   border: none;
   padding: 10px 20px;
@@ -377,6 +376,17 @@ nav ul li a:hover {
   background-color: #f9f9f9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+}
+
+.change-comuna, .change-tipo-propiedad, .change-tamano, .change-dormitorios, .change-banos, .change-precio, .change-descripcion {
+
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: #EAF9E7;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+
 }
 
 h2 {
@@ -406,7 +416,7 @@ h2 {
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #4CAF50; /* Botón con color de fondo igual al del header */
+  background-color: #4ca771; /* Botón con color de fondo igual al del header */
   color: white;
   border: none;
   border-radius: 5px;

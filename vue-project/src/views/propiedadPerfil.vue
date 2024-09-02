@@ -2,7 +2,7 @@
   <div>
     <header class="header">
       <div class="logo-section">
-        <img src="../components/images/image.png" alt="Nombre de la página" height="60">
+        <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
       </div>
       <nav class="nav">
         <ul class="nav-list">
@@ -187,9 +187,8 @@ header {
 }
 header .logo-section img {
   width: 100px;
-  height: 60px;
+  height: 80px;
   border-radius: 10px;
-  text-decoration: none
 }
 
 
