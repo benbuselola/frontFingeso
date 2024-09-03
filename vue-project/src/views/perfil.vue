@@ -10,6 +10,7 @@
           <a class = "principal-button" @click="navigateTologo('/principal')">Inicio</a>
           <a class="help-button" @click="navigateTologo('/soporte')">Ayuda</a>
           <button class="publish-button" @click="navigateTologo('/publicarPropiedad')">Publica tu propiedad</button>
+          <button class="logout-button" @click="logout">Cerrar sesión</button>
         </ul>
       </nav>
     </header>
@@ -78,7 +79,11 @@ export default {
     const properties = ref([])
     const likes = ref([])
     const currentSection = ref('properties')
-
+    const logout = () => {
+      localStorage.removeItem('usuario');
+      isAuthenticated.value = false;
+      router.push('/login');
+    };
     onMounted(async () => {
       checkAuth();
       try {
@@ -131,7 +136,8 @@ export default {
       properties,
       likes,
       currentSection,
-      navigateTologo
+      navigateTologo,
+      logout
     }
   }
 }
@@ -267,7 +273,7 @@ nav ul li a:hover {
   list-style-type: none;
 }
 
-.update-email, .update-number {
+.update-email, .update-number,.logout-button {
   background-color: #4ca771;
   color: #013237;
   border: none;
@@ -292,7 +298,18 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.update-email:hover, .update-number:hover, .update-password:hover {
+.logout-button {
+  background-color: #c62828;
+  color: white;
+}
+
+.logout-button:hover {
+  background-color: #c62828;
+}
+.publish-button{
+  margin-right: 20px;
+}
+.update-email:hover, .update-number:hover, .update-password:hover,.logout-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }

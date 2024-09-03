@@ -7,6 +7,7 @@
       <nav>
         <ul>
           <a class = "principal-button" @click="navigateTo('/principal')">Inicio</a>
+          <button v-if="isAuthenticated" class="logout-button" @click="logout">Cerrar sesión</button>
         </ul>
       </nav>
     </header>
@@ -50,7 +51,17 @@
       const descripcion = ref('')
       const message = ref('')
       const router = useRouter()
-  
+      const isAuthenticated = ref(false);
+      const checkAuth = () => {
+        const userId = localStorage.getItem('usuario');
+        isAuthenticated.value = !!userId;
+     };
+      const logout = () => {
+        localStorage.removeItem('usuario');
+        isAuthenticated.value = false;
+        router.push('/login');
+      };
+      
       const soporteForm = async () => {
         try {
           const response = await axios.post('http://localhost:8080/api/soporte', {
@@ -75,7 +86,10 @@
         descripcion,
         message,
         soporteForm,
-        navigateTo
+        navigateTo,
+        isAuthenticated,
+        logout,
+        checkAuth
       }
     }
   }
@@ -129,7 +143,7 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
-.principal-button{
+.principal-button,.logout-button {
   background-color: #EAF9E7;
   color: #013237;
   border: none;
@@ -141,11 +155,18 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.principal-button:hover{
+.principal-button:hover,.logout-button:hover{
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
+.logout-button {
+  background-color: #c62828;
+  color: white;
+}
 
+.logout-button:hover {
+  background-color: #c62828;
+}
 
   .soporte-container {
     max-width: 400px;

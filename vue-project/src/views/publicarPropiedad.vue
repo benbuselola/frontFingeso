@@ -8,6 +8,7 @@
       <ul>
         <li><a class = "principal-button" @click="navigateTo('/principal')">Inicio</a></li>
         <li><a class = "support-button" @click="navigateTo('/soporte')">Ayuda</a></li>
+        <button class="logout-button" @click="logout">Cerrar sesión</button>
       </ul>
     </nav>
   </header>
@@ -104,7 +105,12 @@ export default {
     const email = ref('');
     const message = ref('');
     const router = useRouter();
-
+    const isAuthenticated = ref(false);
+    const logout = () => {
+      localStorage.removeItem('usuario');
+      isAuthenticated.value = false;
+      router.push('/login');
+    };
 
     const registroProp = async () => {
       try {
@@ -159,6 +165,7 @@ export default {
       message,
       registroProp,
       navigateTo,
+      logout
     };
   },
 };
@@ -218,7 +225,7 @@ nav ul li a:hover {
   text-decoration: none;
 }
 
-.principal-button, .support-button {
+.principal-button, .support-button,.logout-button {
   background-color: #EAF9E7;
   color: #013237;
   border: none;
@@ -230,11 +237,18 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.principal-button:hover, .support-button:hover {
+.principal-button:hover, .support-button:hover,.logout-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
+.logout-button {
+  background-color: #c62828;
+  color: white;
+}
 
+.logout-button:hover {
+  background-color: #c62828;
+}
 .info-propiedad {
   max-width: 400px;
   margin: 50px auto;

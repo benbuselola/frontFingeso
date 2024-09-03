@@ -8,6 +8,7 @@
       <ul>
         <li><a class = "principal-button" @click="navigateTo('/principal')">Inicio</a></li>
         <li><a class ="support-button" @click="navigateTo('/soporte')">Ayuda</a></li>
+        <button class="logout-button" @click="logout">Cerrar sesión</button>
       </ul>
     </nav>
   </header>
@@ -88,9 +89,8 @@ export default {
     const numeroantiguo = ref('')
     const numeronuevo = ref('')
     const message = ref('')
-    const editionUser = ref(1) // Valor predeterminado
-
-    // Función para recuperar editionUser de localStorage
+    const editionUser = ref(1) 
+    const isAuthenticated = ref(false);
     const loadEditionUser = () => {
       checkAuth();
       const storedEditionUser = localStorage.getItem('editionUser')
@@ -100,6 +100,11 @@ export default {
     onMounted(() => {
       loadEditionUser()
     })
+    const logout = () => {
+      localStorage.removeItem('usuario');
+      isAuthenticated.value = false;
+      router.push('/login');
+    };
 
     const updateEmail = async () => {
       try {
@@ -198,7 +203,9 @@ export default {
       numeroantiguo,
       numeronuevo,
       message,
-      editionUser
+      editionUser,
+      isAuthenticated,
+      logout
     }
   }
 }
@@ -271,7 +278,7 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
-.buttonsNonUser {
+.buttonsNonUser, .logout-button {
   background-color: #4CA771;
   color: #013237;
   border: none;
@@ -282,9 +289,17 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.buttonsNonUser:hover {
+.buttonsNonUser:hover ,.logout-button:hover{
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+.logout-button {
+  background-color: #c62828;
+  color: white;
+}
+
+.logout-button:hover {
+  background-color: #c62828;
 }
 .form-container {
   max-width: 600px;

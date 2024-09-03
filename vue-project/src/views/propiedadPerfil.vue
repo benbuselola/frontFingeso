@@ -8,8 +8,10 @@
         <ul class="nav-list">
           <li class="buttonsNonUser"><router-link to="/principal" class="nav-link">Inicio</router-link></li>
           <li class="buttonsNonUser"><router-link to="/soporte" class="nav-link">Ayuda</router-link></li>
+          
           <li v-if="isAuthenticated">
             <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
+            <button class="logout-button" @click="logout">Cerrar sesión</button>
           </li>
         </ul>
       </nav>
@@ -166,7 +168,7 @@ export default {
         }
       }
     };
-
+    
     const navigateToEdit = (edition) => {
       if (edition === '/actualizarComuna') localStorage.setItem('editionProperty', 1);
       if (edition === '/actualizarTipo') localStorage.setItem('editionProperty', 2);
@@ -186,7 +188,8 @@ export default {
       isAuthenticated,
       imagen,
       showEditButtons,
-      isPropertyOwner
+      isPropertyOwner,
+      logout
     };
   }
 };
@@ -241,7 +244,7 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
-.buttonsNonUser,.publish-button {
+.buttonsNonUser,.publish-button,.logout-button {
   background-color: #EAF9E7;
   color: #013237;
   border: none;
@@ -252,12 +255,21 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.buttonsNonUser:hover,.publish-button:hover {
-  background-color: #296fc1;
+.buttonsNonUser:hover,.publish-button:hover,.logout-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
+.logout-button {
+  background-color: #c62828;
+  color: white;
+}
 
+.logout-button:hover {
+  background-color: #c62828;
+}
+.publish-button{
+  margin-right: 20px;
+}
 .user-info {
   display: flex;
   justify-content: space-evenly;
