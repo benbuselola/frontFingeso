@@ -1,4 +1,5 @@
 <template>
+  <div id="app">
     <div class="container">
       <header>
         <div class="logo-section">
@@ -99,6 +100,7 @@
         </section>
       </div>
     </div>
+  </div>
 
   <footer>
       <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
@@ -178,6 +180,11 @@
     flex-direction: column;
     height: 100vh;
   }
+  #app {
+  background-color: #eaf3e6; 
+  min-height: 100vh; 
+}
+
   
   header {
     display: flex;

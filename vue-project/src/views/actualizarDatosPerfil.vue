@@ -1,4 +1,5 @@
 <template>
+  <div id="app">
   <header>
     <div class="logo-section">
       <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
@@ -64,6 +65,7 @@
       </form>
     </div>
   </div>
+</div>
   <footer class>
       <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
@@ -205,6 +207,11 @@ export default {
 *{
   font-family: 'Poppins';
 }
+#app {
+  background-color: #eaf3e6; 
+  min-height: 100vh; 
+}
+
 header {
   display: flex;
   justify-content: space-between;

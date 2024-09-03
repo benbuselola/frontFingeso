@@ -1,4 +1,5 @@
 <template>
+  <div id="app">
   <div>
     <header class="header">
       <div class="logo-section">
@@ -51,6 +52,7 @@
     <div v-if="currentSection === 'likes'" class="likes-list">
       <Propiedad v-for="like in likes" :key="like.id" :propiedad="like" />
     </div>
+  </div>
   </div>
   <footer class>
       <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
@@ -139,6 +141,11 @@ export default {
 *{
   font-family: 'Poppins';
 }
+#app {
+  background-color: #eaf3e6; 
+  min-height: 100vh; 
+}
+
 header {
   display: flex;
   justify-content: space-between;

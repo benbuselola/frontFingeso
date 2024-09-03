@@ -27,7 +27,7 @@
     </header>
 
     <div class="promo-image">
-      <img src="@/components/images/2.png" alt="">
+      <img src="@/components/images/fondo.png" alt="">
     </div>
 
     <div class="search-filters">
@@ -144,6 +144,11 @@ export default {
 *{
   font-family: 'Poppins';
 }
+#app {
+  background-color: #eaf3e6; 
+  min-height: 100vh; 
+}
+
 
 .header-content {
   display: flex;
