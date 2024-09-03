@@ -39,5 +39,8 @@ public class Brokers {
     // Atributo relacionado a las visitas agendadas de los usuarios a las propiedades
     private String Visits;
 
+    // Atributo que contiene los horarios disponibles del broker (ejemplo: "lunes 10:00-12:00; martes 14:00-16:00; ...")
+    private String AvailableTimes;
+
 
 }

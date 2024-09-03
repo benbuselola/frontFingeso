@@ -39,6 +39,7 @@ public class BrokerService {
         return false;
     }
 
+    // Muestra todas las visitas de un broker
     public List<Brokers> showAllVisits(Long id){
         Brokers broker = brokerRepository.findById(id).get();
         String visits = broker.getVisits();
@@ -57,27 +58,36 @@ public class BrokerService {
         return visitsList;
     }
 
+    // Guarda un horario disponible para una propiedad, a cargo de un broker
+    public boolean addAvailableTime(Long id_broker, Long id_property, String date, String time){
+        Optional<Brokers> optionalBroker = brokerRepository.findById(id_broker);
+        if(optionalBroker.isPresent()){
+            Brokers broker = optionalBroker.get();
+            String availableTimes = broker.getAvailableTimes();
+            availableTimes += id_property + " - " + date + " - " + time + "; ";
+            broker.setAvailableTimes(availableTimes);
+            brokerRepository.save(broker);
+            return true;
+        }
+        return false;
+    }
 
-    /*
-    public List<Property> showLikedProperties(Long id){
-        Users user = userRepository.findById(id).get();
-        String likedProperties = user.getLikedProperties();
-        List<Property> likedPropsList = new ArrayList<>();
-
-        if (likedProperties.isEmpty()){
+    // Retorna las horas disponibles de un broker segun propiedad y dia
+    public String showAvailableTime(Long id_broker, Long id_property, String date) {
+        Brokers broker = brokerRepository.findById(id_broker).get();
+        String availableTimes = broker.getAvailableTimes();
+        String time = "";
+        if (availableTimes.isEmpty()) {
             return null;
-        }else{
-            List<String> propertiesList = new ArrayList<>(Arrays.asList(likedProperties.split("-")));
-
-            for (int i = 0; i < propertiesList.size(); i++) {
-                Property prop = propertyRepository.findById(Long.parseLong(propertiesList.get(i))).orElse(null);
-                likedPropsList.add(prop);
+        } else {
+            List<String> availableTimesList = new ArrayList<>(Arrays.asList(availableTimes.split(";")));
+            for (int i = 0; i < availableTimesList.size(); i++) {
+                List<String> availableTime = new ArrayList<>(Arrays.asList(availableTimesList.get(i).split(" - ")));
+                if (availableTime.get(0).equals(id_property.toString()) && availableTime.get(1).equals(date)) {
+                    time = availableTime.get(2);
+                }
             }
         }
-        return likedPropsList;
+        return time;
     }
-     */
-
-
-
 }

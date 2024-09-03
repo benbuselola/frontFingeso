@@ -24,4 +24,13 @@ public class BrokerController {
         return ResponseEntity.ok().body(brokerService.showAllVisits(id));
     }
 
+    @PostMapping("/addAvailableTime/{id_broker}/{id_property}/{date}/{time}")
+    public ResponseEntity<Boolean> addAvailableTime(@PathVariable Long id_broker, @PathVariable Long id_property, @PathVariable String date, @PathVariable String time) {
+        return ResponseEntity.ok().body(brokerService.addAvailableTime(id_broker, id_property, date, time));
+    }
+
+    @GetMapping("/showAvailableTime/{id_broker}/{id_property}/{date}")
+    public ResponseEntity<?> showAvailableTime(@PathVariable Long id_broker, @PathVariable Long id_property, @PathVariable String date){
+        return ResponseEntity.ok().body(brokerService.showAvailableTime(id_broker, id_property, date));
+    }
 }
