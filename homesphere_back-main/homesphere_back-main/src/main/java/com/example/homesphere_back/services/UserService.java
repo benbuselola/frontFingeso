@@ -253,4 +253,17 @@ public class UserService {
         }
         return likedPropsList;
     }
+
+    public Boolean userOwnProperty(Long idUser, Long idProp){
+        Users user = userRepository.findById(idUser).get();
+        Optional<Property> optionalProp = propertyRepository.findById(idProp);
+
+        if (optionalProp.isPresent()){
+            Property prop = optionalProp.get();
+            List<Property> userProperties = user.getProperties();
+            return userProperties.contains(prop);
+        }else{
+            return false;
+        }
+    }
 }

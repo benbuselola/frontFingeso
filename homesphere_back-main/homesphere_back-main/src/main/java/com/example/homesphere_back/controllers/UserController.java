@@ -91,4 +91,10 @@ public class UserController {
     public ResponseEntity<?> showLikedProperties(@PathVariable Long idUser){
         return ResponseEntity.ok().body(userService.showLikedProperties(idUser));
     }
+
+    @GetMapping("/userOwnProperty/{idUser}/{idProp}")
+    public ResponseEntity<Boolean> userOwnProperty(@PathVariable Long idUser,
+                                                   @PathVariable Long idProp){
+        return ResponseEntity.ok().body(userService.userOwnProperty(idUser, idProp));
+    }
 }
