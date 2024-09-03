@@ -3,6 +3,29 @@
     <header>
       <div class="logo-section">
         <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
+  <header>
+    <div class="logo-section">
+      <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
+    </div>
+    <nav>
+      <ul>
+        <li><a class = "principal-button" @click="navigateTo('/principal')">Inicio</a></li>
+        <li><a class = "support-button" @click="navigateTo('/soporte')">Ayuda</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="List-properties">
+    <div v-for="propiedad in properties" :key="propiedad.id" class="property-item">
+      <p><strong>Tipo:</strong>{{ propiedad.propertyType }}</p>
+      <p><strong>Precio:</strong> {{ propiedad.value }}</p>
+      <p><strong>Ubicación:</strong> {{ propiedad.neighboorhood }}</p>
+
+      <div class="action-buttons">
+        <button class="actionButton" @click="mostrarContenido('horario', propiedad)">Agregar Horario de Visita</button>
+        <button class="actionButton" @click="mostrarContenido('pago', propiedad)">Formulario de Pago</button>
+        <button class="actionButton" @click="mostrarContenido('contacto', propiedad)">Contactar Propietario</button>
+        <button class="actionButton" @click="mostrarContenido('visitantes', propiedad)">Lista de Visitantes</button>
       </div>
       <nav>
         <ul>
@@ -69,6 +92,11 @@ export default {
     const selectedTitle = ref('')
     const selectedDate = ref('')
 
+    const newEvent = ref({
+      title: '',
+      date: '',
+      time: ''
+    });
     onMounted(async () => {
       const userId = localStorage.getItem('usuario')
       if (!userId) {
@@ -93,7 +121,7 @@ export default {
       selectedProperty.value = propiedad
       switch (tipo) {
         case 'horario':
-          selectedTitle.value = 'hacer algo con el horario'
+          selectedTitle.value = 'Horario disponible para visitas'
           break
         case 'contacto':
           selectedTitle.value = 'hacer algo con el contacto'
@@ -120,6 +148,16 @@ export default {
         })
     }
 
+    const addEvent = () => {
+      const event = {
+        title: newEvent.value.title,
+        start: `${newEvent.value.date}T${newEvent.value.time}`
+      };
+      console.log('Nuevo evento agregado:', event);
+      newEvent.value.title = '';
+      newEvent.value.date = '';
+      newEvent.value.time = '';
+    };
     return {
       properties,
       selectedContent,
@@ -128,6 +166,8 @@ export default {
       navigateTo,
       mostrarContenido,
       handleDateSelected
+      addEvent,
+      newEvent
     }
   }
 }
@@ -145,39 +185,62 @@ header {
   padding: 15px 20px;
   background-color: #4ca771;
   color: white;
+  text-decoration: none
 }
-
 header .logo-section img {
   width: 100px;
   height: 80px;
   border-radius: 10px;
 }
+
 #app {
   background-color: #eaf3e6; 
   min-height: 100vh; 
 }
 
 
-.principal-button {
+nav ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-decoration: none
+}
+
+nav ul li {
+  margin-right: 20px;
+  text-decoration: none
+}
+
+nav ul li a {
+  color: #013237;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+#app {
+  background-color: #eaf3e6; 
+  min-height: 100vh; 
+}
+.principal-button,.support-button {
   background-color: #EAF9E7;
-  color: black;
+  color: #013237;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-.support-button {
-  background-color: #EAF9E7;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+.principal-button:hover,.support-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 nav ul {
   display: flex;
@@ -234,20 +297,26 @@ nav ul li a:hover {
   justify-content: space-around;
   margin-top: 15px;
 }
-
-.action-buttons button {
-  padding: 10px 15px;
-  font-size: 16px;
-  color: white;
-  background-color: #4CAF50;
+.actionButton {
+  height: 100px;
+  width: 200px;
+  background-color: #4ca771;
   border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 24px;
+  color: white;
+  border-radius: 5px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-.action-buttons button:hover {
-  background-color: #45a049;
+.actionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 
 .Content-section {
@@ -276,4 +345,5 @@ footer {
   text-align: left;
 
 }
+
 </style>
