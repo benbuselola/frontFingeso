@@ -11,6 +11,7 @@ import actualizaDatosPropiedad from '../views/actualizarDatosPropiedad.vue'
 import propiedadesAdministracion from '../views/propiedadesAdministracion.vue'
 import ActualizarDatosPerfil from '../views/actualizarDatosPerfil.vue'
 import administracion from '../views/administracion.vue'
+import registroDeCorredoresPropiedades from '../views/registroCorredoraPropiedades.vue'
 
 const routes = [
   {
@@ -72,6 +73,11 @@ const routes = [
     path: '/administracion',
     name: 'administracion',
     component: administracion,
+  },
+  {
+    path: '/registroDeCorredoresPropiedades',
+    name: 'registroDeCorredoresPropiedades',
+    component: registroDeCorredoresPropiedades,
   },
   
 ]

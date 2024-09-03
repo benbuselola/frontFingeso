@@ -31,10 +31,11 @@
       <p v-if="message" class="message">{{ message }}</p>
     </form>
   </div>
-  </div>
-  <footer class>
+  
+  <footer>
       <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
+    </div>
 </template>
 
 <script>

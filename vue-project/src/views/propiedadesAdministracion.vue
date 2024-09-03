@@ -42,10 +42,11 @@
       <p>lista de visitantes: {{ selectedProperty.title }}</p>
     </div>
   </section>
-  </div>
+  
   <footer class>
       <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
+    </div>
 </template>
 
 <script>

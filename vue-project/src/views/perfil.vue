@@ -52,10 +52,11 @@
       <Propiedad v-for="like in likes" :key="like.id" :propiedad="like" />
     </div>
   </div>
-  </div>
+  
   <footer class>
       <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
+  </div>
 </template>
 
 <script>
