@@ -66,14 +66,12 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import Propiedad from '../components/propiedad.vue';
 import ComunaSelect from '../components/comunas.vue';
-import Carousel from 'primevue/carousel';
 
 export default {
   name: 'App',
   components: {
     Propiedad,
-    ComunaSelect,
-    Carousel
+    ComunaSelect
   },
   setup() {
     const router = useRouter();
@@ -82,9 +80,6 @@ export default {
     const saleType = ref('venta');
     const propertyType = ref('departamentos');
     const location = ref('');
-    const carouselImages = ref([
-      '../components/images/2.png',
-    ]);
     const navigateTo = (route) => {
       router.push(route);
     };
