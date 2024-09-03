@@ -95,4 +95,12 @@ public class BrokerService {
         brokerRepository.save(broker);
         return true;
     }
+
+    public boolean uploadFile(String file){
+        if (file.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
