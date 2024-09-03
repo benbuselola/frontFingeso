@@ -31,7 +31,7 @@ export default defineComponent({
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        events: [], // Iniciar con un array vacío para agregar eventos dinámicamente
+        events: [],
         locale: esLocale,
         eventClick: this.handleEventClick,
         eventChange: this.handleEventChange
@@ -81,18 +81,6 @@ export default defineComponent({
   font-weight: bold;
 }
 
-.fc-button {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.fc-button:hover {
-  background-color: #2980b9;
-}
 
 .fc-day-today {
   background-color: #f39c12;
@@ -110,17 +98,20 @@ export default defineComponent({
 }
 
 .fc-event {
-  background-color: #1abc9c;
-  color: white;
-  border-radius: 4px;
-  padding: 5px;
-  font-size: 14px;
+  background-color: #1abc9c; 
+  color: white; 
   border: none;
-  transition: background-color 0.3s;
+  border-radius: 6px; 
+  padding: 10px; 
+  font-size: 16px; 
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.3s; 
 }
 
 .fc-event:hover {
-  background-color: #16a085;
+  background-color: #16a085; 
+  transform: scale(1.05); 
+  cursor: pointer; 
 }
 
 .fc-day-sat, .fc-day-sun {

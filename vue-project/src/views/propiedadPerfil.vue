@@ -1,5 +1,5 @@
 <template>
-  <div id ="app">
+  <div id="app">
     <header class="header">
       <div class="logo-section">
         <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
@@ -26,64 +26,66 @@
           <p>Comuna: </p>
           <h1>{{ property.neighboorhood }}</h1>
           <transition name="fade">
-          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarComuna')"></img>
+            <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarComuna')"></img>
           </transition>
         </div>
         <div class="tipoProp">
           <p>Tipo de propiedad: </p>
           <h1>{{ property.propertyType }}</h1>
           <transition name="fade">
-          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarTipo')"></img>
+            <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarTipo')"></img>
           </transition>
         </div>
         <div class="m2Prop">
           <p>Metros cuadrados: </p>
           <h1>{{ property.size }} M²</h1>
           <transition name="fade">
-          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarMetros')"></img>
+            <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarMetros')"></img>
           </transition>
         </div>
         <div class="dormProp">
           <p>Dormitorios: </p>
           <h1>{{ property.bedrooms }} Dormitorios</h1>
           <transition name="fade">
-          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarDormitorios')"></img>
+            <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarDormitorios')"></img>
           </transition>
         </div>
         <div class="banioProp">
           <p>Baños: </p>
           <h1>{{ property.bathrooms }} Baños</h1>
           <transition name="fade">
-          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarBaños')"></img>
+            <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarBaños')"></img>
           </transition>
         </div>
         <div class="precioProp">
           <p>Precio: </p>
           <h1>{{ property.value }} UF</h1>
           <transition name="fade">
-          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarPrecio')"></img>
+            <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarPrecio')"></img>
           </transition>
         </div>
         <div class="descipProp">
           <p>Descripción: </p>
           <h1>{{ property.description }}</h1>
           <transition name="fade">
-          <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarDescripcion')"></img>
+            <img src="@/components/images/editar.webp" class="editButton" v-if="showEditButtons" @click="navigateToEdit('/actualizarDescripcion')"></img>
           </transition>
         </div>
         <div class="buttonEditContact">
           <button v-if="isPropertyOwner" @click="toggleEditButtons" class="edit-button">Editar Propiedad</button>
-          <a :href="'mailto:' + property.email">
-          <button class="contact-seller-button">Horarios de visita</button>
-        </a>
-      </div>
+          <button class="contact-seller-button" @click="toggleAgenda">Horarios de visita</button>
+        </div>
       </div>
     </div>
-  
-  <footer>
-      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+
+    <div v-if="showAgenda">
+      <Agenda />
+    </div>
+
+    <footer>
+      <p class="copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -91,10 +93,14 @@ import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import pordefectoCasa from "../components/images/casa.jpeg";
-import pordefectoDepartamento from "../components/images/departamento.jpeg";
+import pordefectoDepartamento from "../components/images/departamento.jpeg"; 
+import Agenda from '../components/agenda.vue'
 
 export default {
   name: 'Propiedad',
+  components: {
+    Agenda
+  },
   setup() {
     const router = useRouter();
     const property = ref(null);
@@ -102,8 +108,7 @@ export default {
     const isAuthenticated = ref(false);
     const showEditButtons = ref(false); 
     const isPropertyOwner = ref(false);
-
-
+    const showAgenda = ref(false); 
 
     const toggleEditButtons = () => {
       showEditButtons.value = !showEditButtons.value;
@@ -180,6 +185,27 @@ export default {
       router.push('/actualizaDatosPropiedad');
     };
 
+    const toggleAgenda = () => {
+      showAgenda.value = !showAgenda.value;
+    };
+
+    const newEvent = ref({
+      title: '',
+      date: '',
+      time: ''
+    });
+
+    const addEvent = () => {
+      const event = {
+        title: newEvent.value.title,
+        start: `${newEvent.value.date}T${newEvent.value.time}`
+      };
+      console.log('Nuevo evento agregado:', event);
+      newEvent.value.title = '';
+      newEvent.value.date = '';
+      newEvent.value.time = '';
+    };
+
     return {
       navigateTo,
       toggleEditButtons,
@@ -189,11 +215,16 @@ export default {
       imagen,
       showEditButtons,
       isPropertyOwner,
-      logout
+      logout,
+      toggleAgenda, 
+      showAgenda,  
+      addEvent,
+      newEvent
     };
   }
 };
 </script>
+
 
 
 <style scoped>
