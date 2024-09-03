@@ -224,15 +224,18 @@ button + button:hover {
 }
 footer {
   display: flex;
+  justify-content: space-around;
+  align-items: center;
   padding: 10px 20px;
   background-color: #4CA771;
   color: white;
 }
-
-.copyrigth {
+.copyright {
+  color: white;
   font-size: 14px;
   text-align: left;
 
 }
+
 </style>
 

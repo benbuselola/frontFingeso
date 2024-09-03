@@ -81,7 +81,7 @@
     </div>
   
   <footer>
-    <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
     </div>
 </template>
@@ -367,12 +367,14 @@ p {
 }
 footer {
   display: flex;
+  justify-content: space-around;
+  align-items: center;
   padding: 10px 20px;
   background-color: #4CA771;
   color: white;
 }
-
-.copyrigth {
+.copyright {
+  color: white;
   font-size: 14px;
   text-align: left;
 

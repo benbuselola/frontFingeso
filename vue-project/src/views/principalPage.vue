@@ -349,7 +349,7 @@ footer {
   background-color: #4CA771;
   color: white;
 }
-.copyrigth {
+.copyright {
   font-size: 14px;
   text-align: left;
 
