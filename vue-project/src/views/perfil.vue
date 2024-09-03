@@ -39,10 +39,9 @@
       </div>
     </div>
 
-    <!-- Botones para mostrar propiedades y me gusta -->
     <div class="action-buttons">
-      <button class="view-properties" @click="showSection('properties')">Ver propiedades</button>
-      <button class="view-likes" @click="showSection('likes')">Ver me gusta</button>
+      <button class="view-properties" :class="{ active: currentSection === 'properties' }" @click="showSection('properties')">Ver propiedades</button>
+      <button class="view-likes" :class="{ active: currentSection === 'likes' }" @click="showSection('likes')">Ver me gusta</button>
     </div>
 
     <div v-if="currentSection === 'properties'" class="property-list">
@@ -229,7 +228,8 @@ nav ul li a:hover {
   width: 400px;
   height: 400px;
   border-radius: 70%;
-  border: 2px solid #4CAF50;}
+  border: 2px solid #4CAF50;
+}
 
 .user-details {
   display: flex;
@@ -248,18 +248,20 @@ nav ul li a:hover {
   flex-direction: column;
 }
 
-.property-list {
+.property-list, .likes-list {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   margin: 20px 0;
 }
 
-.property-list > * {
+.property-list > * , .likes-list > * {
   margin: 10px;
   flex-basis: calc(25% - 20px);
   box-sizing: border-box;
 }
+
+
 .userUpdateButtons{
   list-style-type: none;
 }
@@ -276,6 +278,7 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .update-password{
   background-color: #4ca771;
   color: #013237;
@@ -298,6 +301,7 @@ nav ul li a:hover {
   margin-top: 20px;
 }
 .view-properties, .view-likes {
+  width: 300px;
   background-color: #4ca771;
   border: none;
   padding: 10px 20px;
@@ -315,6 +319,11 @@ nav ul li a:hover {
 .view-likes:hover, .view-properties:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+.view-properties.active, .view-likes.active {
+  transition: background-color 0.8s ease, color 0.5s ease;
+  background-color: #013237; 
+  color: white; 
 }
 footer {
   display: flex;
