@@ -7,9 +7,9 @@
         </div>
         <nav>
           <ul>
-              <a v-if="!isAuthenticated" class = "login-button" @click="navigateTo('/registro')">Regístrate</a>
-              <a v-if="!isAuthenticated" class = "register-button" @click="navigateTo('/login')">Ingresa</a>
-              <a class = "help-button" @click="navigateTo('/soporte')">Ayuda</a>
+            <a v-if="!isAuthenticated" class="login-button" @click="navigateTo('/registro')">Regístrate</a>
+            <a v-if="!isAuthenticated" class="register-button" @click="navigateTo('/login')">Ingresa</a>
+            <a class="help-button" @click="navigateTo('/soporte')">Ayuda</a>
             <div class="botonesPPL">
               <li v-if="isAuthenticated">
                 <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
@@ -31,17 +31,19 @@
     </div>
 
     <div class="search-filters">
-      <button @click="algo" class="mayorPrecio">Mayor Precio</button>
-      <button @click="algo" class="menorPrecio">Menor Precio</button>
-      <select v-model="saleType" class="filter-select">
-        <option value="venta">Venta</option>
-        <option value="arriendo">Arriendo</option>
+      <button @click="setOrder('desc')" class="mayorPrecio">Mayor Precio</button>
+      <button @click="setOrder('asc')" class="menorPrecio">Menor Precio</button>
+      <select v-model="saleType" @change="handleFilterChange" class="filter-select">
+        <option value="">Tipo de publicación</option>
+        <option value="vender">Venta</option>
+        <option value="arrendar">Arriendo</option>
       </select>
-      <select v-model="propertyType" class="filter-select">
-        <option value="departamentos">Departamentos</option>
-        <option value="casas">Casas</option>
+      <select v-model="propertyType" @change="handleFilterChange" class="filter-select">
+        <option value="">Tipo de propiedad</option>
+        <option value="departamento">Departamentos</option>
+        <option value="casa">Casas</option>
       </select>
-      <ComunaSelect v-model="location" required class="filter-select comuna-selector"/>
+      <ComunaSelect v-model="location" @change="handleFilterChange" required class="filter-select comuna-selector"/>
       <button @click="search" class="search-button">Buscar</button>
     </div>
     <div class="contenido">
@@ -55,13 +57,13 @@
     </div>
 
     <footer>
-      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+      <p class="copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
   </div>
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import Propiedad from '../components/propiedad.vue';
@@ -77,26 +79,69 @@ export default {
     const router = useRouter();
     const isAuthenticated = ref(false);
     const propiedades = ref([]);
-    const saleType = ref('venta');
-    const propertyType = ref('departamentos');
+    const saleType = ref('');
+    const propertyType = ref('');
     const location = ref('');
+    const order = ref('');
+
     const navigateTo = (route) => {
       router.push(route);
     };
 
+    const handleFilterChange = () => {
+      // Limpiar filtros cuando se cambia uno
+      if (saleType.value) {
+        propertyType.value = '';
+        location.value = '';
+        order.value = '';
+      } else if (propertyType.value) {
+        saleType.value = '';
+        location.value = '';
+        order.value = '';
+      } else if (location.value) {
+        saleType.value = '';
+        propertyType.value = '';
+        order.value = '';
+      } else if (order.value) {
+        saleType.value = '';
+        propertyType.value = '';
+        location.value = '';
+      }
+    };
+
     const search = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/property/search', {
-          params: {
-            saleType: saleType.value,
-            propertyType: propertyType.value,
-            location: location.value,
-          }
-        });
+        let response;
+        if (order.value === 'asc') {
+          response = await axios.get('http://localhost:8080/property/orderAsc');
+        } else if (order.value === 'desc') {
+          response = await axios.get('http://localhost:8080/property/orderDes');
+        } else if (propertyType.value) {
+          response = await axios.get(`http://localhost:8080/property/findByPropertyType/${propertyType.value}`);
+        } else if (saleType.value) {
+          response = await axios.get(`http://localhost:8080/property/findByPublicationType/${saleType.value}`);
+        } else if (location.value) {
+          response = await axios.get(`http://localhost:8080/property/findByNeighboorhood/${location.value}`);
+        } else {
+          response = await axios.get('http://localhost:8080/property/obtainAll');
+        }
         propiedades.value = response.data;
       } catch (error) {
-        console.error('Error during search:', error.response ? error.response.data : error.message);
+        console.error('Error fetching properties:', error.response ? error.response.data : error.message);
+      } finally {
+        // Limpiar todos los filtros después de la búsqueda
+        saleType.value = '';
+        propertyType.value = '';
+        location.value = '';
+        order.value = '';
       }
+    };
+
+    const setOrder = (newOrder) => {
+      order.value = newOrder;
+      saleType.value = '';
+      propertyType.value = '';
+      location.value = '';
     };
 
     const checkAuth = () => {
@@ -110,20 +155,14 @@ export default {
       router.push('/login');
     };
 
-    onMounted(() => {
+    onMounted(async () => {
       checkAuth();
-      axios.get('http://localhost:8080/property/obtainAll')
-        .then(response => {
-          propiedades.value = response.data;
-          console.log('Propiedades obtenidas:', propiedades.value);  
-        })
-        .catch(error => {
-          console.error('Error fetching properties:', error.response ? error.response.data : error.message);
-        });
-    });
-
-    watch(() => router.currentRoute.value, () => {
-      checkAuth();
+      try {
+        const response = await axios.get('http://localhost:8080/property/obtainAll');
+        propiedades.value = response.data;
+      } catch (error) {
+        console.error('Error fetching properties:', error.response ? error.response.data : error.message);
+      }
     });
 
     return {
@@ -134,11 +173,14 @@ export default {
       location,
       search,
       propiedades,
-      logout
+      logout,
+      setOrder,
+      handleFilterChange
     };
   }
 }
 </script>
+
 
 <style scoped>
 *{
@@ -266,7 +308,7 @@ nav ul li a:hover {
   background-color: #EAF9E7;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  max-width: 800px;
+  max-width: 900px;
   margin: 20px auto;
 }
 
@@ -295,14 +337,9 @@ nav ul li a:hover {
   transition: background-color 0.3s ease;
 }
 .comuna-selector {
-  padding: 5px;
+  padding-top: 10px;
   max-width: 220px; 
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin: auto;
-  
-  
+  width: 100%; 
   
 }
 
@@ -354,7 +391,7 @@ footer {
   background-color: #4CA771;
   color: white;
 }
-.copyright {
+.copyrigth {
   font-size: 14px;
   text-align: left;
 
