@@ -2,30 +2,7 @@
   <div id="app">
     <header>
       <div class="logo-section">
-        <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
-  <header>
-    <div class="logo-section">
-      <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
-    </div>
-    <nav>
-      <ul>
-        <li><a class = "principal-button" @click="navigateTo('/principal')">Inicio</a></li>
-        <li><a class = "support-button" @click="navigateTo('/soporte')">Ayuda</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <section class="List-properties">
-    <div v-for="propiedad in properties" :key="propiedad.id" class="property-item">
-      <p><strong>Tipo:</strong>{{ propiedad.propertyType }}</p>
-      <p><strong>Precio:</strong> {{ propiedad.value }}</p>
-      <p><strong>Ubicación:</strong> {{ propiedad.neighboorhood }}</p>
-
-      <div class="action-buttons">
-        <button class="actionButton" @click="mostrarContenido('horario', propiedad)">Agregar Horario de Visita</button>
-        <button class="actionButton" @click="mostrarContenido('pago', propiedad)">Formulario de Pago</button>
-        <button class="actionButton" @click="mostrarContenido('contacto', propiedad)">Contactar Propietario</button>
-        <button class="actionButton" @click="mostrarContenido('visitantes', propiedad)">Lista de Visitantes</button>
+        <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60" />
       </div>
       <nav>
         <ul>
@@ -37,14 +14,15 @@
 
     <section class="List-properties">
       <div v-for="propiedad in properties" :key="propiedad.id" class="property-item">
-        <p><strong>Tipo:</strong>{{ propiedad.propertyType }}</p>
+        <p><strong>Tipo:</strong> {{ propiedad.propertyType }}</p>
         <p><strong>Precio:</strong> {{ propiedad.value }}</p>
         <p><strong>Ubicación:</strong> {{ propiedad.neighboorhood }}</p>
 
         <div class="action-buttons">
-          <button @click="mostrarContenido('horario', propiedad)">Agregar Horario de Visita</button>
-          <button @click="mostrarContenido('contacto', propiedad)">Contactar Propietario</button>
-          <button @click="mostrarContenido('visitantes', propiedad)">Lista de Visitantes</button>
+          <button class="actionButton" @click="mostrarContenido('horario', propiedad)">Agregar Horario de Visita</button>
+          <button class="actionButton" @click="mostrarContenido('pago', propiedad)">Formulario de Pago</button>
+          <button class="actionButton" @click="mostrarContenido('contacto', propiedad)">Contactar Propietario</button>
+          <button class="actionButton" @click="mostrarContenido('visitantes', propiedad)">Lista de Visitantes</button>
         </div>
       </div>
     </section>
@@ -97,6 +75,7 @@ export default {
       date: '',
       time: ''
     });
+
     onMounted(async () => {
       const userId = localStorage.getItem('usuario')
       if (!userId) {
@@ -123,11 +102,14 @@ export default {
         case 'horario':
           selectedTitle.value = 'Horario disponible para visitas'
           break
+        case 'pago':
+          selectedTitle.value = 'Formulario de pago'
+          break
         case 'contacto':
-          selectedTitle.value = 'hacer algo con el contacto'
+          selectedTitle.value = 'Contactar propietario'
           break
         case 'visitantes':
-          selectedTitle.value = 'hacer algo con la lista de visitantes'
+          selectedTitle.value = 'Lista de visitantes'
           break
         default:
           selectedTitle.value = ''
@@ -136,9 +118,7 @@ export default {
 
     const handleDateSelected = (date) => {
       selectedDate.value = date
-      // Aquí puedes realizar alguna acción con la fecha seleccionada
       console.log('Fecha seleccionada:', date)
-      // Por ejemplo, enviar la fecha a un servidor
       axios.post('http://localhost:8080/your-endpoint', { date })
         .then(response => {
           console.log('Fecha enviada correctamente:', response)
@@ -158,14 +138,16 @@ export default {
       newEvent.value.date = '';
       newEvent.value.time = '';
     };
+
     return {
       properties,
       selectedContent,
       selectedProperty,
       selectedTitle,
+      selectedDate,
       navigateTo,
       mostrarContenido,
-      handleDateSelected
+      handleDateSelected,
       addEvent,
       newEvent
     }
@@ -173,11 +155,11 @@ export default {
 }
 </script>
 
-
 <style scoped>
-*{
+* {
   font-family: 'Poppins';
 }
+
 header {
   display: flex;
   justify-content: space-between;
@@ -185,8 +167,8 @@ header {
   padding: 15px 20px;
   background-color: #4ca771;
   color: white;
-  text-decoration: none
 }
+
 header .logo-section img {
   width: 100px;
   height: 80px;
@@ -198,19 +180,16 @@ header .logo-section img {
   min-height: 100vh; 
 }
 
-
 nav ul {
   display: flex;
   align-items: center;
   list-style: none;
   padding: 0;
   margin: 0;
-  text-decoration: none
 }
 
 nav ul li {
   margin-right: 20px;
-  text-decoration: none
 }
 
 nav ul li a {
@@ -222,11 +201,8 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
-#app {
-  background-color: #eaf3e6; 
-  min-height: 100vh; 
-}
-.principal-button,.support-button {
+
+.principal-button, .support-button {
   background-color: #EAF9E7;
   color: #013237;
   border: none;
@@ -237,31 +213,10 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.principal-button:hover,.support-button:hover {
+
+.principal-button:hover, .support-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-}
-
-nav ul {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-nav ul li {
-  margin-right: 20px;
-}
-
-nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-}
-
-nav ul li a:hover {
-  text-decoration: underline;
 }
 
 .List-properties {
@@ -278,11 +233,6 @@ nav ul li a:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.property-item h2 {
-  margin: 0 0 10px 0;
-  color: #333;
-}
-
 .property-item p {
   margin: 5px 0;
   color: #555;
@@ -297,6 +247,7 @@ nav ul li a:hover {
   justify-content: space-around;
   margin-top: 15px;
 }
+
 .actionButton {
   height: 100px;
   width: 200px;
@@ -314,6 +265,7 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .actionButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
@@ -331,6 +283,7 @@ nav ul li a:hover {
   margin-bottom: 20px;
   color: #333;
 }
+
 footer {
   display: flex;
   justify-content: space-around;
@@ -339,11 +292,11 @@ footer {
   background-color: #4CA771;
   color: white;
 }
+
 .copyright {
   color: white;
   font-size: 14px;
-  text-align: left;
-
+  text-align: center;
+  margin: 0;
 }
-
 </style>
