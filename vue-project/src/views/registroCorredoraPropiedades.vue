@@ -27,6 +27,8 @@
             :required="model !== 'documento'"
           />
         </div>
+        <
+        <a href="https://www.corredordepropiedades.cl/registro/" class="check-document-link">Comprobar documento de corredor de propiedades</a>
         <button type="submit" class="submit-button">Registrarse</button>
         <p v-if="message" class="message">{{ message }}</p>
       </form>
@@ -54,7 +56,7 @@ export default {
       email: '',
       number: '',
       password: '',
-      documento: null // Modificado para un archivo
+      document: true 
     })
 
     const message = ref('')
@@ -69,7 +71,6 @@ export default {
       email: 'Correo electrónico',
       number: 'Teléfono',
       password: 'Contraseña',
-      documento: 'Documento'
     }
 
     const inputType = (model) => {
@@ -107,7 +108,7 @@ export default {
               email: '',
               number: '',
               password: '',
-              documento: null
+              documento: true
             }
           } else {
             message.value = 'El RUT ingresado no es válido.'

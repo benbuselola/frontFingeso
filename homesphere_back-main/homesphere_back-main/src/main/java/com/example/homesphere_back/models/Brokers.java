@@ -44,5 +44,5 @@ public class Brokers {
 
     private String AvailableTimesBroker;
 
-    private boolean uploadedFile;
+    private boolean document;
 }

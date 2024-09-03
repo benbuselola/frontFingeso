@@ -107,7 +107,7 @@ export default {
     }
 
     const redirectToPropertyBroker = () => {
-      router.push('/registroCorredorPropiedad')
+      router.push('/registroDeCorredoresPropiedades')
     }
 
     return {
