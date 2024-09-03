@@ -31,6 +31,7 @@
     <h2>{{ selectedTitle }}</h2>
     <div v-if="selectedContent === 'horario'">
       <p>Calendario: {{ selectedProperty.title }}</p>
+      <Agenda />
     </div>
     <div v-if="selectedContent === 'pago'">
       <p>formulario de pagos: {{ selectedProperty.title }}</p>
@@ -53,9 +54,13 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import Agenda from '../components/agenda.vue'
 
 export default {
   name: 'PropertyList',
+  components: {
+    Agenda
+  },
   setup() {
     const router = useRouter()
     const properties = ref([])
