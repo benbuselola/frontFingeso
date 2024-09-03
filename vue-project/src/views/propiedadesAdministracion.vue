@@ -20,7 +20,6 @@
 
         <div class="action-buttons">
           <button class="actionButton" @click="mostrarContenido('horario', propiedad)">Agregar Horario de Visita</button>
-          <button class="actionButton" @click="mostrarContenido('pago', propiedad)">Formulario de Pago</button>
           <button class="actionButton" @click="mostrarContenido('contacto', propiedad)">Contactar Propietario</button>
           <button class="actionButton" @click="mostrarContenido('visitantes', propiedad)">Lista de Visitantes</button>
         </div>
@@ -34,11 +33,8 @@
         <Agenda @date-selected="handleDateSelected" />
         <p v-if="selectedDate">Fecha seleccionada: {{ selectedDate }}</p>
       </div>
-      <div v-if="selectedContent === 'pago'">
-        <p>formulario de pagos: {{ selectedProperty.title }}</p>
-      </div>
       <div v-if="selectedContent === 'contacto'">
-        <p>contacto del propietario: {{ selectedProperty.title }}</p>
+        <p>Contacto del propietario: {{ ownerEmail }}</p>
       </div>
       <div v-if="selectedContent === 'visitantes'">
         <p>lista de visitantes: {{ selectedProperty.title }}</p>
@@ -69,6 +65,7 @@ export default {
     const selectedProperty = ref(null)
     const selectedTitle = ref('')
     const selectedDate = ref('')
+    const ownerEmail = ref('') // Añadido para almacenar el correo del propietario
 
     const newEvent = ref({
       title: '',
@@ -95,18 +92,23 @@ export default {
       router.push(route)
     }
 
-    const mostrarContenido = (tipo, propiedad) => {
+    const mostrarContenido = async (tipo, propiedad) => {
       selectedContent.value = tipo
       selectedProperty.value = propiedad
       switch (tipo) {
         case 'horario':
           selectedTitle.value = 'Horario disponible para visitas'
           break
-        case 'pago':
-          selectedTitle.value = 'Formulario de pago'
-          break
         case 'contacto':
           selectedTitle.value = 'Contactar propietario'
+          // Realizar la solicitud para obtener el correo del propietario
+          try {
+            const response = await axios.get(`http://localhost:8080/brokers/findByCorreoProp/${propiedad.id}`)
+            ownerEmail.value = response.data
+          } catch (error) {
+            console.error('Error al obtener el correo del propietario:', error)
+            ownerEmail.value = 'No se pudo obtener el correo del propietario.'
+          }
           break
         case 'visitantes':
           selectedTitle.value = 'Lista de visitantes'
@@ -149,7 +151,8 @@ export default {
       mostrarContenido,
       handleDateSelected,
       addEvent,
-      newEvent
+      newEvent,
+      ownerEmail // Añadido para mostrar el correo del propietario
     }
   }
 }

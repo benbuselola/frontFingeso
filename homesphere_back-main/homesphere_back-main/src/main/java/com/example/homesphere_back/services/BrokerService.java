@@ -1,6 +1,7 @@
 package com.example.homesphere_back.services;
 
 import com.example.homesphere_back.models.Brokers;
+import com.example.homesphere_back.models.Property;
 import com.example.homesphere_back.repositories.BrokerRepository;
 import com.example.homesphere_back.repositories.PropertyRepository;
 import com.example.homesphere_back.repositories.UserRepository;
@@ -157,5 +158,15 @@ public class BrokerService {
         }
         return false;
     }
+
+    public String findByCorreoProp(Long idProp) {
+        Optional<Property> optionalProperty = propertyRepository.findById(idProp);
+        if (optionalProperty.isPresent()) {
+            String correo = optionalProperty.get().getEmail();
+            return correo;
+        }
+        return "not found";
+    }
+
 
 }

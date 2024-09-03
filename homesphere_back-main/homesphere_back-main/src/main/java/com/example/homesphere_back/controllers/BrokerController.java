@@ -70,4 +70,9 @@ public class BrokerController {
         boolean loginSuccessful = brokerService.login(email, password);
         return ResponseEntity.ok(loginSuccessful);
     }
+
+    @GetMapping("/findByCorreoProp/{idProp}")
+    public ResponseEntity<?> findByCorreoProp(@PathVariable Long idProp){
+        return ResponseEntity.ok().body(brokerService.findByCorreoProp(idProp));
+    }
 }
