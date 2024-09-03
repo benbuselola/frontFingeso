@@ -12,6 +12,7 @@ import propiedadesAdministracion from '../views/propiedadesAdministracion.vue'
 import ActualizarDatosPerfil from '../views/actualizarDatosPerfil.vue'
 import administracion from '../views/administracion.vue'
 import registroDeCorredoresPropiedades from '../views/registroCorredoraPropiedades.vue'
+import corredoraPropiedades from '../views/corredoraPropiedades.vue'
 
 const routes = [
   {
@@ -79,6 +80,11 @@ const routes = [
     name: 'registroDeCorredoresPropiedades',
     component: registroDeCorredoresPropiedades,
   },
+  {
+    path: '/corredoraPropiedades',
+    name: 'corredoraPropiedades',
+    component: corredoraPropiedades,
+  }
   
 ]
 

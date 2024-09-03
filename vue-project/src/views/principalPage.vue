@@ -295,9 +295,14 @@ nav ul li a:hover {
   transition: background-color 0.3s ease;
 }
 .comuna-selector {
-  padding-top: 10px;
+  padding: 5px;
   max-width: 220px; 
-  width: 100%; 
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  
+  
   
 }
 
