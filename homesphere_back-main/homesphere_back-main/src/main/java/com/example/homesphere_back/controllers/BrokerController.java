@@ -44,4 +44,14 @@ public class BrokerController {
     public ResponseEntity<Boolean> uploadFile(@RequestBody String file) {
         return ResponseEntity.ok().body(brokerService.uploadFile(file));
     }
+    
+    @PostMapping("/addAvailableTimeBroker/{id_broker}/{date}/{time}")
+    public ResponseEntity<Boolean> addAvailableTimeBroker(@PathVariable Long id_broker, @PathVariable String date, @PathVariable String time) {
+        return ResponseEntity.ok().body(brokerService.addAvailableTimeBroker(id_broker, date, time));
+    }
+
+    @GetMapping("/showAvailableTimeBroker/{id_broker}/{date}")
+    public ResponseEntity<?> showAvailableTimeBroker(@PathVariable Long id_broker, @PathVariable String date){
+        return ResponseEntity.ok().body(brokerService.showAvailableTimeBroker(id_broker, date));
+    }
 }

@@ -103,4 +103,35 @@ public class BrokerService {
             return true;
         }
     }
+
+    public boolean addAvailableTimeBroker(Long id_broker, String date, String time){
+        Optional<Brokers> optionalBroker = brokerRepository.findById(id_broker);
+        if(optionalBroker.isPresent()){
+            Brokers broker = optionalBroker.get();
+            String availableTimesBroker = broker.getAvailableTimesBroker();
+            availableTimesBroker += date + " - " + time + "; ";
+            broker.setAvailableTimesBroker(availableTimesBroker);
+            brokerRepository.save(broker);
+            return true;
+        }
+        return false;
+    }
+
+    public String showAvailableTimeBroker(Long id_broker, String date) {
+        Brokers broker = brokerRepository.findById(id_broker).get();
+        String availableTimesBroker = broker.getAvailableTimesBroker();
+        String time = "";
+        if (availableTimesBroker.isEmpty()) {
+            return null;
+        } else {
+            List<String> availableTimesBrokerList = new ArrayList<>(Arrays.asList(availableTimesBroker.split(";")));
+            for (int i = 0; i < availableTimesBrokerList.size(); i++) {
+                List<String> availableTimeBroker = new ArrayList<>(Arrays.asList(availableTimesBrokerList.get(i).split(" - ")));
+                if (availableTimeBroker.get(0).equals(date)) {
+                    time = availableTimeBroker.get(1);
+                }
+            }
+        }
+        return time;
+    }
 }

@@ -42,5 +42,7 @@ public class Brokers {
     // Atributo que contiene los horarios disponibles del broker (ejemplo: "lunes 10:00-12:00; martes 14:00-16:00; ...")
     private String AvailableTimes;
 
+    private String AvailableTimesBroker;
+
     private boolean uploadedFile;
 }
