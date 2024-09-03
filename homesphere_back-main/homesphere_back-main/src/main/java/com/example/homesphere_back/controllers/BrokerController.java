@@ -39,7 +39,7 @@ public class BrokerController {
     public ResponseEntity<Boolean> saveBroker(@RequestBody Brokers broker) {
         return ResponseEntity.ok().body(brokerService.saveBroker(broker));
     }
-    
+
     @PostMapping("/uploadFile")
     public ResponseEntity<Boolean> uploadFile(@RequestBody String file) {
         return ResponseEntity.ok().body(brokerService.uploadFile(file));
