@@ -20,6 +20,9 @@
               <li v-if="isAuthenticated">
                 <button class="logout-button" @click="logout">Cerrar sesión</button>
               </li>
+              <li v-if="isAuthenticatedBroker">
+                <button class="profile-button" @click="navigateTo('/propiedadesAdministracion')">Administrar Propiedades</button>
+              </li>
             </div>
           </ul>
         </nav>
@@ -83,6 +86,7 @@ export default {
     const propertyType = ref('');
     const location = ref('');
     const order = ref('');
+    const isAuthenticatedBroker = ref(false);
 
     const navigateTo = (route) => {
       router.push(route);
@@ -147,6 +151,14 @@ export default {
     const checkAuth = () => {
       const userId = localStorage.getItem('usuario');
       isAuthenticated.value = !!userId;
+
+      //falta implementar
+      /*
+      const response = await axios.get(`http://localhost:8080/users/IsCorredorePorpiedades/${userId}`);
+      if(response.data){
+        isAuthenticatedBroker.value = true;
+      }
+      */
     };
 
     const logout = () => {
@@ -165,6 +177,8 @@ export default {
       }
     });
 
+
+
     return {
       navigateTo,
       isAuthenticated,
@@ -175,7 +189,8 @@ export default {
       propiedades,
       logout,
       setOrder,
-      handleFilterChange
+      handleFilterChange,
+      isAuthenticatedBroker
     };
   }
 }

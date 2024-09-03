@@ -1,53 +1,53 @@
 <template>
   <div id="app">
-  <header>
-    <div class="logo-section">
-      <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
-    </div>
-    <nav>
-      <ul>
-        <li><a class = "principal-button" @click="navigateTo('/principal')">Inicio</a></li>
-        <li><a class = "support-button" @click="navigateTo('/soporte')">Ayuda</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <section class="List-properties">
-    <div v-for="propiedad in properties" :key="propiedad.id" class="property-item">
-      <p><strong>Tipo:</strong>{{ propiedad.propertyType }}</p>
-      <p><strong>Precio:</strong> {{ propiedad.value }}</p>
-      <p><strong>Ubicación:</strong> {{ propiedad.neighboorhood }}</p>
-
-      <div class="action-buttons">
-        <button @click="mostrarContenido('horario', propiedad)">Agregar Horario de Visita</button>
-        <button @click="mostrarContenido('pago', propiedad)">Formulario de Pago</button>
-        <button @click="mostrarContenido('contacto', propiedad)">Contactar Propietario</button>
-        <button @click="mostrarContenido('visitantes', propiedad)">Lista de Visitantes</button>
+    <header>
+      <div class="logo-section">
+        <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
       </div>
-    </div>
-  </section>
+      <nav>
+        <ul>
+          <li><a class="principal-button" @click="navigateTo('/principal')">Inicio</a></li>
+          <li><a class="support-button" @click="navigateTo('/soporte')">Ayuda</a></li>
+        </ul>
+      </nav>
+    </header>
 
-  <section class="Content-section" v-if="selectedContent">
-    <h2>{{ selectedTitle }}</h2>
-    <div v-if="selectedContent === 'horario'">
-      <p>Calendario: {{ selectedProperty.title }}</p>
-      <Agenda />
-    </div>
-    <div v-if="selectedContent === 'pago'">
-      <p>formulario de pagos: {{ selectedProperty.title }}</p>
-    </div>
-    <div v-if="selectedContent === 'contacto'">
-      <p>contacto del propietario: {{ selectedProperty.title }}</p>
-    </div>
-    <div v-if="selectedContent === 'visitantes'">
-      <p>lista de visitantes: {{ selectedProperty.title }}</p>
-    </div>
-  </section>
-  
-  <footer class>
-      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+    <section class="List-properties">
+      <div v-for="propiedad in properties" :key="propiedad.id" class="property-item">
+        <p><strong>Tipo:</strong>{{ propiedad.propertyType }}</p>
+        <p><strong>Precio:</strong> {{ propiedad.value }}</p>
+        <p><strong>Ubicación:</strong> {{ propiedad.neighboorhood }}</p>
+
+        <div class="action-buttons">
+          <button @click="mostrarContenido('horario', propiedad)">Agregar Horario de Visita</button>
+          <button @click="mostrarContenido('contacto', propiedad)">Contactar Propietario</button>
+          <button @click="mostrarContenido('visitantes', propiedad)">Lista de Visitantes</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="Content-section" v-if="selectedContent">
+      <h2>{{ selectedTitle }}</h2>
+      <div v-if="selectedContent === 'horario'">
+        <p>Calendario: {{ selectedProperty.title }}</p>
+        <Agenda @date-selected="handleDateSelected" />
+        <p v-if="selectedDate">Fecha seleccionada: {{ selectedDate }}</p>
+      </div>
+      <div v-if="selectedContent === 'pago'">
+        <p>formulario de pagos: {{ selectedProperty.title }}</p>
+      </div>
+      <div v-if="selectedContent === 'contacto'">
+        <p>contacto del propietario: {{ selectedProperty.title }}</p>
+      </div>
+      <div v-if="selectedContent === 'visitantes'">
+        <p>lista de visitantes: {{ selectedProperty.title }}</p>
+      </div>
+    </section>
+
+    <footer>
+      <p class="copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -67,6 +67,7 @@ export default {
     const selectedContent = ref(null)
     const selectedProperty = ref(null)
     const selectedTitle = ref('')
+    const selectedDate = ref('')
 
     onMounted(async () => {
       const userId = localStorage.getItem('usuario')
@@ -94,9 +95,6 @@ export default {
         case 'horario':
           selectedTitle.value = 'hacer algo con el horario'
           break
-        case 'pago':
-          selectedTitle.value = 'hacer algo con el formulario de pago pago'
-          break
         case 'contacto':
           selectedTitle.value = 'hacer algo con el contacto'
           break
@@ -108,17 +106,33 @@ export default {
       }
     }
 
+    const handleDateSelected = (date) => {
+      selectedDate.value = date
+      // Aquí puedes realizar alguna acción con la fecha seleccionada
+      console.log('Fecha seleccionada:', date)
+      // Por ejemplo, enviar la fecha a un servidor
+      axios.post('http://localhost:8080/your-endpoint', { date })
+        .then(response => {
+          console.log('Fecha enviada correctamente:', response)
+        })
+        .catch(error => {
+          console.error('Error al enviar la fecha:', error)
+        })
+    }
+
     return {
       properties,
       selectedContent,
       selectedProperty,
       selectedTitle,
       navigateTo,
-      mostrarContenido
+      mostrarContenido,
+      handleDateSelected
     }
   }
 }
 </script>
+
 
 <style scoped>
 *{

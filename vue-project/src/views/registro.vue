@@ -29,6 +29,11 @@
       </div>
       <button type="submit" class="submit-button">Registrarse</button>
       <p v-if="message" class="message">{{ message }}</p>
+      <div>
+        <button @click="redirectToPropertyBroker" class="property-broker-button">
+          ¿Quieres registrarte como corredor de propiedades?
+        </button>
+      </div>
     </form>
   </div>
   
@@ -101,13 +106,18 @@ export default {
       }
     }
 
+    const redirectToPropertyBroker = () => {
+      router.push('/registroCorredorPropiedad')
+    }
+
     return {
       formData,
       formFields,
       inputType,
       message,
       registerForm,
-      navigateTo
+      navigateTo,
+      redirectToPropertyBroker
     }
   }
 }
@@ -252,5 +262,17 @@ footer {
   font-size: 14px;
   text-align: left;
 
+}
+
+.property-broker-button {
+  background-color: transparent;
+  border: none;
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.property-broker-button:hover {
+  color: darkblue;
 }
 </style>
