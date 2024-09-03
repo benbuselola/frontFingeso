@@ -7,25 +7,16 @@
         </div>
         <nav>
           <ul>
-            <a v-if="!isAuthenticated" class="login-button" @click="navigateTo('/registro')">Regístrate</a>
-            <a v-if="!isAuthenticated" class="register-button" @click="navigateTo('/login')">Ingresa</a>
-            <a class="help-button" @click="navigateTo('/soporte')">Ayuda</a>
-            <div class="botonesPPL">
-              <li v-if="isAuthenticated">
-                <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
-              </li>
-              <li v-if="isAuthenticated">
-                <button class="profile-button" @click="navigateTo('/perfil')">Mi Perfil</button>
-              </li>
-              <li v-if="isAuthenticated">
-                <button class="logout-button" @click="logout">Cerrar sesión</button>
-              </li>
-              <li v-if="isAuthenticatedBroker">
-                <button class="profile-button" @click="navigateTo('/propiedadesAdministracion')">Administrar Propiedades</button>
-              </li>
-            </div>
+            <li v-if="!isAuthenticated"><a class="login-button" @click="navigateTo('/registro')">Regístrate</a></li>
+            <li v-if="!isAuthenticated"><a class="register-button" @click="navigateTo('/login')">Ingresa</a></li>
+            <li><a class="help-button" @click="navigateTo('/soporte')">Ayuda</a></li>
+            <li v-if="isAuthenticatedBroker"><button class="profile-button" @click="navigateTo('/propiedadesAdministracion')">Administrar Propiedades</button></li>
+            <li v-if="isAuthenticated"><button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button></li>
+            <li v-if="isAuthenticated"><button class="profile-button" @click="navigateTo('/perfil')">Mi Perfil</button></li>
+            <li v-if="isAuthenticated"><button class="logout-button" @click="logout">Cerrar sesión</button></li>
           </ul>
         </nav>
+        
       </div>
     </header>
 
@@ -148,18 +139,19 @@ export default {
       location.value = '';
     };
 
-    const checkAuth = () => {
-      const userId = localStorage.getItem('usuario');
-      isAuthenticated.value = !!userId;
+    const checkAuth = async () => {
+  const userId = localStorage.getItem('usuario');
+  if (userId) {
+    try {
+      const response = await axios.get(`http://localhost:8080/brokers/isBroker/${Number(userId)}`);
+      isAuthenticatedBroker.value = response.data;
+    } catch (error) {
+      console.error('Error checking broker status:', error.response ? error.response.data : error.message);
+    }
+  }
+  isAuthenticated.value = !!userId;
+};
 
-      //falta implementar
-      /*
-      const response = await axios.get(`http://localhost:8080/users/IsCorredorePorpiedades/${userId}`);
-      if(response.data){
-        isAuthenticatedBroker.value = true;
-      }
-      */
-    };
 
     const logout = () => {
       localStorage.removeItem('usuario');

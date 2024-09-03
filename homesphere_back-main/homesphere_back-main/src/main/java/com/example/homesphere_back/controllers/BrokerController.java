@@ -54,4 +54,20 @@ public class BrokerController {
     public ResponseEntity<?> showAvailableTimeBroker(@PathVariable Long id_broker, @PathVariable String date){
         return ResponseEntity.ok().body(brokerService.showAvailableTimeBroker(id_broker, date));
     }
+
+    @GetMapping("/isBroker/{id}")
+    public ResponseEntity<Boolean> isBroker(@PathVariable Long id){
+        return ResponseEntity.ok().body(brokerService.isBroker(id));
+    }
+
+    @GetMapping("/findById/{correo}")
+    public ResponseEntity<?> findById(@PathVariable String correo){
+        return ResponseEntity.ok().body(brokerService.findById(correo));
+    }
+
+    @GetMapping("/login/{email}/{password}")
+    public ResponseEntity<Boolean> login(@PathVariable String email, @PathVariable String password) {
+        boolean loginSuccessful = brokerService.login(email, password);
+        return ResponseEntity.ok(loginSuccessful);
+    }
 }

@@ -1,39 +1,45 @@
 <template>
   <div id="app">
-  <header>
-    <div class="logo-section">
-      <a @click="navegarA('/principal')">
-        <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
-      </a>
+    <header>
+      <div class="logo-section">
+        <a @click="navegarA('/principal')">
+          <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
+        </a>
+      </div>
+      <nav>
+        <ul>
+          <a class="principal-button" @click="navegarA('/principal')">Inicio</a>
+          <a class="support-button" @click="navegarA('/soporte')">Ayuda</a>
+        </ul>
+      </nav>
+    </header>
+    <div class="login-container">
+      <form @submit.prevent="iniciarSesion">
+        <h2>Iniciar sesión</h2>
+        <div>
+          <label for="correo">Correo del usuario:</label>
+          <input v-model="correo" id="correo" type="text" required>
+        </div>
+        <div>
+          <label for="password">Contraseña:</label>
+          <input v-model="password" id="password" type="password" required>
+        </div>
+        <div>
+          <label>
+            <input type="checkbox" v-model="esCorredor">
+            Ingresar como corredor
+          </label>
+        </div>
+        <div class="botonesLogReg">
+          <button class="botonLog" type="submit">Ingresar</button>
+          <button class="botonReg" @click="irARegistro">Registrarse</button>
+        </div>
+        <p v-if="mensaje">{{ mensaje }}</p>
+      </form>
     </div>
-    <nav>
-      <ul>
-        <a class = "principal-button" @click="navegarA('/principal')">Inicio</a>
-        <a class = "support-button"@click="navegarA('/soporte')">Ayuda</a>
-      </ul>
-    </nav>
-  </header>
-  <div class="login-container">
-    <form @submit.prevent="iniciarSesion">
-      <h2>Iniciar sesión</h2>
-      <div>
-        <label for="correo">Correo del usuario:</label>
-        <input v-model="correo" id="correo" type="text" required>
-      </div>
-      <div>
-        <label for="password">Contraseña:</label>
-        <input v-model="password" id="password" type="password" required>
-      </div>
-      <div class="botonesLogReg">
-        <button class="botonLog" type="submit">Ingresar</button>
-        <button class="botonReg" @click="irARegistro">Registrarse</button>
-      </div>
-      <p v-if="mensaje">{{ mensaje }}</p>
-    </form>
-  </div>
 
-  <footer class>
-      <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
+    <footer>
+      <p class="copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
   </div>
 </template>
@@ -47,6 +53,7 @@ export default {
   setup() {
     const correo = ref('')
     const password = ref('')
+    const esCorredor = ref(false)
     const mensaje = ref('')
     const router = useRouter()
 
@@ -60,10 +67,21 @@ export default {
 
     const iniciarSesion = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/users/login/${encodeURIComponent(correo.value)}/${encodeURIComponent(password.value)}`)
+        let urlLogin;
+        let urlFindById;
+
+        if (esCorredor.value) {
+          urlLogin = `http://localhost:8080/brokers/login/${encodeURIComponent(correo.value)}/${encodeURIComponent(password.value)}`
+          urlFindById = `http://localhost:8080/brokers/findById/${encodeURIComponent(correo.value)}`
+        } else {
+          urlLogin = `http://localhost:8080/users/login/${encodeURIComponent(correo.value)}/${encodeURIComponent(password.value)}`
+          urlFindById = `http://localhost:8080/users/findById/${encodeURIComponent(correo.value)}`
+        }
+
+        const response = await axios.get(urlLogin)
         if (response.data) {
           mensaje.value = 'El usuario se encuentra registrado.'
-          const idResponse = await axios.get(`http://localhost:8080/users/findById/${encodeURIComponent(correo.value)}`)
+          const idResponse = await axios.get(urlFindById)
           localStorage.setItem('usuario', idResponse.data)
           router.push('/principal')
         } else {
@@ -78,6 +96,7 @@ export default {
     return {
       correo,
       password,
+      esCorredor,
       mensaje,
       iniciarSesion,
       irARegistro,

@@ -96,7 +96,7 @@ export default {
             if (formData.value.documento) {
               formData.value.documento = true
             }
-            await axios.post('http://localhost:8080/users/register', formData.value)
+            await axios.post('http://localhost:8080/brokers/saveBroker', formData.value)
             message.value = 'Registro exitoso.'
             router.push('/principal')
             formData.value = {

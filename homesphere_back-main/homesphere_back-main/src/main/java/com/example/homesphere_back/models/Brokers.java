@@ -45,4 +45,6 @@ public class Brokers {
     private String AvailableTimesBroker;
 
     private boolean document;
+
+    private boolean isBroker = true;
 }

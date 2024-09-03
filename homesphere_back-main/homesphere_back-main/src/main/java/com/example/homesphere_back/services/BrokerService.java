@@ -1,8 +1,6 @@
 package com.example.homesphere_back.services;
 
 import com.example.homesphere_back.models.Brokers;
-import com.example.homesphere_back.models.Property;
-import com.example.homesphere_back.models.Users;
 import com.example.homesphere_back.repositories.BrokerRepository;
 import com.example.homesphere_back.repositories.PropertyRepository;
 import com.example.homesphere_back.repositories.UserRepository;
@@ -134,4 +132,30 @@ public class BrokerService {
         }
         return time;
     }
+
+    public boolean isBroker(Long id) {
+        Optional<Brokers> optionalBroker = brokerRepository.findById(id);
+        if (optionalBroker.isPresent()) {
+            Brokers broker = optionalBroker.get();
+            return broker.isBroker();
+        }
+        return false;
+    }
+
+    public Long findById(String correo){
+        Brokers broker = brokerRepository.findByEmail(correo).get();
+        return broker.getId();
+    }
+
+
+
+    public boolean login(String email, String password){
+        Optional<Brokers> optionalBroker = brokerRepository.findByEmail(email);
+        if (optionalBroker.isPresent()){
+            Brokers broker = optionalBroker.get();
+            return broker.getPassword().equals(password);
+        }
+        return false;
+    }
+
 }
