@@ -2,12 +2,11 @@
   <div>
     <header class="header">
       <div class="logo-section">
-        <a @click="navigateTologo('/principal')">
-          <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60" @click="navigateTologo('/principal')">
-        </a>
+          <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
       </div>
       <nav class="nav">
         <ul class="nav-list">
+          <a class = "principal-button" @click="navigateTologo('/principal')">Inicio</a>
           <a class="help-button" @click="navigateTologo('/soporte')">Ayuda</a>
           <button class="publish-button" @click="navigateTologo('/publicarPropiedad')">Publica tu propiedad</button>
         </ul>
@@ -76,7 +75,7 @@ export default {
     const userPhone = ref('')
     const properties = ref([])
     const likes = ref([])
-    const currentSection = ref('properties') // Inicialmente se muestra "properties"
+    const currentSection = ref('properties')
 
     onMounted(async () => {
       checkAuth();
@@ -179,7 +178,7 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
-.help-button, .publish-button {
+.help-button, .publish-button,.principal-button {
   background-color: #EAF9E7;
   color: #013237;
   border: none;
@@ -191,7 +190,7 @@ nav ul li a:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.help-button:hover, .publish-button:hover {
+.help-button:hover, .publish-button:hover, .principal-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
@@ -259,7 +258,6 @@ nav ul li a:hover {
 }
 
 .update-email, .update-number {
-  
   background-color: #4ca771;
   color: #013237;
   border: none;
@@ -268,6 +266,8 @@ nav ul li a:hover {
   cursor: pointer;
   font-size: 16px;
   margin: 10px 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .update-password{
   background-color: #4ca771;
@@ -278,6 +278,12 @@ nav ul li a:hover {
   cursor: pointer;
   font-size: 16px;
   margin: 10px 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.update-email:hover, .update-number:hover, .update-password:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 .action-buttons {
   display: flex;
@@ -296,6 +302,12 @@ nav ul li a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.view-likes:hover, .view-properties:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 footer {
   display: flex;

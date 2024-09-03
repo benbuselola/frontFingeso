@@ -7,8 +7,8 @@
     </div>
     <nav>
       <ul>
-        <li><a class = "principal-button"@click="navigateTo('/principal')">Inicio</a></li>
-        <li><a class = "support-button"  @click="navigateTo('/soporte')">Ayuda</a></li>
+        <a class = "principal-button"@click="navigateTo('/principal')">Inicio</a>
+        <a class = "support-button"  @click="navigateTo('/soporte')">Ayuda</a>
       </ul>
     </nav>
   </header>
@@ -121,33 +121,13 @@ header {
   padding: 5px 15px;
   background-color: #4ca771;
   color: white;
+  text-decoration: none
 }
 header .logo-section img {
   width: 100px;
   height: 80px;
   border-radius: 10px;
 }
-
-.principal-button {
-  background-color: #EAF9E7;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.support-button {
-  background-color: #EAF9E7;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
 
 
 nav ul {
@@ -156,21 +136,42 @@ nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  text-decoration: none
 }
 
 nav ul li {
   margin-right: 20px;
+  text-decoration: none
 }
 
 nav ul li a {
-  color: white;
+  color: #013237;
   text-decoration: none;
   font-size: 18px;
-  padding: 10px 15px;
 }
 
 nav ul li a:hover {
   text-decoration: underline;
+}
+
+.principal-button, .support-button {
+  background-color: #EAF9E7;
+  color: #013237;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.principal-button:hover, .support-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+.principal-button{
+  margin-left: 22px;
 }
 
 .registro-container {

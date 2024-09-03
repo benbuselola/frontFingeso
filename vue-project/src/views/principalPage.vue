@@ -7,15 +7,9 @@
         </div>
         <nav>
           <ul>
-            <li v-if="!isAuthenticated">
-              <a class = "login-button" @click="navigateTo('/registro')">Regístrate</a>
-            </li>
-            <li v-if="!isAuthenticated">
-              <a class = "register-button" @click="navigateTo('/login')">Ingresa</a>
-            </li>
-            <li>
+              <a v-if="!isAuthenticated" class = "login-button" @click="navigateTo('/registro')">Regístrate</a>
+              <a v-if="!isAuthenticated" class = "register-button" @click="navigateTo('/login')">Ingresa</a>
               <a class = "help-button" @click="navigateTo('/soporte')">Ayuda</a>
-            </li>
             <div class="botonesPPL">
               <li v-if="isAuthenticated">
                 <button class="publish-button" @click="navigateTo('/publicarPropiedad')">Publica tu propiedad</button>
@@ -33,7 +27,7 @@
     </header>
 
     <div class="promo-image">
-      <img src="../components/images/2.png" alt="Promociones inmobiliarias" />
+      <img src="@/components/images/2.png" alt="">
     </div>
 
     <div class="search-filters">
@@ -60,7 +54,7 @@
       </div>
     </div>
 
-    <footer class>
+    <footer>
       <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
     </footer>
   </div>
@@ -72,12 +66,14 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import Propiedad from '../components/propiedad.vue';
 import ComunaSelect from '../components/comunas.vue';
+import Carousel from 'primevue/carousel';
 
 export default {
   name: 'App',
   components: {
     Propiedad,
-    ComunaSelect
+    ComunaSelect,
+    Carousel
   },
   setup() {
     const router = useRouter();
@@ -86,8 +82,9 @@ export default {
     const saleType = ref('venta');
     const propertyType = ref('departamentos');
     const location = ref('');
-
-
+    const carouselImages = ref([
+      '../components/images/2.png',
+    ]);
     const navigateTo = (route) => {
       router.push(route);
     };
@@ -152,20 +149,15 @@ export default {
 *{
   font-family: 'Poppins';
 }
-header {
-  display: flex;
-  justify-content: center;
-  padding: 10px 20px;
-  background-color: #4CA771;
-  color: white;
-}
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  max-width: 1200px;
+  padding: 5px 15px;
+  background-color: #4ca771;
+  color: white;
+  text-decoration: none
 }
 
 header .logo-section img {
@@ -177,6 +169,7 @@ header .logo-section img {
 nav ul {
   display: flex;
   align-items: center;
+  justify-content: space-around;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -185,6 +178,7 @@ nav ul {
 
 nav ul li {
   margin-left: 20px;
+  text-decoration: none;
 }
 
 nav ul li a {
@@ -199,7 +193,7 @@ nav ul li a:hover {
   display: flex;
 }
 
-.buttonsNonUser, .publish-button, .profile-button, .logout-button {
+.buttonsNonUser, .publish-button, .profile-button, .logout-button,.login-button, .register-button {
   background-color: #EAF9E7;
   color: #013237;
   border: none;
@@ -211,16 +205,9 @@ nav ul li a:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.publish-button:hover, .profile-button:hover, .logout-button:hover {
-  background-color: #296fc1;
-}
-
-.profile-button {
-  background-color: #EAF9E7;
-}
-
-.profile-button:hover {
-  background-color: #296fc1;
+.publish-button:hover, .profile-button:hover, .logout-button:hover,.buttonsNonUser:hover, .login-button:hover, .register-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 
 .logout-button {
@@ -241,28 +228,20 @@ nav ul li a:hover {
   cursor: pointer;
   font-size: 16px;
   margin-right: 10px;
-  transition: background-color 0.3s ease
+  margin-left: 20px;
+  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .help-button:hover {
-  background-color: #296fc1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
 
-.login-button, .register-button {
-  background-color: #EAF9E7;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+.register-button{
+  margin-left: 22px;
 }
-
-.login-button:hover, .register-button:hover {
-  background-color: #296fc1;
-}
-
 
 .promo-image {
   width: 100%;
@@ -364,15 +343,21 @@ nav ul li a:hover {
 
 footer {
   display: flex;
+  justify-content: space-around;
+  align-items: center;
   padding: 10px 20px;
   background-color: #4CA771;
   color: white;
 }
-
 .copyrigth {
   font-size: 14px;
   text-align: left;
 
 }
-
+.promo-image {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  margin: 0;
+}
 </style>

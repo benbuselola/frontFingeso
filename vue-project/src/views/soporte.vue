@@ -1,13 +1,11 @@
 <template>
     <header>
       <div class="logo-section">
-        <a  @click="navigateTo('/principal')">
         <img src="../components/images/logoOficial.jpeg" alt="Nombre de la página" height="60">
-      </a>
       </div>
       <nav>
         <ul>
-          <li><a class = "principal-button" @click="navigateTo('/principal')">Inicio</a></li>
+          <a class = "principal-button" @click="navigateTo('/principal')">Inicio</a>
         </ul>
       </nav>
     </header>
@@ -99,15 +97,6 @@ header .logo-section img {
   border-radius: 10px;
 }
 
-.principal-button {
-  background-color: #EAF9E7;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
 
 nav ul {
   display: flex;
@@ -132,21 +121,23 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
-.buttonsNonUser {
-  background-color: #4CA771;
+.principal-button{
+  background-color: #EAF9E7;
   color: #013237;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  margin-right: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.buttonsNonUser:hover {
+.principal-button:hover{
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
+
 
   .soporte-container {
     max-width: 400px;

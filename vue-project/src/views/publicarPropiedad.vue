@@ -183,25 +183,6 @@ header .logo-section img {
   border-radius: 10px;
 }
 
-.principal-button {
-  background-color: #EAF9E7;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.support-button {
-  background-color: #EAF9E7;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
 
 
 nav ul {
@@ -210,35 +191,39 @@ nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  text-decoration: none
 }
 
 nav ul li {
-  margin-right: 20px;
-  text-decoration: none
+  margin-right: 20px; 
 }
 
 nav ul li a {
   color: #013237;
   text-decoration: none;
   font-size: 18px;
+  background-color: #EAF9E7; 
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-block; 
 }
 
 nav ul li a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
-.buttonsNonUser {
-  background-color: #4CA771;
+
+.principal-button, .support-button {
+  background-color: #EAF9E7;
   color: #013237;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  margin-right: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.buttonsNonUser:hover {
+.principal-button:hover, .support-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
 }
