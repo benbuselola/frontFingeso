@@ -46,7 +46,7 @@ export default {
     const fetchLikedProperties = async (userId) => {
       try {
         const response = await axios.get(`http://localhost:8080/users/showLikedProperties/${userId}`);
-        likedProperties.value = response.data;
+        likedProperties.value = Array.isArray(response.data) ? response.data : [];
         updateFavoriteStatus();
       } catch (error) {
         console.error('Error fetching liked properties:', error);
@@ -54,7 +54,7 @@ export default {
     };
 
     const updateFavoriteStatus = () => {
-      if (props.propiedad && likedProperties.value.some(prop => prop.id === props.propiedad.id)) {
+      if (props.propiedad && Array.isArray(likedProperties.value) && likedProperties.value.some(prop => prop.id === props.propiedad.id)) {
         imagenFavorito.value = favClick;
       } else {
         imagenFavorito.value = fav;
@@ -121,7 +121,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 .favorite{
