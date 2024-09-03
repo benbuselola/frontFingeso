@@ -2,6 +2,7 @@ package com.example.homesphere_back.controllers;
 
 import com.example.homesphere_back.models.Property;
 import com.example.homesphere_back.models.Users;
+import com.example.homesphere_back.models.Brokers;
 import com.example.homesphere_back.services.BrokerService;
 import com.example.homesphere_back.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,4 +34,10 @@ public class BrokerController {
     public ResponseEntity<?> showAvailableTime(@PathVariable Long id_broker, @PathVariable Long id_property, @PathVariable String date){
         return ResponseEntity.ok().body(brokerService.showAvailableTime(id_broker, id_property, date));
     }
+
+    @PostMapping("/saveBroker")
+    public ResponseEntity<Boolean> saveBroker(@RequestBody Brokers broker) {
+        return ResponseEntity.ok().body(brokerService.saveBroker(broker));
+    }
+
 }

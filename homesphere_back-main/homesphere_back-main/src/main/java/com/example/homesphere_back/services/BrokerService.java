@@ -90,4 +90,9 @@ public class BrokerService {
         }
         return time;
     }
+
+    public boolean saveBroker(Brokers broker){
+        brokerRepository.save(broker);
+        return true;
+    }
 }

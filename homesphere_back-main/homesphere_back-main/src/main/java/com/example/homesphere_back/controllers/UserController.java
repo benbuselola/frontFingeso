@@ -97,4 +97,14 @@ public class UserController {
                                                    @PathVariable Long idProp){
         return ResponseEntity.ok().body(userService.userOwnProperty(idUser, idProp));
     }
+
+    @PostMapping("/addVisitUser/{id_user}/{id_property}/{date}")
+    public ResponseEntity<Boolean> addVisitUser(@PathVariable Long id_user, @PathVariable Long id_property, @PathVariable String date) {
+        return ResponseEntity.ok().body(userService.addVisitUser(id_user, id_property, date));
+    }
+    
+    @GetMapping("/showAllVisitsUser/{id}")
+    public ResponseEntity<?> showAllVisitsUser(@PathVariable Long id){
+        return ResponseEntity.ok().body(userService.showAllVisitsUser(id));
+    }
 }

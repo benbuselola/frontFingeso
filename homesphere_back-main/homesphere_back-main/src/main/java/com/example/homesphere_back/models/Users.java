@@ -44,4 +44,7 @@ public class Users {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user")
     private List<Property> properties;
+
+    // Atributo que contiene las citas de un usuario
+    private String Visits;
 }

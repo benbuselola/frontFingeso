@@ -266,4 +266,36 @@ public class UserService {
             return false;
         }
     }
+
+    public boolean addVisitUser(Long id_user, Long id_property, String date){
+        Optional<Users> optionalUser = userRepository.findById(id_user);
+        if(optionalUser.isPresent()){
+            Users user = optionalUser.get();
+            String visits = user.getVisits();
+            visits += id_property + " - " + date + "; ";
+            user.setVisits(visits);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    // muestra todas las visitas del usuario
+    public List<Property> showAllVisitsUser(Long id){
+        Users user = userRepository.findById(id).get();
+        String visits = user.getVisits();
+        List<Property> visitsList = new ArrayList<>();
+
+        if (visits.isEmpty()){
+            return null;
+        }else{
+            List<String> visitsListString = new ArrayList<>(Arrays.asList(visits.split(";")));
+
+            for (int i = 0; i < visitsListString.size(); i++) {
+                Property visit = propertyRepository.findById(Long.parseLong(visitsListString.get(i))).orElse(null);
+                visitsList.add(visit);
+            }
+        }
+        return visitsList;
+    }
 }
