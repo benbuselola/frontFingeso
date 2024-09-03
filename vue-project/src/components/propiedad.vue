@@ -91,11 +91,11 @@ export default {
 
         try {
           if (imagenFavorito.value === fav) {
-            await axios.post(`http://localhost:8080/users/likeProperty/${userid}/${props.propiedad.id}`);
+            await axios.post(`http://localhost:8080/users/likeProperty/${props.propiedad.id}/${userid}`);
             imagenFavorito.value = favClick;
             likedProperties.value.push(props.propiedad);
           } else {
-            await axios.post(`http://localhost:8080/users/removeLike/${userid}/${props.propiedad.id}`);
+            await axios.post(`http://localhost:8080/users/removeLike/${props.propiedad.id}/${userid}`);
             imagenFavorito.value = fav;
             likedProperties.value = likedProperties.value.filter(prop => prop.id !== props.propiedad.id);
           }
