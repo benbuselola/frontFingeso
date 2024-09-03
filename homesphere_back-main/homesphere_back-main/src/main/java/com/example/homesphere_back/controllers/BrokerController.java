@@ -60,10 +60,6 @@ public class BrokerController {
         return ResponseEntity.ok().body(brokerService.isBroker(id));
     }
 
-    @GetMapping("/findById/{correo}")
-    public ResponseEntity<?> findById(@PathVariable String correo){
-        return ResponseEntity.ok().body(brokerService.findById(correo));
-    }
 
     @GetMapping("/login/{email}/{password}")
     public ResponseEntity<Boolean> login(@PathVariable String email, @PathVariable String password) {
@@ -74,5 +70,15 @@ public class BrokerController {
     @GetMapping("/findByCorreoProp/{idProp}")
     public ResponseEntity<?> findByCorreoProp(@PathVariable Long idProp){
         return ResponseEntity.ok().body(brokerService.findByCorreoProp(idProp));
+    }
+
+    @GetMapping("/findbyID/{id}")
+    public ResponseEntity<?> findbyID(@PathVariable Long id){
+        return ResponseEntity.ok().body(brokerService.findById(id));
+    }
+
+    @GetMapping("/findByCorreo/{email}")
+    public ResponseEntity<Long> finbyCorreo(@PathVariable String email){
+        return ResponseEntity.ok().body(brokerService.findByCorreo(email));
     }
 }

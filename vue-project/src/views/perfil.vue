@@ -79,28 +79,40 @@ export default {
     const properties = ref([])
     const likes = ref([])
     const currentSection = ref('properties')
+    const isAuthenticated = ref(false)
+
     const logout = () => {
       localStorage.removeItem('usuario');
       isAuthenticated.value = false;
       router.push('/login');
     };
+
     onMounted(async () => {
       checkAuth();
       try {
         const userId = localStorage.getItem('usuario');
+        let userData = null;
+
         const userResponse = await axios.get(`http://localhost:8080/users/findbyID/${userId}`);
-        const userData = userResponse.data;
+        if(userResponse.data){
+          userData = userResponse.data;
+        }else {
+          const brokerResponse = await axios.get(`http://localhost:8080/brokers/findbyID/${userId}`) 
+          userData = brokerResponse.data
+        }
+        if(userData){
+          userFullName.value = `${userData.firstName} ${userData.secondName} ${userData.lastName} ${userData.secondLastName}`;
+          userEmail.value = userData.email;
+          userPhone.value = userData.number;
 
-        userFullName.value = `${userData.firstName} ${userData.secondName} ${userData.lastName} ${userData.secondLastName}`;
-        userEmail.value = userData.email;
-        userPhone.value = userData.number;
+          const propertiesResponse = await axios.get(`http://localhost:8080/users/getPropertiesbyUser/${userId}`);
+          properties.value = propertiesResponse.data;
 
-        const propertiesResponse = await axios.get(`http://localhost:8080/users/getPropertiesbyUser/${userId}`);
-        properties.value = propertiesResponse.data;
-
-        const likesResponse = await axios.get(`http://localhost:8080/users/showLikedProperties/${userId}`);
-        likes.value = likesResponse.data;
-        
+          const likesResponse = await axios.get(`http://localhost:8080/users/showLikedProperties/${userId}`);
+          likes.value = likesResponse.data;
+        } else{
+          console.error('No se encontraron los datos del usuario ni del corredor.')
+        }
       } catch (error) {
         console.error('Error al obtener la información del usuario:', error);
       }
@@ -137,7 +149,8 @@ export default {
       likes,
       currentSection,
       navigateTologo,
-      logout
+      logout,
+      isAuthenticated
     }
   }
 }

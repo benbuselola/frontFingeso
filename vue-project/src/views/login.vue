@@ -72,7 +72,7 @@ export default {
 
         if (esCorredor.value) {
           urlLogin = `http://localhost:8080/brokers/login/${encodeURIComponent(correo.value)}/${encodeURIComponent(password.value)}`
-          urlFindById = `http://localhost:8080/brokers/findById/${encodeURIComponent(correo.value)}`
+          urlFindById = `http://localhost:8080/brokers/findByCorreo/${encodeURIComponent(correo.value)}`
         } else {
           urlLogin = `http://localhost:8080/users/login/${encodeURIComponent(correo.value)}/${encodeURIComponent(password.value)}`
           urlFindById = `http://localhost:8080/users/findById/${encodeURIComponent(correo.value)}`

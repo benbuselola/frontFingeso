@@ -143,11 +143,6 @@ public class BrokerService {
         return false;
     }
 
-    public Long findById(String correo){
-        Brokers broker = brokerRepository.findByEmail(correo).get();
-        return broker.getId();
-    }
-
 
 
     public boolean login(String email, String password){
@@ -166,6 +161,15 @@ public class BrokerService {
             return correo;
         }
         return "not found";
+    }
+
+    public Brokers findById(Long id) {
+        return brokerRepository.findBrokerById(id);
+    }
+
+    public Long findByCorreo(String correo){
+        Optional<Brokers> broker = brokerRepository.findByEmail(correo);
+        return broker.get().getId();
     }
 
 
