@@ -1,5 +1,4 @@
 <template>
-  <div id="app">
   <div>
     <header class="header">
       <div class="logo-section">
@@ -71,14 +70,13 @@
           </transition>
         </div>
         <div class="buttonEditContact">
-          <button @click="toggleEditButtons" class="edit-button">Editar Propiedad</button>
+          <button v-if="isPropertyOwner" @click="toggleEditButtons" class="edit-button">Editar Propiedad</button>
           <a :href="'mailto:' + property.email">
           <button class="contact-seller-button">Horarios de visita</button>
         </a>
       </div>
       </div>
     </div>
-  </div>
   </div>
   <footer class>
     <p class = "copyright">© 2024 HomeSphere Todos los derechos reservados. Prohibida su reproducción total o parcial por cualquier medio</p>
@@ -100,6 +98,9 @@ export default {
     const imagen = ref('');
     const isAuthenticated = ref(false);
     const showEditButtons = ref(false); 
+    const isPropertyOwner = ref(false);
+
+
 
     const toggleEditButtons = () => {
       showEditButtons.value = !showEditButtons.value;
@@ -123,11 +124,27 @@ export default {
     onMounted(() => {
       checkAuth();
       fetchPropertyData();
+      checkPropertyOwnership();
     });
 
     watch(() => router.currentRoute.value, () => {
       checkAuth();
+      checkPropertyOwnership();
     });
+
+    const checkPropertyOwnership = async () => {
+      const userId = localStorage.getItem('usuario');
+      const propertyId = localStorage.getItem('selectedPropertyId');
+      if (userId && propertyId) {
+        try {
+          const response = await axios.get(`http://localhost:8080/users/userOwnProperty/${userId}/${propertyId}`);
+          isPropertyOwner.value = response.data;
+        } catch (error) {
+          console.error('Error checking property ownership:', error);
+          isPropertyOwner.value = false;
+        }
+      }
+    };
 
     const fetchPropertyData = async () => {
       const propertyId = localStorage.getItem('selectedPropertyId');
@@ -167,7 +184,8 @@ export default {
       property,
       isAuthenticated,
       imagen,
-      showEditButtons
+      showEditButtons,
+      isPropertyOwner
     };
   }
 };
